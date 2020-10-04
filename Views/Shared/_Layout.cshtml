@@ -3,11 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Point Of Sale</title>
+    <title></title>
 
     <link rel="stylesheet" href="~/css/style.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/chosen.min.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+
 </head>
 <body class="app">
     <div id="loader">
@@ -43,16 +45,9 @@
                 </div>
             </div>
             <ul class="sidebar-menu scrollable pos-r">
-                <li class="nav-item mT-30 active"><a class="sidebar-link" href="index.html" default><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">Dashboard</span></a></li>
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Category</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="sidebar-link" href="basic-table.html">List</a></li>
-                        <li><a class="sidebar-link" href="datatable.html">Add New</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item"><a class="sidebar-link" href="email.html"><span class="icon-holder"><i class="c-brown-500 ti-email"></i> </span><span class="title">Email</span></a></li>
+                <li class="nav-item mT-30 active"><a class="sidebar-link" href="#/Users/Index" default><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">Users Index</span></a></li>
+               
+                <li class="nav-item"><a class="sidebar-link" href="#/Home/Index"><span class="icon-holder"><i class="c-brown-500 ti-email"></i> </span><span class="title">Home Index</span></a></li>
                 <li class="nav-item"><a class="sidebar-link" href="compose.html"><span class="icon-holder"><i class="c-blue-500 ti-share"></i> </span><span class="title">Compose</span></a></li>
                 <li class="nav-item"><a class="sidebar-link" href="calendar.html"><span class="icon-holder"><i class="c-deep-orange-500 ti-calendar"></i> </span><span class="title">Calendar</span></a></li>
                 <li class="nav-item"><a class="sidebar-link" href="chat.html"><span class="icon-holder"><i class="c-deep-purple-500 ti-comment-alt"></i> </span><span class="title">Chat</span></a></li>
@@ -246,8 +241,9 @@
             <div id="mainContent">
                 <div class="container-fluid">
                     <h4 class="c-grey-900 mt-10 mb-30">@ViewBag.Heading</h4>
-
-                    @RenderBody()
+                    <div id="Placeholder">
+                        @RenderBody()
+                    </div>
                 </div>
             </div>
         </main>
@@ -272,13 +268,20 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/chosen.jquery.min.js"></script>
+    <script src="~/js/sammy-0.7.4.js"></script>
+    <script src="~/js/layout-routing.js"></script>
+
+
+
+
+
+
 
     <script type="text/javascript" src="~/js/vendor.js"></script>
     <script type="text/javascript" src="~/js/bundle.js"></script>
     @*<script src="~/js/rocket-loader.min.js"></script>*@
     @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
     @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PointOfSale.Controllers
 {
-    public class HomeController : Controller
+    public class ItemsController : Controller
     {
         public IActionResult Index()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using DatabaseService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using PointOfSale;

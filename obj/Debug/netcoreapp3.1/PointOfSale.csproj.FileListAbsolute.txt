@@ -135,8 +135,6 @@ F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.RazorAssemblyInfo.c
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.TagHelpers.input.cache
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.TagHelpers.output.cache
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.RazorCoreGenerate.cache
-F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -223,5 +221,13 @@ F:\POS_Admin\PointOfSale\bin\Debug\netcoreapp3.1\ru\Microsoft.CodeAnalysis.Works
 F:\POS_Admin\PointOfSale\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 F:\POS_Admin\PointOfSale\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 F:\POS_Admin\PointOfSale\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Users\_Login.cshtml.g.cs
+F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Users\Index.cshtml.g.cs
+F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Users\_List.cshtml.g.cs
+F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Users\_Create.cshtml.g.cs
+F:\POS_Admin\PointOfSale\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.csproj.CoreCompileInputs.cache
 F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\PointOfSale.MvcApplicationPartsAssemblyInfo.cache
+F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Categories\Index.cshtml.g.cs
+F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+F:\POS_Admin\PointOfSale\obj\Debug\netcoreapp3.1\Razor\Views\Home\_Dashboard.cshtml.g.cs

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "UserView";
+    Layout = null;
+}
+<h2>Index</h2>
+<a href="#/Users/_Create">Create</a>
+<div id="UsersDiv"></div>
+@section Scripts{
+    <script>
+        $(function () {
+            GetStudents();
+        });
+
+        function GetStudents() {
+            $.get("/Student/_List/", function (data) {
+                $("#UsersDiv").html(data);
+            });
+        }
+        routingApp.get("#/Users/_Create", function (context) {
+            $.get("/Users/_Create", function (data) {
+                $("#UsersDiv").html(data);
+            });
+        });
+
+    </script>
+}
+

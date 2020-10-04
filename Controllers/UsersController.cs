@@ -1,30 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using PointOfSale.DataService.IServices;
+using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.Controllers
 {
     public class UsersController : Controller
     {
-        // GET: UsersController
+        private readonly IUserService _userService;
+        public UsersController(IUserService userService)
+        {
+            _userService = userService;
+        }
+        
         public ActionResult Index()
         {
             return View();
         }
-
-        // GET: UsersController/Details/5
-        public ActionResult Details(int id)
+        
+        public ActionResult _List()
         {
-            return View();
+            return PartialView();
+        }
+        public ActionResult _Login()
+        {
+            return PartialView();
+        }
+        [AllowAnonymous, HttpPost]
+        public async Task<ActionResult> Login(LoginVM loginVM)
+        {
+            var result = await _userService.Login(loginVM);
+            var claims = new List<Claim>
+            {
+                new Claim("UserName", loginVM.UserName),
+                new Claim("UserIdentifier", result.Id.ToString()),
+                new Claim("Role", result.RoleId.ToString()),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTime.UtcNow.AddHours(8)
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+            return PartialView();
+        }
+
+        public async Task<ActionResult> SignoutAsync()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok(true);
         }
 
         // GET: UsersController/Create
-        public ActionResult Create()
+        public ActionResult _Create()
         {
-            return View();
+            string ok = "ok";
+            return PartialView(ok);
         }
 
         // POST: UsersController/Create
