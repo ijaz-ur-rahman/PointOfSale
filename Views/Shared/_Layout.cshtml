@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
 
-    <link rel="stylesheet" href="~/css/style.css" />
+    @*// css files*@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/chosen.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link href="~/css/custom.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
 
 </head>
@@ -45,49 +47,37 @@
                 </div>
             </div>
             <ul class="sidebar-menu scrollable pos-r">
-                <li class="nav-item mT-30 active"><a class="sidebar-link" href="#/Users/Index" default><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">Users Index</span></a></li>
-               
-                <li class="nav-item"><a class="sidebar-link" href="#/Home/Index"><span class="icon-holder"><i class="c-brown-500 ti-email"></i> </span><span class="title">Home Index</span></a></li>
-                <li class="nav-item"><a class="sidebar-link" href="compose.html"><span class="icon-holder"><i class="c-blue-500 ti-share"></i> </span><span class="title">Compose</span></a></li>
-                <li class="nav-item"><a class="sidebar-link" href="calendar.html"><span class="icon-holder"><i class="c-deep-orange-500 ti-calendar"></i> </span><span class="title">Calendar</span></a></li>
-                <li class="nav-item"><a class="sidebar-link" href="chat.html"><span class="icon-holder"><i class="c-deep-purple-500 ti-comment-alt"></i> </span><span class="title">Chat</span></a></li>
-                <li class="nav-item"><a class="sidebar-link" href="charts.html"><span class="icon-holder"><i class="c-indigo-500 ti-bar-chart"></i> </span><span class="title">Charts</span></a></li>
-                <li class="nav-item"><a class="sidebar-link" href="forms.html"><span class="icon-holder"><i class="c-light-blue-500 ti-pencil"></i> </span><span class="title">Forms</span></a></li>
-                <li class="nav-item dropdown"><a class="sidebar-link" href="ui.html"><span class="icon-holder"><i class="c-pink-500 ti-palette"></i> </span><span class="title">UI Elements</span></a></li>
+                <li class="nav-item mT-30 active"><a class="sidebar-link" href="#/Home/Dashboard" default><span class="icon-holder"><i class="c-blue-500 ti-home"></i> </span><span class="title">Dashboard</span></a></li>
+
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Tables</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Products</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="sidebar-link" href="basic-table.html">Basic Table</a></li>
-                        <li><a class="sidebar-link" href="datatable.html">Data Table</a></li>
+                        <li><a class="sidebar-link" href="#/Categories/Index">Categories</a></li>
+                        <li><a class="sidebar-link" href="#/Categories/Create">Create New Category</a></li>
+                        <li><a class="sidebar-link" href="#/Items/Index">Items</a></li>
+                        <li><a class="sidebar-link" href="#/Items/Create">Create New Item</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Sale Order</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="sidebar-link" href="#/Sales/Index">Sale Orders</a></li>
+                        <li><a class="sidebar-link" href="#/Sales/Create">Create New Order</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-purple-500 ti-map"></i> </span><span class="title">Maps</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Purchase Order</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="google-maps.html">Google Map</a></li>
-                        <li><a href="vector-maps.html">Vector Map</a></li>
+                        <li><a class="sidebar-link" href="#/Purchase/Index">Purchase Orders</a></li>
+                        <li><a class="sidebar-link" href="#/Purchase/Create">Create New Order</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-red-500 ti-files"></i> </span><span class="title">Pages</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Account</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="sidebar-link" href="404.html">404</a></li>
-                        <li><a class="sidebar-link" href="500.html">500</a></li>
-                        <li><a class="sidebar-link" href="signin.html">Sign In</a></li>
-                        <li><a class="sidebar-link" href="signup.html">Sign Up</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-teal-500 ti-view-list-alt"></i> </span><span class="title">Multiple Levels</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item dropdown"><a href="javascript:void(0);"><span>Menu Item</span></a></li>
-                        <li class="nav-item dropdown">
-                            <a href="javascript:void(0);"><span>Menu Item</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="javascript:void(0);">Menu Item</a></li>
-                                <li><a href="javascript:void(0);">Menu Item</a></li>
-                            </ul>
-                        </li>
+                        <li><a class="sidebar-link" href="#/Users/Index">Users</a></li>
+                        <li><a class="sidebar-link" href="#/Users/Create">Create New User</a></li>
                     </ul>
                 </li>
             </ul>
@@ -216,29 +206,17 @@
             </div>
         </div>
 
-        @*<header>
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PointOfSale</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </header>*@
         <main class="main-content bgc-grey-100">
             <div id="mainContent">
+                <div class="alert alert-danger alert-dismissible" role="alert" id="divError" style="display:none;border: 1px solid;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Error : </strong> <span class="message"></span>
+                </div>
+
+                <div class="alert alert-success alert-dismissible" id="divSuccess" role="alert" style="display:none;border: 1px solid;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Success : </strong> <span class="message"></span>
+                </div>
                 <div class="container-fluid">
                     <h4 class="c-grey-900 mt-10 mb-30">@ViewBag.Heading</h4>
                     <div id="Placeholder">
@@ -248,24 +226,13 @@
             </div>
         </main>
     </div>
-    @*<div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>*@
+
     <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
         <span>Copyright © 2020 All rights reserved.</span>
 
     </footer>
-    @*<footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2020 - PointOfSale - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>*@
 
-
-
-
+    @*// js files*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/chosen.jquery.min.js"></script>
     <script src="~/js/sammy-0.7.4.js"></script>
@@ -273,15 +240,31 @@
 
 
 
-
-
-
-
+    @*// theme files*@
     <script type="text/javascript" src="~/js/vendor.js"></script>
     <script type="text/javascript" src="~/js/bundle.js"></script>
     @*<script src="~/js/rocket-loader.min.js"></script>*@
     @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
     @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+
     @RenderSection("Scripts", required: false)
+    <script>
+        $("#sidebar-toggle.sidebar-toggle").click(function (e) {
+            e.preventDefault();
+            var sidebarWidth = $(".sidebar").width();
+            if (sidebarWidth == 70) {
+                $(".sidebar").width(280);
+                $(".page-container").css("padding",280);
+            }
+            else {
+                $(".sidebar").width(70);
+                $(".page-container").css("padding", 70);
+            }
+        });
+
+        $(function () {
+            console.log("_layout loaded");
+        });
+    </script>
 </body>
 </html>

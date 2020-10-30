@@ -1,4 +1,5 @@
 ﻿using DatabaseService;
+using PointOfSale.DataService.Helpers;
 using PointOfSale.DataService.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,12 @@ namespace PointOfSale.DataService.IServices
 {
     public interface IUserService
     {
-        Task<Users> Login(LoginVM loginVM);
-        Task Register(LoginVM registerVM);
-        Task<IEnumerable<Users>> GetAll();
-        Task<Users> GetById(int id);
-        Task<bool> Delete(int id);
-        Task<bool> Update(int id);
+        Task<ServiceResponse> Login(LoginVM loginVM);
+        Task<ServiceResponse> Register(LoginVM registerVM);
+        Task<ServiceResponse> Create(UserForCreateVM model);
+        Task<ServiceResponse> GetAll();
+        Task<ServiceResponse> GetById(int id);
+        Task<ServiceResponse> Delete(int id);
+        Task<ServiceResponse> Update(int id, UserForUpdateVM model);
     }
 }

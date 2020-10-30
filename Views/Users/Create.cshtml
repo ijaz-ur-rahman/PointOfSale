@@ -1,0 +1,87 @@
+﻿@model DatabaseService.Users
+    
+@{
+    ViewBag.Heading = ViewBag.Status + " User";
+    Layout = null;
+
+    // We use same page for add and edit.
+    var urlPostString = "/Users/Create";
+    if (ViewBag.Status == "Edit")
+    {
+        urlPostString = "/Users/Update";
+    }
+}
+<div class="row">
+
+    <form id="form" name="form" method="post" asp-action="#@urlPostString">
+        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RoleId" class="control-label"></label>
+            <input asp-for="RoleId" class="form-control" />
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
+       
+        <div class="form-group">
+            <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+        </div>
+    </form>
+   
+</div>
+@section Scripts{ 
+    <script>
+        $("#form").on("submit", function (e) {
+        debugger;
+        //if ($("#frmStudent").valid()) {
+        routingApp.runRoute('post', '#@urlPostString');
+        e.preventDefault();
+        e.stopPropagation();
+        //}
+    });
+
+    // add dynamic create or update link
+
+    debugger;
+    if (IfLinkNotExist("POST", "#@urlPostString")) {
+        routingApp.post("#@urlPostString", function (context) {
+            //$("#BigLoader").modal('show');
+            var formData = new FormData($('#form')[0]);
+            $.ajax({
+                url: '@urlPostString',
+                data: formData,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    //$("#BigLoader").modal('hide');
+                    if (data) {
+                        SuccessMessage(data);
+                        if ('@ViewBag.Status' == 'Create')
+                            alert("User successfully added");
+                        else if ('@ViewBag.Status' == 'Edit')
+                            alert("User successfully updated");
+                        window.location.href = "#/Users/Index";
+                    }
+                    else {
+                        ErrorMessage(data);
+                        alert('Something went wrong');
+                    }
+                },
+                error: function (data) {
+                    ErrorMessage(data);
+                }
+            });
+        });
+    }
+
+    </script>
+}

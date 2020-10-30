@@ -23,3 +23,4 @@ node_modules/
 *.sqlite
 .vs/PointOfSale/DesignTimeBuild/.dtbcache.v2
 .vs/PointOfSale/v16/.suo
+/.vs
