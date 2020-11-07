@@ -249,22 +249,33 @@
 
     @RenderSection("Scripts", required: false)
     <script>
-        $("#sidebar-toggle.sidebar-toggle").click(function (e) {
-            e.preventDefault();
-            var sidebarWidth = $(".sidebar").width();
-            if (sidebarWidth == 70) {
-                $(".sidebar").width(280);
-                $(".page-container").css("padding",280);
-            }
-            else {
-                $(".sidebar").width(70);
-                $(".page-container").css("padding", 70);
-            }
-        });
+        //$("#sidebar-toggle.sidebar-toggle").click(function (e) {
+        //    e.preventDefault();
+        //    var sidebarWidth = $(".sidebar").width();
+        //    if (sidebarWidth == 70) {
+        //        $(".sidebar").width(280);
+        //        $(".page-container").css("padding-left",280);
+        //    }
+        //    else {
+        //        $(".sidebar").width(70);
+        //        $(".page-container").css("padding-left", 70);
+        //    }
+        //});
 
         $(function () {
             console.log("_layout loaded");
         });
+
+        function SuccessMessage(data) {
+            $("html, body").animate({ scrollTop: 0 }, "medium");
+            $("#divSuccess .message").html(data.message);
+            $("#divSuccess").show().delay(2000).fadeOut("medium");
+        }
+        function ErrorMessage(data) {
+            $("html, body").animate({ scrollTop: 0 }, "medium");
+            $("#divError .message").html(data.message);
+            $("#divError").show().delay(2000).fadeOut("medium");
+        }
     </script>
 </body>
 </html>

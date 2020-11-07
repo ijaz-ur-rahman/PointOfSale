@@ -93,13 +93,3 @@ function IfLinkNotExist(type, path) {
     return isExist;
 }
 
-function SuccessMessage(data) {
-    $("html, body").animate({ scrollTop: 0 }, "medium");
-    $("#divSuccess .message").html(data);
-    $("#divSuccess").show().delay(2000).fadeOut("medium");
-}
-function ErrorMessage(data) {
-    $("html, body").animate({ scrollTop: 0 }, "medium");
-    $("#divError .message").html(data);
-    $("#divError").show().delay(2000).fadeOut("medium");
-}

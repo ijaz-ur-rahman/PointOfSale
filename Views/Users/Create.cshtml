@@ -61,23 +61,18 @@
                 type: "POST",
                 contentType: false,
                 processData: false,
-                success: function (data) {
+                success: function (response) {
                     //$("#BigLoader").modal('hide');
-                    if (data) {
-                        SuccessMessage(data);
-                        if ('@ViewBag.Status' == 'Create')
-                            alert("User successfully added");
-                        else if ('@ViewBag.Status' == 'Edit')
-                            alert("User successfully updated");
+                    if (response.success) {
+                        SuccessMessage(response);                        
                         window.location.href = "#/Users/Index";
                     }
                     else {
-                        ErrorMessage(data);
-                        alert('Something went wrong');
+                        ErrorMessage(response);
                     }
                 },
-                error: function (data) {
-                    ErrorMessage(data);
+                error: function (response) {
+                    ErrorMessage(response);
                 }
             });
         });

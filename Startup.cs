@@ -33,9 +33,10 @@ namespace PointOfSale
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
             services.AddDbContext<POS_DBContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionString").GetSection("DBConnection").Value));
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                   .AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILookupService, LookupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
