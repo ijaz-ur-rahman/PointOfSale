@@ -208,12 +208,12 @@
 
         <main class="main-content bgc-grey-100">
             <div id="mainContent">
-                <div class="alert alert-danger alert-dismissible" role="alert" id="divError" style="display:none;border: 1px solid;">
+                <div class="alert alert-danger alert-dismissible" role="alert" id="divError" style="display:none;border: 0.5px solid;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <strong>Error : </strong> <span class="message"></span>
                 </div>
 
-                <div class="alert alert-success alert-dismissible" id="divSuccess" role="alert" style="display:none;border: 1px solid;">
+                <div class="alert alert-success alert-dismissible" id="divSuccess" role="alert" style="display:none;border: 0.5px solid;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <strong>Success : </strong> <span class="message"></span>
                 </div>
@@ -234,6 +234,7 @@
 
     @*// js files*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/js/chosen.jquery.min.js"></script>
     <script src="~/js/sammy-0.7.4.js"></script>
     <script src="~/js/layout-routing.js"></script>
@@ -249,33 +250,24 @@
 
     @RenderSection("Scripts", required: false)
     <script>
-        //$("#sidebar-toggle.sidebar-toggle").click(function (e) {
-        //    e.preventDefault();
-        //    var sidebarWidth = $(".sidebar").width();
-        //    if (sidebarWidth == 70) {
-        //        $(".sidebar").width(280);
-        //        $(".page-container").css("padding-left",280);
-        //    }
-        //    else {
-        //        $(".sidebar").width(70);
-        //        $(".page-container").css("padding-left", 70);
-        //    }
-        //});
+        $("#sidebar-toggle.sidebar-toggle").click(function (e) {
+            e.preventDefault();
+            var sidebarWidth = $(".sidebar").width();
+            if (sidebarWidth == 70) {
+                $(".sidebar").width(280);
+                $(".page-container").css("padding-left", 280);
+            }
+            else {
+                $(".sidebar").width(70);
+                $(".page-container").css("padding-left", 70);
+            }
+        });
 
         $(function () {
             console.log("_layout loaded");
         });
 
-        function SuccessMessage(data) {
-            $("html, body").animate({ scrollTop: 0 }, "medium");
-            $("#divSuccess .message").html(data.message);
-            $("#divSuccess").show().delay(2000).fadeOut("medium");
-        }
-        function ErrorMessage(data) {
-            $("html, body").animate({ scrollTop: 0 }, "medium");
-            $("#divError .message").html(data.message);
-            $("#divError").show().delay(2000).fadeOut("medium");
-        }
+
     </script>
 </body>
 </html>

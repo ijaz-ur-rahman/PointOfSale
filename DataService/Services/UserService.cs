@@ -29,7 +29,6 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse> GetAll()
         {
             var res = await _context.Users.ToListAsync();
-            _serviceResponse.Success = true;
             _serviceResponse.Data = res;
             return _serviceResponse;
         }
@@ -48,16 +47,22 @@ namespace PointOfSale.DataService.Services
                 var password = Encryption.Encrypt(loginVM.Password);
                 var dbObj = await _context.Users.Where(m => m.Name == loginVM.UserName.ToLower() && m.Password == password).FirstOrDefaultAsync();
                 if (dbObj == null)
-                    throw new Exception("User not found");
-                _serviceResponse.Success = true;
-                _serviceResponse.Data = dbObj;
-                return _serviceResponse;
+                {
+                    _serviceResponse.Success = false;
+                    _serviceResponse.Message = ResponseMessage.NotFound;
+                }
+                else
+                {
+                    _serviceResponse.Success = true;
+                    _serviceResponse.Data = dbObj;
+                }
             }
             catch (Exception ex)
             {
                 ExceptionLog.Log(ex);
                 throw ex;
             }
+            return _serviceResponse;
         }
         public async Task<ServiceResponse> Register(LoginVM registerVM)
         {
@@ -69,13 +74,14 @@ namespace PointOfSale.DataService.Services
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 _serviceResponse.Success = true;
-                return _serviceResponse;
+
             }
             catch (Exception ex)
             {
                 ExceptionLog.Log(ex);
                 throw ex;
             }
+            return _serviceResponse;
         }
         public async Task<ServiceResponse> Create(UserForCreateVM model)
         {
@@ -87,13 +93,14 @@ namespace PointOfSale.DataService.Services
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 _serviceResponse.Success = true;
-                return _serviceResponse;
+                _serviceResponse.Message = ResponseMessage.Added;
             }
             catch (Exception ex)
             {
                 ExceptionLog.Log(ex);
                 throw ex;
             }
+            return _serviceResponse;
         }
 
         public async Task<ServiceResponse> Update(int id, UserForUpdateVM model)
@@ -105,13 +112,14 @@ namespace PointOfSale.DataService.Services
                 _context.Entry(user).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 _serviceResponse.Success = true;
-                return _serviceResponse;
+                _serviceResponse.Message = ResponseMessage.Updated;
             }
             catch (Exception ex)
             {
                 ExceptionLog.Log(ex);
                 throw ex;
             }
+            return _serviceResponse;
         }
         public async Task<ServiceResponse> Delete(int id)
         {
@@ -119,6 +127,7 @@ namespace PointOfSale.DataService.Services
             _context.Users.Remove(student);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
+            _serviceResponse.Message = ResponseMessage.Deleted;
             return _serviceResponse;
         }
     }

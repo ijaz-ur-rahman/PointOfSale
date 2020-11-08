@@ -13,12 +13,12 @@ namespace PointOfSale.Controllers
         {
             return View();
         }       
-        public IActionResult Craete()
+        public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Craete(CategoryVM viewModel)
+        public IActionResult Create(CategoryVM viewModel)
         {
             return View();
         }

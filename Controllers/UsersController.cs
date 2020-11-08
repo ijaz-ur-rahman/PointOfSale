@@ -17,6 +17,7 @@ using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.Controllers
 {
+    [ValidateAntiForgeryToken]
     public class UsersController : BaseController
     {
         private readonly IUserService _userService;
@@ -66,13 +67,13 @@ namespace PointOfSale.Controllers
             catch (Exception ex)
             {
                 _response.Success = false;
-                _response.Data = ex.Message ?? ex.InnerException.ToString();
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
                 return BadRequest(_response);
 
             }
         }
 
-        public async Task<ActionResult> SignoutAsync()
+        public async Task<ActionResult> Signout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Ok(true);
@@ -87,7 +88,6 @@ namespace PointOfSale.Controllers
 
         // POST: UsersController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(UserForCreateVM collection)
         {
             try
@@ -99,7 +99,7 @@ namespace PointOfSale.Controllers
             catch (Exception ex)
             {
                 _response.Success = false;
-                _response.Data = ex.Message ?? ex.InnerException.ToString();
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
                 return BadRequest(_response);
             }
         }
@@ -111,8 +111,7 @@ namespace PointOfSale.Controllers
             return View("Create", response.Data);
         }
         // POST: UsersController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPut]
         public async Task<ActionResult> Update(int id, UserForUpdateVM collection)
         {
             try
@@ -124,7 +123,7 @@ namespace PointOfSale.Controllers
             catch (Exception ex)
             {
                 _response.Success = false;
-                _response.Data = ex.Message ?? ex.InnerException.ToString();
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
                 return BadRequest(_response);
             }
         }
@@ -132,18 +131,18 @@ namespace PointOfSale.Controllers
 
         // POST: UsersController/Delete/5
         [HttpDelete]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id)
         {
             try
             {
                 _response = await _userService.Delete(id);
+
                 return Ok(_response);
             }
             catch (Exception ex)
             {
                 _response.Success = false;
-                _response.Data = ex.Message ?? ex.InnerException.ToString();
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
                 return BadRequest(_response);
             }
         }

@@ -1,5 +1,77 @@
-﻿@{
+﻿@model DatabaseService.Categories
+
+@{
     ViewBag.Heading = "Create Category";
     Layout = null;
+    // We use same page for add and edit.
+    string urlPostString = "/Categories/Create";
+    if (ViewBag.Status == "Update")
+    {
+        urlPostString = "/Categories/Update";
+    }
 }
-<h3>Category create</h3>
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="form" name="form" method="post" asp-action="#@urlPostString">
+            <div class="form-group">
+                <label asp-for="Label" class="control-label"></label>
+                <input asp-for="Label" class="form-control" placeholder="Label" />
+                @*<span asp-validation-for="Label" class="text-danger"></span>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" placeholder="Code" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentCategoryId" class="control-label"></label>
+                <input asp-for="ParentCategoryId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" placeholder="Description" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="#/Categories/Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script>
+        $("#form").on("submit", function (e) {
+        debugger;
+        //if ($("#frmStudent").valid()) {
+        routingApp.runRoute('post', '#@urlPostString');
+        e.preventDefault();
+        e.stopPropagation();
+        //}
+    });
+
+
+    //debugger;
+    if (IfLinkNotExist("POST", "#@urlPostString")) {
+        routingApp.post("#@urlPostString", function (context) {
+            //$("#BigLoader").modal('show');
+            var formData = new FormData($('#form')[0]);
+            HttpPost(@urlPostString, formData, function (response) {
+                        window.location.href = "#/Users/Index";
+
+
+            });
+
+        });
+    }
+
+    </script>
+}

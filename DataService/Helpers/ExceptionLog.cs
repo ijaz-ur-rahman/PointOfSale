@@ -13,7 +13,7 @@ namespace PointOfSale.DataService.Helpers
         {
             try
             {
-                string filePath = Directory.GetCurrentDirectory() + @"assets/Log.txt";
+                string filePath = Directory.GetCurrentDirectory() + @"assets/Logs.txt";
                 using (StreamWriter writer = new StreamWriter(filePath, true))
                 {
                     writer.WriteLine("-----------------------------------------------------------------------------");

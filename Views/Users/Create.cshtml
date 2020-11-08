@@ -5,8 +5,8 @@
     Layout = null;
 
     // We use same page for add and edit.
-    var urlPostString = "/Users/Create";
-    if (ViewBag.Status == "Edit")
+    string urlPostString = "/Users/Create";
+    if (ViewBag.Status == "Update")
     {
         urlPostString = "/Users/Update";
     }
@@ -48,13 +48,19 @@
         //}
     });
 
-    // add dynamic create or update link
+        // add dynamic create or update link
 
     debugger;
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
             //$("#BigLoader").modal('show');
             var formData = new FormData($('#form')[0]);
+            HttpPost(@urlPostString, formData, function (response) {
+                if (response.success) {
+
+                }
+                
+            });
             $.ajax({
                 url: '@urlPostString',
                 data: formData,
@@ -64,7 +70,7 @@
                 success: function (response) {
                     //$("#BigLoader").modal('hide');
                     if (response.success) {
-                        SuccessMessage(response);                        
+                        SuccessMessage(response);
                         window.location.href = "#/Users/Index";
                     }
                     else {
