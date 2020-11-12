@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DatabaseService;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using PointOfSale.DatabaseService.DBContext;
 using PointOfSale.DataService.Helpers;
 using PointOfSale.DataService.IServices;
@@ -18,9 +20,20 @@ namespace PointOfSale.DataService.Services
             _context = new POS_DBContext();
             _serviceResponse = new ServiceResponse();
         }
-        public async Task<ServiceResponse> RolesDrp()
+        public async Task<ServiceResponse> RolesDrp(object SelectedValue)
         {
-            _serviceResponse.Data = await _context.Roles.ToListAsync();
+            _serviceResponse.Success = true;
+            var list = await _context.Roles.ToListAsync();
+            SelectList items = new SelectList(list, nameof(Categories.Id), nameof(Categories.Label), SelectedValue);
+            _serviceResponse.Data = items;
+            return _serviceResponse;
+        }
+        public async Task<ServiceResponse> CategoriesDrp(object SelectedValue)
+        {
+            _serviceResponse.Success = true;
+            var list = await _context.Categories.ToListAsync();
+            SelectList items = new SelectList(list, nameof(Categories.Id), nameof(Categories.Label), SelectedValue);
+            _serviceResponse.Data = items;
             return _serviceResponse;
         }
     }

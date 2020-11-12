@@ -36,7 +36,10 @@ namespace PointOfSale
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
             services.AddScoped<ILookupService, LookupService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

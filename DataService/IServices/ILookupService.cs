@@ -8,6 +8,7 @@ namespace PointOfSale.DataService.IServices
 {
     public interface ILookupService
     {
-        Task<ServiceResponse> RolesDrp();
+        Task<ServiceResponse> RolesDrp(object SelectedValue);
+        Task<ServiceResponse> CategoriesDrp(object SelectedValue);
     }
 }

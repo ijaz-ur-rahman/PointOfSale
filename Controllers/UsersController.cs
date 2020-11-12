@@ -21,10 +21,12 @@ namespace PointOfSale.Controllers
     public class UsersController : BaseController
     {
         private readonly IUserService _userService;
+        private readonly ILookupService _lookupService;
         private ServiceResponse _response;
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, ILookupService lookupService)
         {
             _userService = userService;
+            _lookupService = lookupService;
             _response = new ServiceResponse();
         }
         [HttpGet]
@@ -88,12 +90,12 @@ namespace PointOfSale.Controllers
 
         // POST: UsersController/Create
         [HttpPost]
-        public async Task<ActionResult> Create(UserForCreateVM collection)
+        public async Task<ActionResult> Create(UserForCreateVM viewModel)
         {
             try
             {
                 ViewBag.Status = "Create";
-                _response = await _userService.Create(collection);
+                _response = await _userService.Create(viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -107,6 +109,7 @@ namespace PointOfSale.Controllers
         [HttpGet("Edit/{id}")]
         public async Task<ActionResult> Edit(int id)
         {
+            ViewBag.Status = "Update";
             var response = await _userService.GetById(id);
             return View("Create", response.Data);
         }
@@ -116,7 +119,6 @@ namespace PointOfSale.Controllers
         {
             try
             {
-                ViewBag.Status = "Update";
                 _response = await _userService.Update(id, collection);
                 return Ok(_response);
             }

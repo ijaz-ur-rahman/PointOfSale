@@ -13,27 +13,30 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form id="form" name="form" method="post" asp-action="#@urlPostString">
+        <form id="form" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
+            <input asp-for="Id" type="hidden" />
             <div class="form-group">
                 <label asp-for="Label" class="control-label"></label>
-                <input asp-for="Label" class="form-control" placeholder="Label" />
+                <input asp-for="Label" type="text" class="form-control" placeholder="Label" />
                 @*<span asp-validation-for="Label" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" placeholder="Code" />
+                <input asp-for="Code" type="text" class="form-control" placeholder="Code" />
             </div>
             <div class="form-group">
-                <label asp-for="ParentCategoryId" class="control-label"></label>
-                <input asp-for="ParentCategoryId" class="form-control" />
+                <label class="control-label">Parent Category</label>
+                <select asp-items="ViewBag.DrpCategories">
+                    <option value="0">Select Category</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" placeholder="Description" />
+                <textarea asp-for="Description" type="text" class="form-control" placeholder="Description"></textarea>
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <input type="file" class="form-control" />
             </div>
 
             <div class="form-group">

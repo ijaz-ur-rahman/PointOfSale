@@ -23,8 +23,8 @@ namespace PointOfSale.DataService.ViewModels
         [Required]
         public string Password { get; set; }        
         public int? RoleId { get; set; }
-        public bool? Active { get; set; }
     }
+  
     public class UserForUpdateVM
     {
         [Required]
@@ -34,6 +34,12 @@ namespace PointOfSale.DataService.ViewModels
         [Required]
         public string Password { get; set; }
         public int? RoleId { get; set; }
-        public bool? Active { get; set; }
+    }
+    public class UserForListVM
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int RoleId { get; set; }
+        public string Role { get; set; }
     }
 }

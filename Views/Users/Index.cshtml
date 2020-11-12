@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DatabaseService.Users>
+﻿@model IEnumerable<PointOfSale.DataService.ViewModels.UserForListVM>
 
 @{
     ViewData["Title"] = "Users List";
@@ -12,24 +12,12 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+                Name
+            </th>           
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoleId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Active)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedBy)
-            </th>
-            <th></th>
+                Role
+            </th>           
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -38,25 +26,13 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
+            </td>           
             <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoleId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>            
             <td>
                 <a href="#/Users/Edit/@item.Id">Edit</a>
-                <a href="javascript::;" onclick="Delete('@item.Id')">Delete</a>
+                <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
             </td>
         </tr>
         }
