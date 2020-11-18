@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PointOfSale.DatabaseService.DBContext;
+using PointOfSale.DataService.Helpers;
 using PointOfSale.DataService.IServices;
 using PointOfSale.DataService.Services;
 
@@ -47,6 +48,7 @@ namespace PointOfSale
         {
             if (env.IsDevelopment())
             {
+                //app.UseMiddleware(typeof(ExceptionMiddleware));
                 app.UseDeveloperExceptionPage();
             }
             else
@@ -55,7 +57,7 @@ namespace PointOfSale
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy(new CookiePolicyOptions()
@@ -69,8 +71,8 @@ namespace PointOfSale
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

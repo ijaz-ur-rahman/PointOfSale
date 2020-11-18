@@ -19,9 +19,9 @@ namespace PointOfSale.DataService.Services
         private readonly POS_DBContext _context;
         private readonly IMapper _mapper;
         private ServiceResponse _serviceResponse;
-        public UserService(POS_DBContext context, IMapper mapper)
+        public UserService(IMapper mapper)
         {
-            _context = context;
+            _context = new POS_DBContext();
             _mapper = mapper;
             _serviceResponse = new ServiceResponse();
         }

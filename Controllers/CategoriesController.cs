@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PointOfSale.DataService.Helpers;
 using PointOfSale.DataService.IServices;
 using PointOfSale.DataService.ViewModels;
@@ -26,13 +27,15 @@ namespace PointOfSale.Controllers
             var response = await _categoryService.GetAll();
             return View(response.Data);
         }
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.CategoriesDrp = await _lookupService.CategoriesDrp("");
+            _response = await _lookupService.CategoriesDrp("");
+            ViewBag.CategoriesDrp = (SelectList)_response.Data;
+            throw new Exception("testing");
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(CategoryVM viewModel)
+        public async Task<ActionResult> Create(CategoryForCreateVM viewModel)
         {
             try
             {
@@ -56,7 +59,7 @@ namespace PointOfSale.Controllers
         }
         // POST: UsersController/Edit/5
         [HttpPut]
-        public async Task<ActionResult> Update(int id, CategoryVM viewModel)
+        public async Task<ActionResult> Update(int id, CategoryForUpdateVM viewModel)
         {
             try
             {                

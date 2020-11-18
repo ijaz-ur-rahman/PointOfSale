@@ -235,10 +235,9 @@
     @*// js files*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/js/chosen.jquery.min.js"></script>
-    <script src="~/js/sammy-0.7.4.js"></script>
-    <script src="~/js/layout-routing.js"></script>
-
+    <script src="~/js/chosen.jquery.min.js"></script>   
+    <script src="~/scripts/sammy-0.7.4.js"></script>
+    <script src="~/scripts/layout-routing.js"></script>
 
 
     @*// theme files*@
@@ -254,12 +253,15 @@
             e.preventDefault();
             var sidebarWidth = $(".sidebar").width();
             if (sidebarWidth == 70) {
-                $(".sidebar").width(280);
-                $(".page-container").css("padding-left", 280);
+                localStorage.setItem("SidebarWidth", 280);
+                $(".sidebar").width(localStorage.getItem("SidebarWidth"));
+                $(".page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
             }
             else {
-                $(".sidebar").width(70);
-                $(".page-container").css("padding-left", 70);
+                localStorage.setItem("SidebarWidth", 70);
+
+                $(".sidebar").width(localStorage.getItem("SidebarWidth"));
+                $(".page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
             }
         });
 

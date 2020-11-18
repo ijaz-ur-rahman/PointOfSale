@@ -22,17 +22,17 @@ namespace PointOfSale.DataService.Services
         }
         public async Task<ServiceResponse> RolesDrp(object SelectedValue)
         {
-            _serviceResponse.Success = true;
             var list = await _context.Roles.ToListAsync();
             SelectList items = new SelectList(list, nameof(Categories.Id), nameof(Categories.Label), SelectedValue);
+            _serviceResponse.Success = true;
             _serviceResponse.Data = items;
             return _serviceResponse;
         }
         public async Task<ServiceResponse> CategoriesDrp(object SelectedValue)
         {
-            _serviceResponse.Success = true;
             var list = await _context.Categories.ToListAsync();
             SelectList items = new SelectList(list, nameof(Categories.Id), nameof(Categories.Label), SelectedValue);
+            _serviceResponse.Success = true;
             _serviceResponse.Data = items;
             return _serviceResponse;
         }
