@@ -254,19 +254,28 @@
             var sidebarWidth = $(".sidebar").width();
             if (sidebarWidth == 70) {
                 localStorage.setItem("SidebarWidth", 280);
-                $(".sidebar").width(localStorage.getItem("SidebarWidth"));
-                $(".page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
+                $("body.app").addClass("is-collapsed")
+                //$(".is-collapsed.sidebar").width(localStorage.getItem("SidebarWidth"));
+                //$(".is-collapsed.page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
             }
             else {
                 localStorage.setItem("SidebarWidth", 70);
-
-                $(".sidebar").width(localStorage.getItem("SidebarWidth"));
-                $(".page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
+                $("body.app").removeClass("is-collapsed")
+                //$(".sidebar").width(localStorage.getItem("SidebarWidth"));
+                //$(".page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
             }
         });
 
         $(function () {
+
             console.log("_layout loaded");
+            var sidebarWidth = localStorage.getItem("SidebarWidth");
+            if (sidebarWidth == 70) {
+                $("body.app").removeClass("is-collapsed");
+            }
+            else {
+                $("body.app").addClass("is-collapsed")
+            }
         });
 
 

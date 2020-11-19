@@ -32,7 +32,7 @@ namespace PointOfSale.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            var response = await _userService.GetAll();
+            var response = await _userService.GetAll();            
             return View(response.Data);
         }
 

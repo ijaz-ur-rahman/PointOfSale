@@ -31,7 +31,6 @@ namespace PointOfSale.Controllers
         {
             _response = await _lookupService.CategoriesDrp("");
             ViewBag.CategoriesDrp = (SelectList)_response.Data;
-            throw new Exception("testing");
             return View();
         }
         [HttpPost]

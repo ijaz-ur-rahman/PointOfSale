@@ -6,6 +6,12 @@ $(function () {
     title = $("title"); // render titles.
 });
 var routingApp = $.sammy("#Placeholder", function () {
+    this.get("#", function (context) {
+        title.html("Dashboard");
+        $.get("/Home/Dashboard", function (data) {
+            context.$element().html(data);
+        });
+    });   
     this.get("#/Home/Dashboard", function (context) {
         title.html("Dashboard");
         $.get("/Home/Dashboard", function (data) {
