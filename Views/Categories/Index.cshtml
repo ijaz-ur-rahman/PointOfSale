@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DatabaseService.Categories>
+
+@{
+    ViewBag.Heading = "Category List";
+    Layout = null;
+}
+
+<p>
+    <a href="#/Categories/Create">Create New</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Label
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Parent Category
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Image
+            </th>           
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Label)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParentCategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+               
+                <td>
+                    <a href="#/Users/Edit/@item.Id">Edit</a>
+                    <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

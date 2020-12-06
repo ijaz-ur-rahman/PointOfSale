@@ -1,86 +1,151 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Text.Json;
 using System.Threading.Tasks;
+using DatabaseService;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using PointOfSale.DataService.Helpers;
+using PointOfSale.DataService.IServices;
+using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.Controllers
 {
-    public class UsersController : Controller
+    [ValidateAntiForgeryToken]
+    public class UsersController : BaseController
     {
-        // GET: UsersController
-        public ActionResult Index()
+        private readonly IUserService _userService;
+        private readonly ILookupService _lookupService;
+        private ServiceResponse _response;
+        public UsersController(IUserService userService, ILookupService lookupService)
+        {
+            _userService = userService;
+            _lookupService = lookupService;
+            _response = new ServiceResponse();
+        }
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+            var response = await _userService.GetAll();            
+            return View(response.Data);
+        }
+
+        public ActionResult Login()
         {
             return View();
         }
-
-        // GET: UsersController/Details/5
-        public ActionResult Details(int id)
+        [AllowAnonymous, HttpPost]
+        public async Task<ActionResult> Login(LoginVM loginVM)
         {
-            return View();
+            try
+            {
+                dynamic response = await _userService.Login(loginVM);
+                var claims = new List<Claim>
+                {
+                    new Claim("UserName", loginVM.UserName.ToLower()),
+                    new Claim("UserId", response.Data.Id.ToString()),
+                    new Claim("RoleId", response.Data.RoleId.ToString()),
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.UtcNow.AddHours(8)
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.Success = false;
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
+                return BadRequest(_response);
+
+            }
+        }
+
+        public async Task<ActionResult> Signout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok(true);
         }
 
         // GET: UsersController/Create
         public ActionResult Create()
         {
+
             return View();
         }
 
         // POST: UsersController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(UserForCreateVM viewModel)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                ViewBag.Status = "Create";
+                _response = await _userService.Create(viewModel);
+                return Ok(_response);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _response.Success = false;
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
+                return BadRequest(_response);
             }
         }
 
-        // GET: UsersController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet("Edit/{id}")]
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            ViewBag.Status = "Update";
+            var response = await _userService.GetById(id);
+            return View("Create", response.Data);
         }
-
         // POST: UsersController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpPut]
+        public async Task<ActionResult> Update(int id, UserForUpdateVM collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _response = await _userService.Update(id, collection);
+                return Ok(_response);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _response.Success = false;
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
+                return BadRequest(_response);
             }
         }
 
-        // GET: UsersController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
         // POST: UsersController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _response = await _userService.Delete(id);
+
+                return Ok(_response);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                _response.Success = false;
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
+                return BadRequest(_response);
             }
         }
     }

@@ -1,0 +1,88 @@
+﻿@model DatabaseService.Users
+    
+@{
+    ViewBag.Heading = ViewBag.Status + " User";
+    Layout = null;
+
+    // We use same page for add and edit.
+    string urlPostString = "/Users/Create";
+    if (ViewBag.Status == "Update")
+    {
+        urlPostString = "/Users/Update";
+    }
+}
+<div class="row">
+
+    <form id="form" name="form" method="post" asp-action="#@urlPostString">
+        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RoleId" class="control-label"></label>
+            <input asp-for="RoleId" class="form-control" />
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
+       
+        <div class="form-group">
+            <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+        </div>
+    </form>
+   
+</div>
+@section Scripts{ 
+    <script>
+        $("#form").on("submit", function (e) {
+        debugger;
+        //if ($("#frmStudent").valid()) {
+        routingApp.runRoute('post', '#@urlPostString');
+        e.preventDefault();
+        e.stopPropagation();
+        //}
+    });
+
+        // add dynamic create or update link
+
+    debugger;
+    if (IfLinkNotExist("POST", "#@urlPostString")) {
+        routingApp.post("#@urlPostString", function (context) {
+            //$("#BigLoader").modal('show');
+            var formData = new FormData($('#form')[0]);
+            HttpPost(@urlPostString, formData, function (response) {
+                if (response.success) {
+
+                }
+                
+            });
+            $.ajax({
+                url: '@urlPostString',
+                data: formData,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    //$("#BigLoader").modal('hide');
+                    if (response.success) {
+                        SuccessMessage(response);
+                        window.location.href = "#/Users/Index";
+                    }
+                    else {
+                        ErrorMessage(response);
+                    }
+                },
+                error: function (response) {
+                    ErrorMessage(response);
+                }
+            });
+        });
+    }
+
+    </script>
+}

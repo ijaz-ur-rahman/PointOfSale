@@ -1,0 +1,46 @@
+﻿@model IEnumerable<PointOfSale.DataService.ViewModels.UserForListVM>
+
+@{
+    ViewData["Title"] = "Users List";
+    Layout = null;
+}
+<h3>Users Index</h3>
+<p>
+    <a href="#/Users/Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>           
+            <th>
+                Role
+            </th>           
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>           
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>            
+            <td>
+                <a href="#/Users/Edit/@item.Id">Edit</a>
+                <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+
+    </script>
+}
+
