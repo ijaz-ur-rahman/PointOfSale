@@ -39,4 +39,14 @@ namespace PointOfSale.DataService.ViewModels
         public string Description { get; set; }
         public string Image { get; set; }
     }
+    public class CategoryForDetailsVM
+    {
+        public int Id { get; set; }
+        public string Label { get; set; }
+        public string Code { get; set; }
+        public int? ParentCategoryId { get; set; }
+        public string ParentCategory { get; set; }
+        public string Description { get; set; }
+        public string Image { get; set; }
+    }
 }

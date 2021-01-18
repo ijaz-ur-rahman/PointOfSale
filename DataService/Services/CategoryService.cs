@@ -16,16 +16,20 @@ namespace PointOfSale.DataService.Services
     {
         private readonly POS_DBContext _context;
         private readonly IMapper _mapper;
-        private ServiceResponse _serviceResponse;
+        private ServiceResponse<object> _serviceResponse;
         public CategoryService(IMapper mapper)
         {
             _context = new POS_DBContext();
             _mapper = mapper;
-            _serviceResponse = new ServiceResponse();
+            _serviceResponse = new ServiceResponse<object>();
         }
-        public async Task<ServiceResponse> Create(CategoryForCreateVM model)
+        public async Task<ServiceResponse<object>> Create(CategoryForCreateVM model)
         {
             var objToCreate = _mapper.Map<Categories>(model);
+            objToCreate.Active = true;
+            objToCreate.CreatedAt = DateTime.Now;
+            objToCreate.CreatedBy = 1;
+
             await _context.Categories.AddAsync(objToCreate);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
@@ -33,19 +37,22 @@ namespace PointOfSale.DataService.Services
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse> Delete(int id)
+        public async Task<ServiceResponse<object>> Delete(int id)
         {
             var objToDelete = await _context.Categories.Where(m => m.Id == id).FirstOrDefaultAsync();
-            _context.Categories.Remove(objToDelete);
+            objToDelete.Active = false;
+            _context.Categories.Update(objToDelete);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Deleted;
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse> GetAll()
+        public async Task<ServiceResponse<IEnumerable<CategoryForListVM>>> GetAll()
         {
-            var listToReurn = await _context.Categories.Select(o => new CategoryForListVM
+            ServiceResponse<IEnumerable<CategoryForListVM>> serviceResponse = new ServiceResponse<IEnumerable<CategoryForListVM>>();
+            
+            var listToReurn = await _context.Categories.Where(m => m.Active == true).Select(o => new CategoryForListVM
             {
                 Id = o.Id,
                 Code = o.Code,
@@ -54,14 +61,16 @@ namespace PointOfSale.DataService.Services
                 ParentCategoryId = o.ParentCategoryId,
                 ParentCategory = _context.Categories.FirstOrDefault(m => m.Id == o.Id).Label
             }).ToListAsync();
-            _serviceResponse.Success = true;
-            _serviceResponse.Data = listToReurn;
-            return _serviceResponse;
+            serviceResponse.Success = true;
+            serviceResponse.Data = listToReurn;
+            return serviceResponse;
         }
 
-        public async Task<ServiceResponse> GetById(int id)
+        public async Task<ServiceResponse<CategoryForDetailsVM>> GetById(int id)
         {
-            var toReturn = await _context.Categories.Where(m => m.Id == id).Select(o => new CategoryForListVM
+            ServiceResponse<CategoryForDetailsVM> serviceResponse = new ServiceResponse<CategoryForDetailsVM>();
+
+            var ToReturn = await _context.Categories.Where(m => m.Id == id).Select(o => new CategoryForDetailsVM
             {
                 Id = o.Id,
                 Code = o.Code,
@@ -70,12 +79,12 @@ namespace PointOfSale.DataService.Services
                 ParentCategoryId = o.ParentCategoryId,
                 ParentCategory = _context.Categories.FirstOrDefault(m => m.Id == o.Id).Label
             }).FirstOrDefaultAsync();
-            _serviceResponse.Success = true;
-            _serviceResponse.Data = toReturn;
-            return _serviceResponse;
+            serviceResponse.Success = true;
+            serviceResponse.Data = ToReturn;
+            return serviceResponse;
         }
 
-        public async Task<ServiceResponse> Update(int id, CategoryForUpdateVM model)
+        public async Task<ServiceResponse<object>> Update(int id, CategoryForUpdateVM model)
         {
             var objToUpdate = _mapper.Map<Categories>(model);
             _context.Categories.Update(objToUpdate);

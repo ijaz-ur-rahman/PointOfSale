@@ -1,7 +1,8 @@
-﻿@model DatabaseService.Categories
+﻿@model CategoryForDetailsVM
 
 @{
     ViewBag.Heading = "Create Category";
+    
     Layout = null;
     // We use same page for add and edit.
     string urlPostString = "/Categories/Create";
@@ -10,53 +11,59 @@
         urlPostString = "/Categories/Update";
     }
 }
+<div class="row">
+    <div class="col-md-4">
+        <form id="form" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
+            <input asp-for="Id" type="hidden" />
+            <div class="form-group">
+                <label asp-for="Label" class="control-label"></label>
+                <input asp-for="Label" type="text" class="form-control" placeholder="Label" />
+                <span asp-validation-for="Label" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" type="text" class="form-control" placeholder="Code" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Parent Category</label>
+                <select asp-items="ViewBag.CategoriesDrp" class="form-control">
+                    <option value="0">Select Category</option>
+                </select>
+                <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" type="text" class="form-control" placeholder="Description"></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input type="file" class="form-control" />
+            </div>
 
-<h2>@ViewBag.Status Student</h2>
-
-<form id="frmStudent" name="frmStudent" method="post" action="#@urlPostString">
-    @Html.HiddenFor(x => x.Id)
-    <div class="row">
-        <div class="form-group">
-            <label for="Variables">First Name</label>
-            @Html.TextBoxFor(x => x.Label, new { @class = "form-control square" })
-        </div>
-        <div class="form-group">
-            <label for="Variables">Last Name</label>
-            @Html.TextBoxFor(x => x.Code, new { @class = "form-control square" })
-        </div>
-        <div class="form-group">
-            <label for="Variables">Email</label>
-            @Html.TextBoxFor(x => x.Description, new { @class = "form-control square" })
-        </div>
-        <div class="form-group">
-            <label for="Variables">Class</label>
-            @Html.TextBoxFor(x => x.ParentCategoryId, new { @class = "form-control square" })
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Submit" />
-        </div>
+            <div class="form-group">
+                <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-</form>
-
-
-
+</div>
 <div>
     <a href="#/Categories/Index">Back to List</a>
 </div>
 
 <script>
-    alert("kdsjf");
+    //alert("kdsjf");
     $(function () {
         $("#frmStudent").validate({
         rules: {
             label: "required",
             code: "required"
-           
+
         },
         messages: {
             label: "Please enter your firstname",
             code: "Please enter your lastname"
-           
+
         },
         errorElement: "em",
         errorPlacement: function (error, element) {
@@ -87,14 +94,10 @@
 
     // add dynamic create or update link
 
-    debugger;
+
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
-            //let loader = document.getElementById('loader');
-            //loader.classList.remove('fadeOut');
-            //setTimeout(() => {
-            //    loader.classList.add('fadeIn');
-            //}, 300);
+
             $("#loader").removeClass("fadeOut").addClass("fadeIn");
 
             var formData = new FormData($('#frmStudent')[0]);
@@ -115,7 +118,8 @@
                     }
                     else {
                         alert(response.message);
-                        window.location.href = "#/Student/Create";
+                        //ClearAll();
+                        //window.location.reload();
                     }
                 },
                 error: function (ex) {

@@ -9,10 +9,10 @@ namespace PointOfSale.DataService.IServices
 {
     public interface ICategoryService
     {
-        Task<ServiceResponse> Create(CategoryForCreateVM model);
-        Task<ServiceResponse> GetAll();
-        Task<ServiceResponse> GetById(int id);
-        Task<ServiceResponse> Delete(int id);
-        Task<ServiceResponse> Update(int id, CategoryForUpdateVM model);
+        Task<ServiceResponse<object>> Create(CategoryForCreateVM model);
+        Task<ServiceResponse<IEnumerable<CategoryForListVM>>> GetAll();
+        Task<ServiceResponse<CategoryForDetailsVM>> GetById(int id);
+        Task<ServiceResponse<object>> Delete(int id);
+        Task<ServiceResponse<object>> Update(int id, CategoryForUpdateVM model);
     }
 }

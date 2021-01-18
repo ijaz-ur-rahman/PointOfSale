@@ -22,12 +22,12 @@ namespace PointOfSale.Controllers
     {
         private readonly IUserService _userService;
         private readonly ILookupService _lookupService;
-        private ServiceResponse _response;
+        private ServiceResponse<object> _response;
         public UsersController(IUserService userService, ILookupService lookupService)
         {
             _userService = userService;
             _lookupService = lookupService;
-            _response = new ServiceResponse();
+            _response = new ServiceResponse<object>();
         }
         [HttpGet]
         public async Task<ActionResult> Index()

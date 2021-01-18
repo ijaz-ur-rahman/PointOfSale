@@ -11,26 +11,40 @@ var routingApp = $.sammy("#Placeholder", function () {
         $.get("/Home/Dashboard", function (data) {
             context.$element().html(data);
         });
-    });   
+    });
     this.get("#/Home/Dashboard", function (context) {
         title.html("Dashboard");
         $.get("/Home/Dashboard", function (data) {
             context.$element().html(data);
         });
-    });   
+    });
     this.get("#/Categories/Index", function (context) {
         title.html("Categories");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
         $.get("/Categories/Index", function (data) {
             context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
         });
     });
     this.get("#/Categories/Create", function (context) {
         title.html("Create");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
         $.get("/Categories/Create", function (data) {
             context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
         });
     });
-       
+    this.get("#/Categories/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/Categories/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+
     this.get("#/Items/Index", function (context) {
         title.html("Items");
         $.get("/Items/Index", function (data) {
@@ -43,7 +57,7 @@ var routingApp = $.sammy("#Placeholder", function () {
             context.$element().html(data);
         });
     });
-    
+
     this.get("#/Users/Index", function (context) {
         title.html("Users");
         $("#loader").css('visibility', 'visible');
@@ -60,8 +74,8 @@ var routingApp = $.sammy("#Placeholder", function () {
         });
     });
 
-   
-   
+
+
 });
 
 $(function () {

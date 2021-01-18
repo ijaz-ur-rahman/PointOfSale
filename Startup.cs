@@ -41,6 +41,9 @@ namespace PointOfSale
 
             services.AddScoped<ILookupService, LookupService>();
 
+            // Auto Mapper Configurations
+            services.AddAutoMapper(c => c.AddProfile<AutoMapperProfiles>(), typeof(Startup));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

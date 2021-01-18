@@ -18,29 +18,29 @@ namespace PointOfSale.DataService.Services
     {
         private readonly POS_DBContext _context;
         private readonly IMapper _mapper;
-        private ServiceResponse _serviceResponse;
+        private ServiceResponse<object> _serviceResponse;
         public UserService(IMapper mapper)
         {
             _context = new POS_DBContext();
             _mapper = mapper;
-            _serviceResponse = new ServiceResponse();
+            _serviceResponse = new ServiceResponse<object>();
         }
 
-        public async Task<ServiceResponse> GetAll()
+        public async Task<ServiceResponse<object>> GetAll()
         {
             var res = await _context.Users.ToListAsync();
             _serviceResponse.Data = res;
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse> GetById(int id)
+        public async Task<ServiceResponse<object>> GetById(int id)
         {
             var res = await _context.Users.Where(m => m.Id == id).FirstOrDefaultAsync();
             _serviceResponse.Data = res;
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse> Login(LoginVM loginVM)
+        public async Task<ServiceResponse<object>> Login(LoginVM loginVM)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace PointOfSale.DataService.Services
             }
             return _serviceResponse;
         }
-        public async Task<ServiceResponse> Register(LoginVM registerVM)
+        public async Task<ServiceResponse<object>> Register(LoginVM registerVM)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace PointOfSale.DataService.Services
             }
             return _serviceResponse;
         }
-        public async Task<ServiceResponse> Create(UserForCreateVM model)
+        public async Task<ServiceResponse<object>> Create(UserForCreateVM model)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace PointOfSale.DataService.Services
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse> Update(int id, UserForUpdateVM model)
+        public async Task<ServiceResponse<object>> Update(int id, UserForUpdateVM model)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace PointOfSale.DataService.Services
             }
             return _serviceResponse;
         }
-        public async Task<ServiceResponse> Delete(int id)
+        public async Task<ServiceResponse<object>> Delete(int id)
         {
             var student = _context.Users.Find(id);
             _context.Users.Remove(student);

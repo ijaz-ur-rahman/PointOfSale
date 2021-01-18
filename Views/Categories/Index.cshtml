@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DatabaseService.Categories>
+﻿@model IEnumerable<CategoryForListVM>
 
 @{
     ViewBag.Heading = "Category List";
@@ -40,7 +40,7 @@
                     @Html.DisplayFor(modelItem => item.Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ParentCategoryId)
+                    @Html.DisplayFor(modelItem => item.ParentCategory)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -50,11 +50,11 @@
                 </td>
                
                 <td>
-                    <a href="#/Users/Edit/@item.Id">Edit</a>
+                    <a href="#/Categories/Edit/@item.Id">Edit</a> | 
                     <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @*<a asp-controller="Categories" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="Categories" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="Categories" asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
                 </td>
             </tr>
         }
