@@ -49,3 +49,21 @@
         opacity: 0;
     }
 }
+#divError {
+    display: none;
+    border: 1.5px solid;
+    position: absolute;
+    top: 20%;
+    right: 1%;
+    z-index: 9999;
+    min-width: 25%;
+}
+#divSuccess {
+    display: none;
+    border: 1.5px solid;
+    position: absolute;
+    top: 20%;
+    right: 1%;
+    z-index: 9999;
+    min-width: 25%;
+}

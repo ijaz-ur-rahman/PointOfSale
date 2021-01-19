@@ -1,8 +1,7 @@
 ﻿@model CategoryForDetailsVM
 
 @{
-    ViewBag.Heading = "Create Category";
-    
+
     Layout = null;
     // We use same page for add and edit.
     string urlPostString = "/Categories/Create";
@@ -11,20 +10,21 @@
         urlPostString = "/Categories/Update";
     }
 }
-//
+
 <div class="row">
     <div class="col-md-4">
-        <form id="form" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
+        <form id="form" needs-validation was-validated novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
             <input asp-for="Id" type="hidden" />
+
             <div class="form-group">
                 <label asp-for="Label" class="control-label"></label>
                 <input asp-for="Label" type="text" class="form-control" placeholder="Label" />
-                <span asp-validation-for="Label" class="text-danger"></span>
+                @*<span asp-validation-for="Label" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="Code" class="control-label"></label>
                 <input asp-for="Code" type="text" class="form-control" placeholder="Code" />
-                <span asp-validation-for="Code" class="text-danger"></span>
+                @*<span asp-validation-for="Code" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label class="control-label">Parent Category</label>
@@ -46,6 +46,9 @@
                 <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
             </div>
         </form>
+        <div class="form-group">
+            <input type="button" id="clickme" value="clickme" class="btn btn-primary" />
+        </div>
     </div>
 </div>
 <div>
@@ -55,21 +58,26 @@
 <script>
     //alert("kdsjf");
     $(function () {
-        $("#frmStudent").validate({
+        $("#clickme").click(function () {
+            $("#divSuccess .message").html("test");
+            $("#divSuccess").show().delay(5000).fadeOut("medium");
+            $.alert({
+                title: 'Alert!',
+                content: 'Simple alert!',
+            });
+        });
+        $("#form").validate({           
         rules: {
-            label: "required",
-            code: "required"
-
+            Label: "required",
+            Code: "required",
         },
         messages: {
-            label: "Please enter your firstname",
-            code: "Please enter your lastname"
-
-        },
-        errorElement: "em",
+            Label: "Please enter your first name",
+            Code: "Please enter your last name"
+        },            
+        errorElement: "span",
         errorPlacement: function (error, element) {
-            // Add the `help-block` class to the error element
-            error.addClass("help-block");
+            error.addClass("invalid-feedback");
 
             if (element.prop("type") === "checkbox") {
                 error.insertAfter(element.parent("label"));
@@ -77,31 +85,32 @@
                 error.insertAfter(element);
             }
         },
-        highlight: function (element, errorClass, validClass) {
-            $(element).parents(".col-sm-5").addClass("has-error").removeClass("has-success");
-        },
-        unhighlight: function (element, errorClass, validClass) {
-            $(element).parents(".col-sm-5").addClass("has-success").removeClass("has-error");
-        }
+            highlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-valid").removeClass("is-invalid");
+            }
+        });
     });
-    });
-    $("#frmStudent").on("submit", function (e) {
-        if ($("#frmStudent").valid()) {
-        routingApp.runRoute('post', '#@urlPostString');
-        e.preventDefault();
-        e.stopPropagation();
+    $("#form").on("submit", function (e) {
+        if ($("#form").valid()) {
+            routingApp.runRoute('post', '#@urlPostString');
+            e.preventDefault();
+            e.stopPropagation();
         }
     });
 
     // add dynamic create or update link
-
 
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
 
             $("#loader").removeClass("fadeOut").addClass("fadeIn");
 
-            var formData = new FormData($('#frmStudent')[0]);
+            var formData = new FormData($('#form')[0]);
             $.ajax({
                 url: '@urlPostString',
                 data: formData,

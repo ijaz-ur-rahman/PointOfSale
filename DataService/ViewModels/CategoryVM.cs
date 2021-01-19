@@ -12,9 +12,9 @@ namespace PointOfSale.DataService.ViewModels
     }
     public class CategoryForCreateVM
     {
-        [Required]
+        //[Required]
         public string Label { get; set; }
-        [Required]
+        //[Required]
         public string Code { get; set; }
         public int? ParentCategoryId { get; set; }
         public string Description { get; set; }

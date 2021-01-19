@@ -31,8 +31,7 @@ namespace PointOfSale.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            HeadingModel.SetHeading("Create Category");
-            ViewBag.Heading = "Create Category";
+            ViewBag.Status = "Create";
             _response = await _lookupService.CategoriesDrp("");
             ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View();
@@ -46,7 +45,6 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                ViewBag.Status = "Create";
                 _response = await _categoryService.Create(viewModel);
                 return Ok(_response);
             }
@@ -60,7 +58,6 @@ namespace PointOfSale.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            HeadingModel.Heading = "Update Category";
             ViewBag.Status = "Update";
             var response = await _categoryService.GetById(id);
             _response = await _lookupService.CategoriesDrp(response.Data.ParentCategoryId);

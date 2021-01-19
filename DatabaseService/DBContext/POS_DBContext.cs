@@ -1,5 +1,4 @@
 ﻿using System;
-using DatabaseService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using PointOfSale;
@@ -389,6 +388,10 @@ namespace PointOfSale.DatabaseService.DBContext
                 entity.Property(e => e.Password)
                     .HasColumnName("password")
                     .HasMaxLength(100);
+
+                entity.Property(e => e.Role)
+                    .HasColumnName("role")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
             });

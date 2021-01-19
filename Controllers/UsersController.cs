@@ -51,6 +51,7 @@ namespace PointOfSale.Controllers
                     new Claim("UserName", loginVM.UserName.ToLower()),
                     new Claim("UserId", response.Data.Id.ToString()),
                     new Claim("RoleId", response.Data.RoleId.ToString()),
+                   // new Claim(ClaimTypes.Role, response.Data.RoleId.ToString()),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
