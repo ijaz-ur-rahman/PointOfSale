@@ -108,8 +108,7 @@ namespace PointOfSale.DataService.Services
             try
             {
                 var user = _mapper.Map<Users>(model);
-                _context.Users.Attach(user);
-                _context.Entry(user).State = EntityState.Modified;
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
                 _serviceResponse.Success = true;
                 _serviceResponse.Message = ResponseMessage.Updated;
@@ -124,7 +123,8 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> Delete(int id)
         {
             var student = _context.Users.Find(id);
-            _context.Users.Remove(student);
+            student.Active = false;
+            _context.Users.Update(student);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Deleted;

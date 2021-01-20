@@ -83,6 +83,20 @@ namespace PointOfSale.Controllers
                 return BadRequest(_response);
             }
         }
-
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                _response = await _categoryService.Delete(id);
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.Success = false;
+                _response.Message = ex.Message ?? ex.InnerException.ToString();
+                return BadRequest(_response);
+            }
+        }
     }
 }

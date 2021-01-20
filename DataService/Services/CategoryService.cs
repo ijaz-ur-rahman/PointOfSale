@@ -39,7 +39,7 @@ namespace PointOfSale.DataService.Services
 
         public async Task<ServiceResponse<object>> Delete(int id)
         {
-            var objToDelete = await _context.Categories.Where(m => m.Id == id).FirstOrDefaultAsync();
+            var objToDelete = await _context.Categories.FindAsync(id);
             objToDelete.Active = false;
             _context.Categories.Update(objToDelete);
             await _context.SaveChangesAsync();
@@ -93,5 +93,6 @@ namespace PointOfSale.DataService.Services
             _serviceResponse.Message = ResponseMessage.Added;
             return _serviceResponse;
         }
+        
     }
 }
