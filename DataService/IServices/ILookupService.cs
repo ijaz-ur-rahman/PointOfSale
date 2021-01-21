@@ -10,5 +10,6 @@ namespace PointOfSale.DataService.IServices
     {
         Task<ServiceResponse<object>> RolesDrp(object SelectedValue);
         Task<ServiceResponse<object>> CategoriesDrp(object SelectedValue);
+        Task<ServiceResponse<object>> UOMDrp(object SelectedValue);
     }
 }

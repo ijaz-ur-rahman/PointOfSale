@@ -16,6 +16,12 @@ namespace PointOfSale.DataService.Helpers
             CreateMap<Categories, CategoryForCreateVM>().ReverseMap();
             CreateMap<Categories, CategoryForUpdateVM>().ReverseMap();
             CreateMap<Categories, CategoryForListVM>().ReverseMap();
+            CreateMap<Categories, CategoryForDetailsVM>().ReverseMap();
+            //Item
+            CreateMap<Items, ItemForCreateVM>().ReverseMap();
+            CreateMap<Items, ItemForListVM>().ReverseMap();
+            CreateMap<Items, ItemForUpdateVM>().ReverseMap();
+            CreateMap<Items, ItemForDetailsVM>().ReverseMap();
 
             //product
         }

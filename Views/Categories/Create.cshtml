@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form id="form" needs-validation was-validated novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
+        <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
             <input asp-for="Id" type="hidden" />
 
             <div class="form-group">
@@ -123,7 +123,7 @@
                     $("#loader").removeClass("fadeIn").addClass("fadeOut");
                     if (response.success) {
                         ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/Student/Index";
+                        window.location.href = "#/Categories/Index";
                     }
                     else {
                         ohSnap(response.message, { 'color': 'red', 'duration': '10000' })

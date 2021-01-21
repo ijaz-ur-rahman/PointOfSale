@@ -38,6 +38,7 @@ namespace PointOfSale
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IItemService, ItemService>();
 
             services.AddScoped<ILookupService, LookupService>();
 

@@ -1,4 +1,65 @@
-﻿@{
-    ViewBag.Heading = "Create Item";
+﻿@model ItemForCreateVM
+
+@{
     Layout = null;
 }
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Label" class="control-label"></label>
+                <input asp-for="Label" class="form-control" />
+                <span asp-validation-for="Label" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Parent Category</label>
+                <select asp-items="ViewBag.CategoriesDrp" class="form-control">
+                    <option value="0">Select Category</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Unit Of Measurement</label>
+                <select asp-items="ViewBag.UOMDrp" class="form-control">
+                    <option value="0">Select Category</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SalePrice" class="control-label"></label>
+                <input asp-for="SalePrice" class="form-control" />
+                <span asp-validation-for="SalePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchasePrice" class="control-label"></label>
+                <input asp-for="PurchasePrice" class="form-control" />
+                <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PricePerUnit" class="control-label"></label>
+                <input asp-for="PricePerUnit" class="form-control" />
+                <span asp-validation-for="PricePerUnit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input type="file" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="#/Categories/Index">Back to List</a>
+</div>
