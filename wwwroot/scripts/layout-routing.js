@@ -73,6 +73,25 @@ var routingApp = $.sammy("#Placeholder", function () {
             $("#loader").removeClass("fadeIn").addClass("fadeOut");
         });
     });
+    this.get("#/Items/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/Items/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Items/Delete", function (context) {
+        title.html("Delete");
+        heading.html("Delete Item");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/Items/Delete", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
 
     this.get("#/Users/Index", function (context) {
         title.html("Users");

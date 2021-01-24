@@ -31,6 +31,7 @@ namespace PointOfSale.DataService.ViewModels
         public string SalePrice { get; set; }
         public string PurchasePrice { get; set; }
         public string PricePerUnit { get; set; }
+        public bool Active { get; set; } = true;
         public string Description { get; set; }
         public string Image { get; set; }
     }

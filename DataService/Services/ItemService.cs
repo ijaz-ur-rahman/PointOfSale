@@ -39,7 +39,7 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> Delete(int id)
         {
             var objdelitem = await _context.Items.FindAsync(id);
-            objdelitem.Active = true;
+            objdelitem.Active = false;
             _context.Items.Update(objdelitem);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
@@ -94,6 +94,7 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> Update(int id, ItemForUpdateVM model)
         {
             var objUpdateitem = _mapper.Map<Items>(model);
+            objUpdateitem.Active = true;
             _context.Items.Update(objUpdateitem);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
