@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DatabaseService;
+using PointOfSale.DatabaseService;
 using Microsoft.EntityFrameworkCore;
 using PointOfSale.DatabaseService.DBContext;
 using PointOfSale.DataService.Helpers;
@@ -58,7 +58,7 @@ namespace PointOfSale.DataService.Services
                 Code = o.Code,
                 Label = o.Label,
                 Description = o.Description,
-                ParentCategoryId = o.ParentCategoryId,
+                ParentCategoryId = o.ParentCategoryId.ToString(),
                 ParentCategory = _context.Categories.FirstOrDefault(m => m.Id == o.Id).Label
             }).ToListAsync();
             serviceResponse.Success = true;
@@ -76,7 +76,7 @@ namespace PointOfSale.DataService.Services
                 Code = o.Code,
                 Label = o.Label,
                 Description = o.Description,
-                ParentCategoryId = o.ParentCategoryId,
+                ParentCategoryId = o.ParentCategoryId.ToString(),
                 ParentCategory = _context.Categories.FirstOrDefault(m => m.Id == o.Id).Label
             }).FirstOrDefaultAsync();
             serviceResponse.Success = true;
@@ -87,10 +87,13 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> Update(int id, CategoryForUpdateVM model)
         {
             var objToUpdate = _mapper.Map<Categories>(model);
+            objToUpdate.UpdatedAt = DateTime.Now;
+            objToUpdate.UpdatedBy = 1;
+            objToUpdate.Active = model.Active;
             _context.Categories.Update(objToUpdate);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
-            _serviceResponse.Message = ResponseMessage.Added;
+            _serviceResponse.Message = ResponseMessage.Updated;
             return _serviceResponse;
         }
         

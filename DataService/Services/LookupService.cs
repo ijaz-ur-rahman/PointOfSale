@@ -1,4 +1,4 @@
-﻿using DatabaseService;
+﻿using PointOfSale.DatabaseService;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PointOfSale.DatabaseService.DBContext;

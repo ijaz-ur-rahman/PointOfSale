@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PointOfSale.DataService.ViewModels.UserForListVM>
+﻿@model IEnumerable<UserForListVM>
 
 @{
     Layout = null;
@@ -7,39 +7,81 @@
 <p>
     <a href="#/Users/Create">Create New</a>
 </p>
-<table class="table">
+<table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>
                 Name
-            </th>           
+            </th>
             <th>
                 Role
-            </th>           
+            </th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>           
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>            
-            <td>
-                <a href="#/Users/Edit/@item.Id">Edit</a>
-                <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    <a href="#/Users/Edit/@item.Id">Edit</a>
+                    <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
-@section Scripts{
-    <script>
 
-    </script>
-}
+<script>
+
+    $(function () {
+        $('#dataTable').DataTable();
+       
+    });
+
+
+    function Delete(id) {
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.confirm({
+            title: 'Alert!',
+            content: 'Are you sure you want to delete this record!',
+            buttons: {
+                confirm: function () {
+                    $.ajax({
+                        url: '/Users/Delete/' + id,
+                        type: "DELETE",
+                        success: function (response) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            if (response.success) {
+                                ohSnap(response.message, { 'color': 'green' })
+                                window.location.href = "#/Users/Index";
+                            }
+                            else {
+                                ohSnap(response.message, { 'color': 'red' })
+                                //window.location.reload();
+                            }
+                        },
+                        error: function (ex) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            ohSnap(ex.message, { 'color': 'red' });
+                            //window.location.reload();
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            }
+        });
+
+    }
+
+</script>
+
 

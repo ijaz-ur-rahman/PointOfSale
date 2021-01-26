@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DatabaseService
+namespace PointOfSale.DatabaseService
 {
     public partial class Items
     {

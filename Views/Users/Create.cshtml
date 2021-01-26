@@ -1,5 +1,5 @@
-﻿@model DatabaseService.Users
-    
+﻿@model UserForDetailsVM
+
 @{
     Layout = null;
 
@@ -13,7 +13,8 @@
 <div class="row">
 
     <form id="form" name="form" method="post" asp-action="#@urlPostString">
-        @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="Id" type="hidden" />
         <div class="form-group">
             <label asp-for="Name" class="control-label"></label>
             <input asp-for="Name" class="form-control" />
@@ -25,18 +26,21 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="RoleId" class="control-label"></label>
-            <input asp-for="RoleId" class="form-control" />
+            <label class="control-label">Role</label>
+            <select asp-items="ViewBag.RolesDrp" class="form-control">
+                <option value="0">Select Category</option>
+            </select>
             <span asp-validation-for="RoleId" class="text-danger"></span>
         </div>
-       
+
+
         <div class="form-group">
             <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
         </div>
     </form>
-   
+
 </div>
-@section Scripts{ 
+@section Scripts{
     <script>
         $("#form").on("submit", function (e) {
         debugger;
@@ -49,7 +53,7 @@
 
         // add dynamic create or update link
 
-    debugger;
+    //debugger;
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
             //$("#BigLoader").modal('show');
@@ -58,7 +62,7 @@
                 if (response.success) {
 
                 }
-                
+
             });
             $.ajax({
                 url: '@urlPostString',

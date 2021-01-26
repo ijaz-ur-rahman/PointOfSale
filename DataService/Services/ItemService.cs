@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PointOfSale.DatabaseService;
 using Microsoft.EntityFrameworkCore;
 using PointOfSale.DatabaseService.DBContext;
 using PointOfSale.DataService.Helpers;
@@ -52,17 +53,19 @@ namespace PointOfSale.DataService.Services
             ServiceResponse<IEnumerable<ItemForListVM>> serviceResponse = new ServiceResponse<IEnumerable<ItemForListVM>>();
             var listReturn = await _context.Items.Where(g => g.Active == true).Select(i => new ItemForListVM
             {
- 
+
                 Id = i.Id,
                 Label = i.Label,
                 Code = i.Code,
                 CategoryId = i.CategoryId.ToString(),
+                Category = _context.Categories.FirstOrDefault(m => m.Id == i.CategoryId).Label,
                 UomId = i.UomId.ToString(),
-                SalePrice=i.SalePrice.ToString(),
-                PurchasePrice=i.PurchasePrice.ToString(),
-                PricePerUnit=i.PricePerUnit.ToString(),
-                Description=i.Description,
-                Image=i.Image
+                Uom = _context.UnitOfMeasurement.FirstOrDefault(m => m.Id == i.UomId).Unit,
+                SalePrice = i.SalePrice.ToString(),
+                PurchasePrice = i.PurchasePrice.ToString(),
+                PricePerUnit = i.PricePerUnit.ToString(),
+                Description = i.Description,
+                //Image = i.Image
             }).ToListAsync();
             serviceResponse.Success = true;
             serviceResponse.Data = listReturn;
@@ -79,12 +82,14 @@ namespace PointOfSale.DataService.Services
                 Code = i.Code,
                 Label = i.Label,
                 CategoryId = i.CategoryId.ToString(),
+                Category = _context.Categories.FirstOrDefault(m => m.Id == i.CategoryId).Label,
                 UomId = i.UomId.ToString(),
+                Uom = _context.UnitOfMeasurement.FirstOrDefault(m => m.Id == i.UomId).Unit,
                 SalePrice = i.SalePrice.ToString(),
                 PurchasePrice = i.PurchasePrice.ToString(),
                 PricePerUnit = i.PricePerUnit.ToString(),
                 Description = i.Description,
-                Image = i.Image
+                //Image = i.Image
             }).FirstOrDefaultAsync();
             serviceResponse.Success = true;
             serviceResponse.Data = ToReturn;
@@ -94,11 +99,13 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> Update(int id, ItemForUpdateVM model)
         {
             var objUpdateitem = _mapper.Map<Items>(model);
-            objUpdateitem.Active = true;
+            objUpdateitem.UpdatedAt = DateTime.Now;
+            objUpdateitem.UpdatedBy = 1;
+            objUpdateitem.Active = model.Active;
             _context.Items.Update(objUpdateitem);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
-            _serviceResponse.Message = ResponseMessage.Added;
+            _serviceResponse.Message = ResponseMessage.Updated;
             return _serviceResponse;
         }
     }

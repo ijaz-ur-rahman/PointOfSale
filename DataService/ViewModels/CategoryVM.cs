@@ -16,7 +16,7 @@ namespace PointOfSale.DataService.ViewModels
         public string Label { get; set; }
         //[Required]
         public string Code { get; set; }
-        public int? ParentCategoryId { get; set; }
+        public string ParentCategoryId { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
     }
@@ -25,16 +25,17 @@ namespace PointOfSale.DataService.ViewModels
         public int Id { get; set; }
         public string Label { get; set; }
         public string Code { get; set; }
-        public int? ParentCategoryId { get; set; }
+        public string ParentCategoryId { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
+        public bool Active { get; set; } = true;
     }
     public class CategoryForListVM
     {
         public int Id { get; set; }
         public string Label { get; set; }
         public string Code { get; set; }
-        public int? ParentCategoryId { get; set; }
+        public string ParentCategoryId { get; set; }
         public string ParentCategory { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }
@@ -44,7 +45,7 @@ namespace PointOfSale.DataService.ViewModels
         public int Id { get; set; }
         public string Label { get; set; }
         public string Code { get; set; }
-        public int? ParentCategoryId { get; set; }
+        public string ParentCategoryId { get; set; }
         public string ParentCategory { get; set; }
         public string Description { get; set; }
         public string Image { get; set; }

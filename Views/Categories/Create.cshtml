@@ -37,19 +37,21 @@
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" type="text" class="form-control" placeholder="Description"></textarea>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" class="form-control" />
+            <div class="input-group">
+                <div class="custom-file">
+                    <input asp-for="Image" type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+                    <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                </div>
             </div>
+            @*<div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <input type="file" class="form-control" />
+                </div>*@
 
             <div class="form-group">
                 <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
             </div>
         </form>
-        <div class="form-group">
-            <input type="button" id="clickme" value="clickme" class="btn btn-primary" />
-        </div>
-        <a class="button" id="red">Error</a>
 
     </div>
 </div>
@@ -58,36 +60,27 @@
 </div>
 
 <script>
-    //alert("kdsjf");
+
     $(function () {
-        //$('#red').on('click', function () { );
-        $("#clickme").click(function () {
-            ohSnap('Oh Snap! You can\'t access this page!', { 'color': 'red', 'duration': '15000' })
-
-            $.alert({
-                title: 'Alert!',
-                content: 'Simple alert!',
-            });
-        });
         $("#form").validate({
-        rules: {
-            Label: "required",
-            Code: "required",
-        },
-        messages: {
-            Label: "Please enter your first name",
-            Code: "Please enter your last name"
-        },
-        errorElement: "span",
-        errorPlacement: function (error, element) {
-            error.addClass("invalid-feedback");
+            rules: {
+                Label: "required",
+                Code: "required",
+            },
+            messages: {
+                Label: "Please enter your first name",
+                Code: "Please enter your last name"
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                error.addClass("invalid-feedback");
 
-            if (element.prop("type") === "checkbox") {
-                error.insertAfter(element.parent("label"));
-            } else {
-                error.insertAfter(element);
-            }
-        },
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parent("label"));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
             highlight: function (element, errorClass, validClass) {
                 //debugger;
                 $(element).parents(".form-group").children(".form-control").addClass("is-invalid").removeClass("is-valid");

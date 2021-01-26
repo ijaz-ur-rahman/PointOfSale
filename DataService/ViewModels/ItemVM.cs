@@ -41,7 +41,9 @@ namespace PointOfSale.DataService.ViewModels
         public string Label { get; set; }
         public string Code { get; set; }
         public string CategoryId { get; set; }
+        public string Category { get; set; }
         public string UomId { get; set; }
+        public string Uom { get; set; }
         public string SalePrice { get; set; }
         public string PurchasePrice { get; set; }
         public string PricePerUnit { get; set; }
@@ -54,7 +56,9 @@ namespace PointOfSale.DataService.ViewModels
         public string Label { get; set; }
         public string Code { get; set; }
         public string CategoryId { get; set; }
+        public string Category { get; set; }
         public string UomId { get; set; }
+        public string Uom { get; set; }
         public string SalePrice { get; set; }
         public string PurchasePrice { get; set; }
         public string PricePerUnit { get; set; }

@@ -60,8 +60,10 @@ namespace PointOfSale.Controllers
         {
             ViewBag.Status = "Update";
             var response = await _itemService.GetById(id);
-            _response = await _lookupService.CategoriesDrp(response.Data.Id);
+            _response = await _lookupService.CategoriesDrp(response.Data.CategoryId);
             ViewBag.CategoriesDrp = (SelectList)_response.Data;
+            _response = await _lookupService.UOMDrp(response.Data.UomId);
+            ViewBag.UOMDrp = (SelectList)_response.Data;
             return View("Create", response.Data);
         }
         [HttpPost]
