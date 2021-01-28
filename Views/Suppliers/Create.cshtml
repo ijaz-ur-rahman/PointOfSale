@@ -1,38 +1,38 @@
-﻿@model PointOfSale.DataService.ViewModels.CustomerForCreateVM
+﻿@model PointOfSale.DataService.ViewModels.SupplierForCreateVM
 
 @{
 
     Layout = null;
-    // We use same page for add and edit.
-    string urlPostString = "/Customers/Create";
+    string urlPostString = "/Suppliers/Create";
     if (ViewBag.Status == "Update")
     {
-        urlPostString = "/Customers/Update";
+        urlPostString = "/Suppliers/Update";
     }
 }
-
 <div class="row">
     <div class="col-md-4">
         <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
-            @*<input asp-for="Id" type="hidden" />*@
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
-            </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+                </div>
         </form>
     </div>
 </div>
@@ -106,7 +106,7 @@
                     $("#loader").removeClass("fadeIn").addClass("fadeOut");
                     if (response.success) {
                         ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/Customers/Index";
+                        window.location.href = "#/Suppliers/Index";
                     }
                     else {
                         ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
@@ -116,7 +116,7 @@
                 },
                 error: function (ex) {
                     $("#loader").removeClass("fadeIn").addClass("fadeOut");
-                    ohSnap(ex.message, { 'color': 'red', 'duration': '10000' });
+                    ohSnap(ex.responseJSON.message, { 'color': 'red', 'duration': '10000' });
                     //ClearAll();
                     //window.location.reload();
                 }

@@ -1,8 +1,9 @@
-﻿@model IEnumerable<PointOfSale.DataService.ViewModels.CustomerForListVM>
+﻿@model IEnumerable<PointOfSale.DataService.ViewModels.SupplierForListVM>
 
 @{
     Layout = null;
 }
+<body>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -36,14 +37,12 @@
             <td>
                 <a href="#/Items/Edit/@item.Id">Edit</a> |
                 <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
             </td>
         </tr>
 }
     </tbody>
 </table>
+</body>
 <script>
     $(function () {
         $('#dataTable').DataTable();
@@ -58,13 +57,13 @@
             buttons: {
                 confirm: function () {
                     $.ajax({
-                        url: '/Customers/Delete/' + id,
+                        url: '/Suppliers/Delete/' + id,
                         type: "DELETE",
                         success: function (response) {
                             $("#loader").removeClass("fadeIn").addClass("fadeOut");
                             if (response.success) {
                                 ohSnap(response.message, { 'color': 'green' })
-                                window.location.href = "#/Customers/Index";
+                                window.location.href = "#/Suppliers/Index";
                             }
                             else {
                                 ohSnap(response.message, { 'color': 'red' })

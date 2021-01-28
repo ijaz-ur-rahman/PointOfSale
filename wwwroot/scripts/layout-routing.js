@@ -86,7 +86,7 @@ var routingApp = $.sammy("#Placeholder", function () {
     
     this.get("#/Customers/Index", function (context) {
         title.html("Items");
-        heading.html("Items List");
+        heading.html("Customer List");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
         $.get("/Customers/Index", function (data) {
             context.$element().html(data);
@@ -95,7 +95,7 @@ var routingApp = $.sammy("#Placeholder", function () {
     });
     this.get("#/Customers/Create", function (context) {
         title.html("Create");
-        heading.html("Create Item");
+        heading.html("Create Customer");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
         $.get("/Customers/Create", function (data) {
             context.$element().html(data);
@@ -108,6 +108,34 @@ var routingApp = $.sammy("#Placeholder", function () {
         debugger;
         let id = this.params['id'];
         $.get("/Customers/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Suppliers/Index", function (context) {
+        title.html("Items");
+        heading.html("Supplier List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/Suppliers/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Suppliers/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Suppliers");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/Suppliers/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Suppliers/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/Suppliers/Edit/" + id, function (data) {
             context.$element().html(data);
             $("#loader").removeClass("fadeIn").addClass("fadeOut");
         });

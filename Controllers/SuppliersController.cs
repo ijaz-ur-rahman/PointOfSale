@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.Controllers
 {
-    public class CustomersController : Controller
+    public class SuppliersController : Controller
     {
-        private readonly ICustomerService _customers;
+        private readonly ISupplierService _supplierservice;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
-        public CustomersController(ICustomerService customerService,ILookupService lookupService)
+        public SuppliersController(ISupplierService supplierService,ILookupService lookupService)//also chek 
         {
-            _customers = customerService;
+            _supplierservice = supplierService;
             _lookupService = lookupService;
             _response = new ServiceResponse<object>();
         }
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> Index()
         {
-            var response = await _customers.GetAll();
+            var response = await _supplierservice.GetAll();
             return View(response.Data);
         }
         [HttpGet]
@@ -32,7 +32,7 @@ namespace PointOfSale.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerForCreateVM Vmodel)
+        public async Task<ActionResult> Create(SupplierForCreateVM viewModel)
         {
             try
             {
@@ -40,10 +40,10 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _customers.Create(Vmodel);
+                _response = await _supplierservice.Create(viewModel);
                 return Ok(_response);
             }
-            catch (Exception ex)//yahan null ly rha ha
+            catch (Exception ex)
             {
                 _response.Success = false;
                 _response.Message = ex.Message ?? ex.InnerException.ToString();
@@ -54,11 +54,11 @@ namespace PointOfSale.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             ViewBag.Status = "Update";
-            var response = await _customers.GetById(id);
+            var response = await _supplierservice.GetById(id);
             return View("Create", response.Data);
         }
         [HttpPost]
-        public async Task<ActionResult> Update(int id, CustomerForUpdateVM viewModel)
+        public async Task<ActionResult> Update(int id, SupplierForUpdateVM viewModel)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _customers.Update(id, viewModel);
+                _response = await _supplierservice.Update(id, viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace PointOfSale.Controllers
         {
             try
             {
-                _response = await _customers.Delete(id);
+                _response = await _supplierservice.Delete(id);
                 return Ok(_response);
             }
             catch (Exception ex)

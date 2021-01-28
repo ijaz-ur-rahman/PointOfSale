@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using PointOfSale.DatabaseService;
+using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.DatabaseService.DBContext
 {
@@ -455,5 +456,9 @@ namespace PointOfSale.DatabaseService.DBContext
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<PointOfSale.DataService.ViewModels.SupplierForListVM> SupplierForListVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.SupplierForUpdateVM> SupplierForUpdateVM { get; set; }
     }
 }
