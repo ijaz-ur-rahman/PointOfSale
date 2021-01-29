@@ -10,7 +10,6 @@ namespace PointOfSale.DataService.ViewModels
     }
     public class SupplierForCreateVM
     {
-        //[Required]
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
