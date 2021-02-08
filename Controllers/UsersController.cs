@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DatabaseService;
+using PointOfSale.DatabaseService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -17,22 +17,22 @@ using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.Controllers
 {
-    [ValidateAntiForgeryToken]
+    //[ValidateAntiForgeryToken]
     public class UsersController : BaseController
     {
         private readonly IUserService _userService;
         private readonly ILookupService _lookupService;
-        private ServiceResponse _response;
+        private ServiceResponse<object> _response;
         public UsersController(IUserService userService, ILookupService lookupService)
         {
             _userService = userService;
             _lookupService = lookupService;
-            _response = new ServiceResponse();
+            _response = new ServiceResponse<object>();
         }
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            var response = await _userService.GetAll();            
+            var response = await _userService.GetAll();
             return View(response.Data);
         }
 
@@ -45,12 +45,15 @@ namespace PointOfSale.Controllers
         {
             try
             {
-                dynamic response = await _userService.Login(loginVM);
+                var response = await _userService.Login(loginVM);
+                int roleId = Convert.ToInt32(response.Data.RoleId);
+                var role = await _userService.GetById(roleId);
                 var claims = new List<Claim>
                 {
                     new Claim("UserName", loginVM.UserName.ToLower()),
                     new Claim("UserId", response.Data.Id.ToString()),
                     new Claim("RoleId", response.Data.RoleId.ToString()),
+                    new Claim(ClaimTypes.Role, role.Data.Name),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -81,7 +84,7 @@ namespace PointOfSale.Controllers
             return Ok(true);
         }
 
-        // GET: UsersController/Create
+        [HttpGet]
         public ActionResult Create()
         {
 

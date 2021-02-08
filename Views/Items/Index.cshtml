@@ -1,6 +1,127 @@
-﻿
+﻿@model IEnumerable<ItemForListVM>
+
 @{
-    ViewBag.Heading = "Items List";
     Layout = null;
 }
-<h3>Items Index</h3>
+
+
+<p>
+    <a href="#/Items/Create">Create New</a>
+</p>
+<table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Label)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UomId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchasePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PricePerUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Label)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchasePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PricePerUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a href="#/Items/Edit/@item.Id">Edit</a> |
+                    <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(function () {
+        $('#dataTable').DataTable();
+        
+    });
+
+    function Delete(id) {
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.confirm({
+            title: 'Alert!',
+            content: 'Are you sure you want to delete this record!',
+            buttons: {
+                confirm: function () {
+                    $.ajax({
+                        url: '/Items/Delete/' + id,
+                        type: "DELETE",
+                        success: function (response) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            if (response.success) {
+                                ohSnap(response.message, { 'color': 'green' })
+                                window.location.href = "#/Items/Index";
+                            }
+                            else {
+                                ohSnap(response.message, { 'color': 'red' })
+                                //window.location.reload();
+                            }
+                        },
+                        error: function (ex) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            ohSnap(ex.message, { 'color': 'red' });
+                            //window.location.reload();
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            }
+        });
+
+    }
+
+</script>

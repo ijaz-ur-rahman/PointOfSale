@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.DataService.Helpers
 {
-    public class ServiceResponse
+    public class ServiceResponse<T>
     {
         public bool Success { get; set; } = true;
-        public object Data { get; set; } = null;
-        public string Message { get; set; }
+        public T Data { get; set; }
+        public string Message { get; set; } = "";
     }
 }

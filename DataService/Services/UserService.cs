@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DatabaseService;
+using PointOfSale.DatabaseService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGeneration;
@@ -18,43 +18,61 @@ namespace PointOfSale.DataService.Services
     {
         private readonly POS_DBContext _context;
         private readonly IMapper _mapper;
-        private ServiceResponse _serviceResponse;
+        private ServiceResponse<object> _serviceResponse;
         public UserService(IMapper mapper)
         {
             _context = new POS_DBContext();
             _mapper = mapper;
-            _serviceResponse = new ServiceResponse();
+            _serviceResponse = new ServiceResponse<object>();
         }
 
-        public async Task<ServiceResponse> GetAll()
+        public async Task<ServiceResponse<object>> GetAll()
         {
-            var res = await _context.Users.ToListAsync();
-            _serviceResponse.Data = res;
+            ServiceResponse<IEnumerable<UserForListVM>> serviceResponse = new ServiceResponse<IEnumerable<UserForListVM>>();
+
+            var listToReurn = await _context.Users.Where(m => m.Active == true).Select(o => new UserForListVM
+            {
+                Id = o.Id,
+                Name = o.Name,
+                RoleId = o.RoleId.ToString(),
+                Role = _context.Roles.FirstOrDefault(m => m.Id == o.Id).Name
+            }).ToListAsync();
+            _serviceResponse.Data = listToReurn;
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse> GetById(int id)
+        public async Task<ServiceResponse<UserForDetailsVM>> GetById(int id)
         {
-            var res = await _context.Users.Where(m => m.Id == id).FirstOrDefaultAsync();
-            _serviceResponse.Data = res;
-            return _serviceResponse;
+            ServiceResponse<UserForDetailsVM> serviceResponse = new ServiceResponse<UserForDetailsVM>();
+
+            var ToReurn = await _context.Users.Where(m => m.Id == id).Select(o => new UserForDetailsVM
+            {
+                Id = o.Id,
+                Name = o.Name,
+                RoleId = o.RoleId.ToString(),
+                Role = _context.Roles.FirstOrDefault(m => m.Id == o.Id).Name
+            }).FirstOrDefaultAsync();
+            serviceResponse.Data = ToReurn;
+            serviceResponse.Success = true;
+            return serviceResponse;
         }
 
-        public async Task<ServiceResponse> Login(LoginVM loginVM)
+        public async Task<ServiceResponse<Users>> Login(LoginVM loginVM)
         {
+            ServiceResponse<Users> serviceResponse = new ServiceResponse<Users>();
             try
             {
                 var password = Encryption.Encrypt(loginVM.Password);
                 var dbObj = await _context.Users.Where(m => m.Name == loginVM.UserName.ToLower() && m.Password == password).FirstOrDefaultAsync();
                 if (dbObj == null)
                 {
-                    _serviceResponse.Success = false;
-                    _serviceResponse.Message = ResponseMessage.NotFound;
+                    serviceResponse.Success = false;
+                    serviceResponse.Message = ResponseMessage.NotFound;
                 }
                 else
                 {
-                    _serviceResponse.Success = true;
-                    _serviceResponse.Data = dbObj;
+                    serviceResponse.Success = true;
+                    serviceResponse.Data = dbObj;
                 }
             }
             catch (Exception ex)
@@ -62,15 +80,17 @@ namespace PointOfSale.DataService.Services
                 ExceptionLog.Log(ex);
                 throw ex;
             }
-            return _serviceResponse;
+            return serviceResponse;
         }
-        public async Task<ServiceResponse> Register(LoginVM registerVM)
+        public async Task<ServiceResponse<object>> Register(LoginVM registerVM)
         {
             try
             {
                 var user = _mapper.Map<Users>(registerVM);
                 user.Name = registerVM.UserName.ToLower();
                 user.Password = Encryption.Encrypt(registerVM.Password);
+                user.CreatedAt = DateTime.Now;
+                user.CreatedBy = 1;
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 _serviceResponse.Success = true;
@@ -83,13 +103,15 @@ namespace PointOfSale.DataService.Services
             }
             return _serviceResponse;
         }
-        public async Task<ServiceResponse> Create(UserForCreateVM model)
+        public async Task<ServiceResponse<object>> Create(UserForCreateVM model)
         {
             try
             {
                 var user = _mapper.Map<Users>(model);
                 user.Name = model.Name.ToLower();
                 user.Password = Encryption.Encrypt(model.Password);
+                user.CreatedAt = DateTime.Now;
+                user.CreatedBy = 1;
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
                 _serviceResponse.Success = true;
@@ -103,13 +125,13 @@ namespace PointOfSale.DataService.Services
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse> Update(int id, UserForUpdateVM model)
+        public async Task<ServiceResponse<object>> Update(int id, UserForUpdateVM model)
         {
             try
             {
-                var user = _mapper.Map<Users>(model);
-                _context.Users.Attach(user);
-                _context.Entry(user).State = EntityState.Modified;
+                var objToUpdate = _mapper.Map<Users>(model);
+                objToUpdate.Active = model.Active;
+                _context.Users.Update(objToUpdate);
                 await _context.SaveChangesAsync();
                 _serviceResponse.Success = true;
                 _serviceResponse.Message = ResponseMessage.Updated;
@@ -121,10 +143,11 @@ namespace PointOfSale.DataService.Services
             }
             return _serviceResponse;
         }
-        public async Task<ServiceResponse> Delete(int id)
+        public async Task<ServiceResponse<object>> Delete(int id)
         {
             var student = _context.Users.Find(id);
-            _context.Users.Remove(student);
+            student.Active = false;
+            _context.Users.Update(student);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Deleted;

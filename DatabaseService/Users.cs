@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DatabaseService
+namespace PointOfSale.DatabaseService
 {
     public partial class Users
     {
@@ -12,5 +12,6 @@ namespace DatabaseService
         public bool? Active { get; set; }
         public DateTime? CreatedAt { get; set; }
         public int? CreatedBy { get; set; }
+        public string Role { get; set; }
     }
 }

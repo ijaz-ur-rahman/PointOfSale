@@ -6,10 +6,12 @@
     <title></title>
 
     @*// css files*@
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link href="~/css/chosen.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/style.css" />
     <link href="~/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
 
 </head>
@@ -30,10 +32,10 @@
             <div class="sidebar-logo">
                 <div class="peers ai-c fxw-nw">
                     <div class="peer peer-greed">
-                        <a class="sidebar-link td-n" href="index.html">
+                        <a class="sidebar-link td-n" href="#/Home/Dashboard">
                             <div class="peers ai-c fxw-nw">
-                                <div class="peer">
-                                    <div class="logo"><img src="assets/static/images/logo.png" alt=""></div>
+                                <div class="peer" style="text-align: center;">
+                                    <div class="logo"><img src="assets/static/images/logo3.png" style="margin-top: 12%; height: 45px; width: auto;" alt=""></div>
                                 </div>
                                 <div class="peer peer-greed">
                                     <h5 class="lh-1 mB-0 logo-text">POS</h5>
@@ -71,6 +73,21 @@
                     <ul class="dropdown-menu">
                         <li><a class="sidebar-link" href="#/Purchase/Index">Purchase Orders</a></li>
                         <li><a class="sidebar-link" href="#/Purchase/Create">Create New Order</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Customers</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="sidebar-link" href="#/Customers/Index">Customers List</a></li>
+                        <li><a class="sidebar-link" href="#/Customers/Create">Create New Customer</a></li>
+                    </ul>
+                </li>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Supplier</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="sidebar-link" href="#/Suppliers/Index">Suppliers List</a></li>
+                        <li><a class="sidebar-link" href="#/Suppliers/Create">Create New Supllier</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -208,17 +225,9 @@
 
         <main class="main-content bgc-grey-100">
             <div id="mainContent">
-                <div class="alert alert-danger alert-dismissible" role="alert" id="divError" style="display:none;border: 0.5px solid;">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Error : </strong> <span class="message"></span>
-                </div>
-
-                <div class="alert alert-success alert-dismissible" id="divSuccess" role="alert" style="display:none;border: 0.5px solid;">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Success : </strong> <span class="message"></span>
-                </div>
+                <div id="ohsnap"></div>
                 <div class="container-fluid">
-                    <h4 class="c-grey-900 mt-10 mb-30">@ViewBag.Heading</h4>
+                    <h4 id="main_heading" class="c-grey-900 mt-10 mb-30"></h4>
                     <div id="Placeholder">
                         @RenderBody()
                     </div>
@@ -234,10 +243,13 @@
 
     @*// js files*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/js/chosen.jquery.min.js"></script>   
-    <script src="~/scripts/sammy-0.7.4.js"></script>
+    <script src="~/js/sammy-0.7.4.js"></script>
     <script src="~/scripts/layout-routing.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/js/chosen.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="~/js/ohsnap.min.js"></script>
+    <script src="~/js/jquery.dataTables.min.js"></script>
 
 
     @*// theme files*@
@@ -254,27 +266,22 @@
             var sidebarWidth = $(".sidebar").width();
             if (sidebarWidth == 70) {
                 localStorage.setItem("SidebarWidth", 280);
-                $("body.app").addClass("is-collapsed")
-                //$(".is-collapsed.sidebar").width(localStorage.getItem("SidebarWidth"));
-                //$(".is-collapsed.page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
+                $("body.app").addClass("is-collapsed");
             }
             else {
                 localStorage.setItem("SidebarWidth", 70);
-                $("body.app").removeClass("is-collapsed")
-                //$(".sidebar").width(localStorage.getItem("SidebarWidth"));
-                //$(".page-container").css("padding-left", localStorage.getItem("SidebarWidth"));
+                $("body.app").removeClass("is-collapsed");
             }
         });
 
         $(function () {
-
-            console.log("_layout loaded");
+            //console.log("_layout loaded");
             var sidebarWidth = localStorage.getItem("SidebarWidth");
             if (sidebarWidth == 70) {
                 $("body.app").removeClass("is-collapsed");
             }
             else {
-                $("body.app").addClass("is-collapsed")
+                $("body.app").addClass("is-collapsed");
             }
         });
 

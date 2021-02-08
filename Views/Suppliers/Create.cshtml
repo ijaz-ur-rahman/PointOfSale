@@ -1,0 +1,128 @@
+﻿@model PointOfSale.DataService.ViewModels.SupplierForDetailsVM
+
+@{
+
+    Layout = null;
+    string urlPostString = "/Suppliers/Create";
+    if (ViewBag.Status == "Update")
+    {
+        urlPostString = "/Suppliers/Update";
+    }
+}
+<div class="row">
+    <div class="col-md-4">
+        <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
+            <input asp-for="Id" type="hidden" />
+            <div class="form-group">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    //alert("kdsjf");
+    $(function () {
+        //$('#red').on('click', function () { );
+        $("#clickme").click(function () {
+            ohSnap('Oh Snap! You can\'t access this page!', { 'color': 'red', 'duration': '15000' })
+
+            $.alert({
+                title: 'Alert!',
+                content: 'Simple alert!',
+            });
+        });
+        $("#form").validate({
+        rules: {
+            Label: "required",
+            Code: "required",
+        },
+        messages: {
+            Label: "Please enter your first name",
+            Code: "Please enter your last name"
+        },
+        errorElement: "span",
+        errorPlacement: function (error, element) {
+            error.addClass("invalid-feedback");
+
+            if (element.prop("type") === "checkbox") {
+                error.insertAfter(element.parent("label"));
+            } else {
+                error.insertAfter(element);
+            }
+        },
+            highlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-valid").removeClass("is-invalid");
+            }
+        });
+    });
+    $("#form").on("submit", function (e) {
+        if ($("#form").valid()) {
+            routingApp.runRoute('post', '#@urlPostString');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+    // add dynamic create or update link
+
+    if (IfLinkNotExist("POST", "#@urlPostString")) {
+        routingApp.post("#@urlPostString", function (context) {
+            $("#loader").removeClass("fadeOut").addClass("fadeIn");
+
+            var formData = new FormData($('#form')[0]);
+            $.ajax({
+                url: '@urlPostString',
+                data: formData,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                    if (response.success) {
+                        ohSnap(response.message, { 'color': 'green' });
+                        window.location.href = "#/Suppliers/Index";
+                    }
+                    else {
+                        ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
+                        //ClearAll();
+                        //window.location.reload();
+                    }
+                },
+                error: function (ex) {
+                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                    ohSnap(ex.responseJSON.message, { 'color': 'red', 'duration': '10000' });
+                    //ClearAll();
+                    //window.location.reload();
+                }
+            });
+        });
+    }
+
+</script>
