@@ -28,7 +28,7 @@ namespace PointOfSale.DatabaseService.DBContext
         public virtual DbSet<SaleOrderDetails> SaleOrderDetails { get; set; }
         public virtual DbSet<SaleOrders> SaleOrders { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
-        public virtual DbSet<UnitOfMeasurement> UnitOfMeasurement { get; set; }
+        public virtual DbSet<UOM> UnitOfMeasurement { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -392,7 +392,7 @@ namespace PointOfSale.DatabaseService.DBContext
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
             });
 
-            modelBuilder.Entity<UnitOfMeasurement>(entity =>
+            modelBuilder.Entity<UOM>(entity =>
             {
                 entity.ToTable("unit_of_measurement");
 
@@ -460,5 +460,9 @@ namespace PointOfSale.DatabaseService.DBContext
         public DbSet<PointOfSale.DataService.ViewModels.SupplierForListVM> SupplierForListVM { get; set; }
 
         public DbSet<PointOfSale.DataService.ViewModels.SupplierForUpdateVM> SupplierForUpdateVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.UOMForListVM> UOMForListVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.UOMForDetailVM> UOMForDetailVM { get; set; }
     }
 }

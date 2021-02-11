@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PointOfSale.DatabaseService
 {
-    public partial class UnitOfMeasurement
+    public partial class UOM
     {
         public int Id { get; set; }
         public string Unit { get; set; }
