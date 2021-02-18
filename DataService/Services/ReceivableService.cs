@@ -12,80 +12,78 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.DataService.Services
 {
-    public class UOMService : IUOMService
+    public class ReceivableService : IReceivableService
     {
         private readonly POS_DBContext _context;
         private readonly IMapper _mapper;
         private ServiceResponse<object> _serviceResponse;
-        public UOMService(IMapper mapper)
+        public ReceivableService(IMapper mapper)
         {
             _context = new POS_DBContext();
             _mapper = mapper;
             _serviceResponse = new ServiceResponse<object>();
         }
-        public async Task<ServiceResponse<object>> Create(UOMForCreateVM model)
+        public async Task<ServiceResponse<object>> Create(ReceivableForCreateVM model)
         {
-            var createobj = _mapper.Map<UOM>(model);
+            var createobj = _mapper.Map<Receivables>(model);
             createobj.CreatedAt = DateTime.Now;
             createobj.CreatedBy = 1;
 
-            await _context.UnitOfMeasurement.AddAsync(createobj);
+            await _context.Receivables.AddAsync(createobj);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Added;
             return _serviceResponse;
+
         }
 
         public async Task<ServiceResponse<object>> Delete(int id)
         {
-            var deleteobj = await _context.UnitOfMeasurement.FindAsync(id);
-         
-            _context.UnitOfMeasurement.Update(deleteobj);
+            var objfordelete = await _context.Receivables.FindAsync(id);
+            _context.Receivables.Update(objfordelete);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Deleted;
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<UOMForListVM>>> GetAll()
+        public async Task<ServiceResponse<IEnumerable<ReceivableForListVM>>> GetAll()
         {
-            ServiceResponse<IEnumerable<UOMForListVM>> serviceResponse = new ServiceResponse<IEnumerable<UOMForListVM>>();
-            var returnlist = await _context.UnitOfMeasurement.Select(u => new UOMForListVM
+            ServiceResponse<IEnumerable<ReceivableForListVM>> serviceResponse = new ServiceResponse<IEnumerable<ReceivableForListVM>>();
+            var returnlist = await _context.Receivables.Select(R => new ReceivableForListVM
             {
-                Id = u.Id,
-                Unit = u.Unit,
-                SiUnit=u.SiUnit,
-                Weight=u.Weight
-              
+                Id = R.Id,
+                SaleOrderId = R.SaleOrderId,
+                CustomerId = R.CustomerId,
+                Amount = R.Amount,
             }).ToListAsync();
             serviceResponse.Success = true;
             serviceResponse.Data = returnlist;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<UOMForDetailVM>> GetById(int id)
+        public async Task<ServiceResponse<ReceivableForDetailsVM>> GetById(int id)
         {
-
-            ServiceResponse<UOMForDetailVM> serviceResponse = new ServiceResponse<UOMForDetailVM>();
-            var updateobj = await _context.UnitOfMeasurement.Select(u => new UOMForDetailVM
+            ServiceResponse<ReceivableForDetailsVM> serviceResponse = new ServiceResponse<ReceivableForDetailsVM>();
+            var detailobj = await _context.Receivables.Select(R => new ReceivableForDetailsVM
             {
-                Id = u.Id,
-                Unit = u.Unit,
-                SiUnit = u.SiUnit,
-                Weight = u.Weight,
+                Id = R.Id,
+                SaleOrderId = R.SaleOrderId,
+                CustomerId = R.CustomerId,
+                Amount = R.Amount,
             }).FirstOrDefaultAsync();
             serviceResponse.Success = true;
-            serviceResponse.Data = updateobj;
+            serviceResponse.Data = detailobj;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<object>> Update(int id, UOMForUpdateVM model)
+        public async Task<ServiceResponse<object>> Update(int id, ReceivableForUpdateVM model)
         {
-            var updateobj = _mapper.Map<UOM>(model);
-            _context.UnitOfMeasurement.Update(updateobj);
+            var updateobj = _mapper.Map<Receivables>(model);
+            _context.Receivables.Update(updateobj);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
-            _serviceResponse.Message = ResponseMessage.Added;
+            _serviceResponse.Message = ResponseMessage.Updated;
             return _serviceResponse;
         }
     }

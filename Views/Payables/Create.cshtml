@@ -1,84 +1,77 @@
-﻿@model CategoryForDetailsVM
+﻿@model PointOfSale.DataService.ViewModels.PayableForDetailsVM
 
 @{
 
     Layout = null;
     // We use same page for add and edit.
-    string urlPostString = "/Categories/Create";
+    string urlPostString = "/Payables/Create";
     if (ViewBag.Status == "Update")
     {
-        urlPostString = "/Categories/Update";
+        urlPostString = "/Payables/Update";
     }
 }
-
 <div class="row">
     <div class="col-md-4">
         <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
             <input asp-for="Id" type="hidden" />
-
             <div class="form-group">
-                <label asp-for="Label" class="control-label"></label>
-                <input asp-for="Label" type="text" class="form-control" placeholder="Label" />
-                @*<span asp-validation-for="Label" class="text-danger"></span>*@
-            </div>
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" type="text" class="form-control" placeholder="Code" />
-                @*<span asp-validation-for="Code" class="text-danger"></span>*@
-            </div>
-            <div class="form-group">
-                <label class="control-label">Parent Category</label>
-                <select asp-items="ViewBag.CategoriesDrp" class="form-control">
-                    <option value="0">Select Category</option>
+                <label class="control-label">Purchase Order Number</label>
+                <select asp-items="ViewBag.PurchaseOrderDrp" class="form-control">
+                    <option value="0">Select Puchase Order Number</option>
                 </select>
-                @*<span asp-validation-for="ParentCategoryId" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" type="text" class="form-control" placeholder="Description"></textarea>
+                <label class="control-label">Supplier Name</label>
+                <select asp-items="ViewBag.SupplierDrp" class="form-control">
+                    <option value="0">Select Supplier Name</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" class="form-control" />
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="Image" class="control-label"></label>
-                    <input type="file" class="form-control" />
-                </div>*@
-
             <div class="form-group">
                 <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
             </div>
         </form>
-
     </div>
 </div>
+
 <div>
-    <a href="#/Categories/Index">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
-
 <script>
-
+    //alert("kdsjf");
     $(function () {
-        $("#form").validate({
-            rules: {
-                Label: "required",
-                Code: "required",
-            },
-            messages: {
-                Label: "Please enter your first name",
-                Code: "Please enter your last name"
-            },
-            errorElement: "span",
-            errorPlacement: function (error, element) {
-                error.addClass("invalid-feedback");
+        //$('#red').on('click', function () { );
+        $("#clickme").click(function () {
+            ohSnap('Oh Snap! You can\'t access this page!', { 'color': 'red', 'duration': '15000' })
 
-                if (element.prop("type") === "checkbox") {
-                    error.insertAfter(element.parent("label"));
-                } else {
-                    error.insertAfter(element);
-                }
-            },
+            $.alert({
+                title: 'Alert!',
+                content: 'Simple alert!',
+            });
+        });
+        $("#form").validate({
+        rules: {
+            Label: "required",
+            Code: "required",
+        },
+        messages: {
+            Label: "Please enter your first name",
+            Code: "Please enter your last name"
+        },
+        errorElement: "span",
+        errorPlacement: function (error, element) {
+            error.addClass("invalid-feedback");
+
+            if (element.prop("type") === "checkbox") {
+                error.insertAfter(element.parent("label"));
+            } else {
+                error.insertAfter(element);
+            }
+        },
             highlight: function (element, errorClass, validClass) {
                 //debugger;
                 $(element).parents(".form-group").children(".form-control").addClass("is-invalid").removeClass("is-valid");
@@ -114,7 +107,7 @@
                     $("#loader").removeClass("fadeIn").addClass("fadeOut");
                     if (response.success) {
                         ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/Categories/Index";
+                        window.location.href = "#/Payables/Index";
                     }
                     else {
                         ohSnap(response.message, { 'color': 'red', 'duration': '10000' })

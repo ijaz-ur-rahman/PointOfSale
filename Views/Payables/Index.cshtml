@@ -1,0 +1,86 @@
+﻿@model IEnumerable<PointOfSale.DataService.ViewModels.PayableForListVM>
+
+@{
+    Layout = null;
+}
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchaseOrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchaseOrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                <a href="#/Payables/Edit/@item.Id">Edit</a> |
+                <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    $(function () {
+        $('#dataTable').DataTable();
+
+    });
+
+    function Delete(id) {
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.confirm({
+            title: 'Alert!',
+            content: 'Are you sure you want to delete this record!',
+            buttons: {
+                confirm: function () {
+                    $.ajax({
+                        url: '/Payables/Delete/' + id,
+                        type: "DELETE",
+                        success: function (response) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            if (response.success) {
+                                ohSnap(response.message, { 'color': 'green' })
+                                window.location.href = "#/Payables/Index";
+                            }
+                            else {
+                                ohSnap(response.message, { 'color': 'red' })
+                                //window.location.reload();
+                            }
+                        },
+                        error: function (ex) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            ohSnap(ex.message, { 'color': 'red' });
+                            //window.location.reload();
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            }
+        });
+
+    }
+
+</script>

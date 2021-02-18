@@ -464,5 +464,13 @@ namespace PointOfSale.DatabaseService.DBContext
         public DbSet<PointOfSale.DataService.ViewModels.UOMForListVM> UOMForListVM { get; set; }
 
         public DbSet<PointOfSale.DataService.ViewModels.UOMForDetailVM> UOMForDetailVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.PayableForListVM> PayableForListVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.PayableForDetailsVM> PayableForDetailsVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.ReceivableForListVM> ReceivableForListVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.ReceivableForDetailsVM> ReceivableForDetailsVM { get; set; }
     }
 }

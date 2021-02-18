@@ -7,7 +7,7 @@ namespace PointOfSale.DatabaseService
     {
         public int Id { get; set; }
         public string Unit { get; set; }
-        public string Weight { get; set; }
+        public string Weight { get; set; } 
         public string SiUnit { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
