@@ -39,7 +39,7 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> UOMDrp(object SelectedValue)
         {
             var list = await _context.UnitOfMeasurement.ToListAsync();
-            SelectList items = new SelectList(list, nameof(UOM.Id), nameof(UOM.Unit), SelectedValue);
+            SelectList items = new SelectList(list, nameof(UnitOfMeasurement.Id), nameof(UnitOfMeasurement.Name), SelectedValue);
             _serviceResponse.Success = true;
             _serviceResponse.Data = items;
             return _serviceResponse;
@@ -54,7 +54,7 @@ namespace PointOfSale.DataService.Services
         }
         public async Task<ServiceResponse<object>> SupplierDrp(object SelectedValue)
         {
-            var list = await _context.PurchaseOrders.ToListAsync();
+            var list = await _context.Suppliers.ToListAsync();
             SelectList items = new SelectList(list, nameof(Suppliers.Id), nameof(Suppliers.Name), SelectedValue);
             _serviceResponse.Success = true;
             _serviceResponse.Data = items;
