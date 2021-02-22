@@ -11,5 +11,9 @@ namespace PointOfSale.DataService.IServices
         Task<ServiceResponse<object>> RolesDrp(object SelectedValue);
         Task<ServiceResponse<object>> CategoriesDrp(object SelectedValue);
         Task<ServiceResponse<object>> UOMDrp(object SelectedValue);
+        Task<ServiceResponse<object>> SaleOrderDrp(object SelectedValue);
+        Task<ServiceResponse<object>> CustomerDrp(object SelectedValue);
+        Task<ServiceResponse<object>> SupplierDrp(object SelectedValue);
+        Task<ServiceResponse<object>> PurchaseOrderDrp(object SelectedValue);
     }
 }

@@ -25,7 +25,7 @@ namespace PointOfSale.DataService.Services
         }
         public async Task<ServiceResponse<object>> Create(UOMForCreateVM model)
         {
-            var createobj = _mapper.Map<UOM>(model);
+            var createobj = _mapper.Map<UnitOfMeasurement>(model);
             createobj.CreatedAt = DateTime.Now;
             createobj.CreatedBy = 1;
 
@@ -53,9 +53,9 @@ namespace PointOfSale.DataService.Services
             var returnlist = await _context.UnitOfMeasurement.Select(u => new UOMForListVM
             {
                 Id = u.Id,
-                Unit = u.Unit,
-                SiUnit=u.SiUnit,
-                Weight=u.Weight
+                Code = u.Code,
+                Name=u.Name,
+                Class=u.Class
               
             }).ToListAsync();
             serviceResponse.Success = true;
@@ -70,9 +70,9 @@ namespace PointOfSale.DataService.Services
             var updateobj = await _context.UnitOfMeasurement.Select(u => new UOMForDetailVM
             {
                 Id = u.Id,
-                Unit = u.Unit,
-                SiUnit = u.SiUnit,
-                Weight = u.Weight,
+                Code = u.Code,
+                Name = u.Name,
+                Class = u.Class,
             }).FirstOrDefaultAsync();
             serviceResponse.Success = true;
             serviceResponse.Data = updateobj;
@@ -81,7 +81,7 @@ namespace PointOfSale.DataService.Services
 
         public async Task<ServiceResponse<object>> Update(int id, UOMForUpdateVM model)
         {
-            var updateobj = _mapper.Map<UOM>(model);
+            var updateobj = _mapper.Map<UnitOfMeasurement>(model);
             _context.UnitOfMeasurement.Update(updateobj);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;

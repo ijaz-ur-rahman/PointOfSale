@@ -1,20 +1,22 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using PointOfSale.DatabaseService;
-using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.DatabaseService.DBContext
 {
     public partial class POS_DBContext : DbContext
     {
+        private IConfiguration _configuration;
         public POS_DBContext()
-        {
+        {           
         }
 
-        public POS_DBContext(DbContextOptions<POS_DBContext> options)
+        public POS_DBContext(DbContextOptions<POS_DBContext> options, IConfiguration configuration)
             : base(options)
         {
+            _configuration = configuration;
         }
 
         public virtual DbSet<Categories> Categories { get; set; }
@@ -28,15 +30,15 @@ namespace PointOfSale.DatabaseService.DBContext
         public virtual DbSet<SaleOrderDetails> SaleOrderDetails { get; set; }
         public virtual DbSet<SaleOrders> SaleOrders { get; set; }
         public virtual DbSet<Suppliers> Suppliers { get; set; }
-        public virtual DbSet<UOM> UnitOfMeasurement { get; set; }
+        public virtual DbSet<UnitOfMeasurement> UnitOfMeasurement { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=POS_DB;Trusted_Connection=True;");
+                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.                
+                optionsBuilder.UseSqlServer(_configuration.GetSection("ConnectionString").GetSection("DBConnection").Value);
             }
         }
 
@@ -392,11 +394,19 @@ namespace PointOfSale.DatabaseService.DBContext
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
             });
 
-            modelBuilder.Entity<UOM>(entity =>
+            modelBuilder.Entity<UnitOfMeasurement>(entity =>
             {
                 entity.ToTable("unit_of_measurement");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Class)
+                    .HasColumnName("class")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Code)
+                    .HasColumnName("code")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
@@ -404,12 +414,9 @@ namespace PointOfSale.DatabaseService.DBContext
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
-                entity.Property(e => e.SiUnit)
-                    .HasColumnName("si_unit")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Unit)
-                    .HasColumnName("unit")
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedAt)
@@ -417,10 +424,6 @@ namespace PointOfSale.DatabaseService.DBContext
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
-
-                entity.Property(e => e.Weight)
-                    .HasColumnName("weight")
-                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Users>(entity =>
@@ -456,25 +459,5 @@ namespace PointOfSale.DatabaseService.DBContext
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<PointOfSale.DataService.ViewModels.SupplierForListVM> SupplierForListVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.SupplierForUpdateVM> SupplierForUpdateVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.UOMForListVM> UOMForListVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.UOMForDetailVM> UOMForDetailVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.PayableForListVM> PayableForListVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.PayableForDetailsVM> PayableForDetailsVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.ReceivableForListVM> ReceivableForListVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.ReceivableForDetailsVM> ReceivableForDetailsVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.PurchaseOrderFoerListVM> PurchaseOrderFoerListVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.PurchaseOrderForDetailVM> PurchaseOrderForDetailVM { get; set; }
     }
 }

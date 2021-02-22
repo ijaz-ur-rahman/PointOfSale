@@ -14,23 +14,25 @@
         <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
             <input asp-for="Id" type="hidden" />
             <div class="form-group">
-                <label asp-for="Unit" class="control-label"></label>
-                <input asp-for="Unit" class="form-control" />
-                <span asp-validation-for="Unit" class="text-danger"></span>
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                @*<span asp-validation-for="Code" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
-                <input asp-for="Weight" class="form-control" />
-                <span asp-validation-for="Weight" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                @*<span asp-validation-for="Name" class="text-danger"></span>*@
             </div>
-                <select asp-for="SiUnit" class="form-control">
-                    <option value="">Select UOM</option>
-                    <option value="mg">mili-gram</option>
-                    <option value="g">gram</option>
-                    <option value="kg">kilo-gram</option>
-                    <option value="ml">mili-litre</option>
-                    <option value="litre">litre</option>
-                </select>
+            <label asp-for="Class" class="control-label"></label>
+            <input asp-for="Class" class="form-control" />
+            @*<select asp-for="Class" class="form-control">
+                <option value="">Select UOM</option>
+                <option value="mg">mili-gram</option>
+                <option value="g">gram</option>
+                <option value="kg">kilo-gram</option>
+                <option value="ml">mili-litre</option>
+                <option value="litre">litre</option>
+            </select>*@
             <div class="form-group">
                 <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
             </div>
