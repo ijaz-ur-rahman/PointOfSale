@@ -36,14 +36,24 @@ namespace PointOfSale
             services.AddDbContext<POS_DBContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionString").GetSection("DBConnection").Value));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
+            //User
             services.AddScoped<IUserService, UserService>();
+            //Category
             services.AddScoped<ICategoryService, CategoryService>();
+            //Items
             services.AddScoped<IItemService, ItemService>();
+            //Customer
             services.AddScoped<ICustomerService, CustomerService>();
+            //Supplier
             services.AddScoped<ISupplierService, SupplierService>();
+            //UOM
             services.AddScoped<IUOMService, UOMService>();
+            //Payable
             services.AddScoped<IPayableService, PayableService>();
+            //Receivable
             services.AddScoped<IReceivableService, ReceivableService>();
+            //PurchaseOder
+            services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 
 
             services.AddScoped<ILookupService, LookupService>();

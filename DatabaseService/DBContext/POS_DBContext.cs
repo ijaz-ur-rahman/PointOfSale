@@ -472,5 +472,9 @@ namespace PointOfSale.DatabaseService.DBContext
         public DbSet<PointOfSale.DataService.ViewModels.ReceivableForListVM> ReceivableForListVM { get; set; }
 
         public DbSet<PointOfSale.DataService.ViewModels.ReceivableForDetailsVM> ReceivableForDetailsVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.PurchaseOrderFoerListVM> PurchaseOrderFoerListVM { get; set; }
+
+        public DbSet<PointOfSale.DataService.ViewModels.PurchaseOrderForDetailVM> PurchaseOrderForDetailVM { get; set; }
     }
 }

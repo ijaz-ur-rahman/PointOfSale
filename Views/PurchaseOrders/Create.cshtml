@@ -1,0 +1,142 @@
+﻿@model PointOfSale.DataService.ViewModels.PurchaseOrderForDetailVM
+
+@{
+
+    Layout = null;
+    // We use same page for add and edit.
+    string urlPostString = "/PurchaseOrders/Create";
+    if (ViewBag.Status == "Update")
+    {
+        urlPostString = "/PurchaseOrders/Update";
+    }
+}
+<div class="row">
+    <div class="col-md-4">
+        <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
+            <input asp-for="Id" type="hidden" />
+            <div class="form-group">
+                <label asp-for="OrderNumber" class="control-label"></label>
+                <input asp-for="OrderNumber" class="form-control" />
+                <span asp-validation-for="OrderNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Supplier Name</label>
+                <select asp-items="ViewBag.SupplierDrp" class="form-control">
+                    <option value="0">Select Supplier Name</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAmount" class="control-label"></label>
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+    //alert("kdsjf");
+    $(function () {
+        //$('#red').on('click', function () { );
+        $("#clickme").click(function () {
+            ohSnap('Oh Snap! You can\'t access this page!', { 'color': 'red', 'duration': '15000' })
+
+            $.alert({
+                title: 'Alert!',
+                content: 'Simple alert!',
+            });
+        });
+        $("#form").validate({
+        rules: {
+            Label: "required",
+            Code: "required",
+        },
+        messages: {
+            Label: "Please enter your first name",
+            Code: "Please enter your last name"
+        },
+        errorElement: "span",
+        errorPlacement: function (error, element) {
+            error.addClass("invalid-feedback");
+
+            if (element.prop("type") === "checkbox") {
+                error.insertAfter(element.parent("label"));
+            } else {
+                error.insertAfter(element);
+            }
+        },
+            highlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-valid").removeClass("is-invalid");
+            }
+        });
+    });
+    $("#form").on("submit", function (e) {
+        if ($("#form").valid()) {
+            routingApp.runRoute('post', '#@urlPostString');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+    // add dynamic create or update link
+
+    if (IfLinkNotExist("POST", "#@urlPostString")) {
+        routingApp.post("#@urlPostString", function (context) {
+            $("#loader").removeClass("fadeOut").addClass("fadeIn");
+
+            var formData = new FormData($('#form')[0]);
+            $.ajax({
+                url: '@urlPostString',
+                data: formData,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                    if (response.success) {
+                        ohSnap(response.message, { 'color': 'green' });
+                        window.location.href = "#/PurchaseOrders/Index";
+                    }
+                    else {
+                        ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
+                        //ClearAll();
+                        //window.location.reload();
+                    }
+                },
+                error: function (ex) {
+                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                    ohSnap(ex.message, { 'color': 'red', 'duration': '10000' });
+                    //ClearAll();
+                    //window.location.reload();
+                }
+            });
+        });
+    }
+
+</script>

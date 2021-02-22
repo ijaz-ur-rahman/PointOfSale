@@ -225,6 +225,35 @@ var routingApp = $.sammy("#Placeholder", function () {
             $("#loader").removeClass("fadeIn").addClass("fadeOut");
         });
     });
+
+    this.get("#/PurchaseOrders/Index", function (context) {
+        title.html("Purchase Orders");
+        heading.html("Purchase Order List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/PurchaseOrders/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/PurchaseOrders/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Purchase Order");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/PurchaseOrders/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/PurchaseOrders/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/PurchaseOrders/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
    
 
     this.get("#/Users/Index", function (context) {
