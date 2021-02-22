@@ -254,6 +254,34 @@ var routingApp = $.sammy("#Placeholder", function () {
             $("#loader").removeClass("fadeIn").addClass("fadeOut");
         });
     });
+    this.get("#/SaleOrders/Index", function (context) {
+        title.html("Sale Orders");
+        heading.html("Sale Order List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/SaleOrders/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/SaleOrders/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Sale Order");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/SaleOrders/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/SaleOrders/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/SaleOrders/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
    
 
     this.get("#/Users/Index", function (context) {

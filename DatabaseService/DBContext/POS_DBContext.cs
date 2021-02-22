@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
@@ -8,15 +9,13 @@ namespace PointOfSale.DatabaseService.DBContext
 {
     public partial class POS_DBContext : DbContext
     {
-        private IConfiguration _configuration;
         public POS_DBContext()
-        {           
+        {
         }
 
-        public POS_DBContext(DbContextOptions<POS_DBContext> options, IConfiguration configuration)
+        public POS_DBContext(DbContextOptions<POS_DBContext> options)
             : base(options)
         {
-            _configuration = configuration;
         }
 
         public virtual DbSet<Categories> Categories { get; set; }
@@ -38,7 +37,12 @@ namespace PointOfSale.DatabaseService.DBContext
             if (!optionsBuilder.IsConfigured)
             {
                 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.                
-                optionsBuilder.UseSqlServer(_configuration.GetSection("ConnectionString").GetSection("DBConnection").Value);
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.Development.json")
+                .Build();
+                var connectionString = configuration.GetSection("ConnectionString:DBConnection").Value;
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 

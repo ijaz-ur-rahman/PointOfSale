@@ -39,8 +39,7 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> Delete(int id)
         {
             var deleteobj = await _context.UnitOfMeasurement.FindAsync(id);
-         
-            _context.UnitOfMeasurement.Update(deleteobj);
+            _context.UnitOfMeasurement.Remove(deleteobj);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Deleted;
@@ -54,9 +53,9 @@ namespace PointOfSale.DataService.Services
             {
                 Id = u.Id,
                 Code = u.Code,
-                Name=u.Name,
-                Class=u.Class
-              
+                Name = u.Name,
+                Class = u.Class
+
             }).ToListAsync();
             serviceResponse.Success = true;
             serviceResponse.Data = returnlist;

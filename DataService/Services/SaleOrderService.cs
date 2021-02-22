@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.DataService.Services
 {
-    public class SaleService : ISaleService
+    public class SaleOrderService : ISaleOrderService
     {
         private readonly POS_DBContext _context;
         private readonly IMapper _mapper;
         private ServiceResponse<object> _serviceResponse;
-        public SaleService(IMapper mapper)
+        public SaleOrderService(IMapper mapper)
         {
             _context = new POS_DBContext();
             _mapper = mapper;
             _serviceResponse = new ServiceResponse<object>();
         }
-        public async Task<ServiceResponse<object>> Create(SaleForCreateVM model)
+        public async Task<ServiceResponse<object>> Create(SaleOrderForCreateVM model)
         {
             var objToCreate = _mapper.Map<SaleOrders>(model);
             objToCreate.OrderDate = DateTime.Now;
@@ -56,11 +56,11 @@ namespace PointOfSale.DataService.Services
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<SaleForListVM>>> GetAll()
+        public async Task<ServiceResponse<IEnumerable<SaleOrderForListVM>>> GetAll()
         {
-            ServiceResponse<IEnumerable<SaleForListVM>> serviceResponse = new ServiceResponse<IEnumerable<SaleForListVM>>();
+            ServiceResponse<IEnumerable<SaleOrderForListVM>> serviceResponse = new ServiceResponse<IEnumerable<SaleOrderForListVM>>();
 
-            var listToReturn = await _context.SaleOrders.Select(o => new SaleForListVM
+            var listToReturn = await _context.SaleOrders.Select(o => new SaleOrderForListVM
             {
                 Id = o.Id,
                 TotalAmount = o.TotalAmount,
@@ -74,11 +74,11 @@ namespace PointOfSale.DataService.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<SaleForDetailsVM>> GetById(int id)
+        public async Task<ServiceResponse<SaleOrderForDetailsVM>> GetById(int id)
         {
-            ServiceResponse<SaleForDetailsVM> serviceResponse = new ServiceResponse<SaleForDetailsVM>();
+            ServiceResponse<SaleOrderForDetailsVM> serviceResponse = new ServiceResponse<SaleOrderForDetailsVM>();
 
-            var ToReturn = await _context.SaleOrders.Where(m => m.Id == id).Select(o => new SaleForDetailsVM
+            var ToReturn = await _context.SaleOrders.Where(m => m.Id == id).Select(o => new SaleOrderForDetailsVM
             {
                 Id = o.Id,
                 TotalAmount = o.TotalAmount,
@@ -92,7 +92,7 @@ namespace PointOfSale.DataService.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<object>> Update(int id, SaleForUpdateVM model)
+        public async Task<ServiceResponse<object>> Update(int id, SaleOrderForUpdateVM model)
         {
             var objToUpdate = _mapper.Map<SaleOrders>(model);
             objToUpdate.UpdatedAt = DateTime.Now;

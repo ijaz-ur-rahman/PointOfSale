@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.DataService.ViewModels
 {
-    public class SaleVM
+    public class SaleOrderVM
     {
 
     }
-    public class SaleForCreateVM
+    public class SaleOrderForCreateVM
     {
         //[Required]
         public string OrderNumber { get; set; }
@@ -21,7 +21,7 @@ namespace PointOfSale.DataService.ViewModels
         public string Description { get; set; }
         public List<SaleOrderDetails> OrderDetails { get; set; } = new List<SaleOrderDetails>();
     }
-    public class SaleForUpdateVM
+    public class SaleOrderForUpdateVM
     {
         public int Id { get; set; }
         public string OrderNumber { get; set; }
@@ -30,7 +30,7 @@ namespace PointOfSale.DataService.ViewModels
         public double? TotalAmount { get; set; }
         public string Description { get; set; }
     }
-    public class SaleForListVM
+    public class SaleOrderForListVM
     {
         public int Id { get; set; }
         public string OrderNumber { get; set; }
@@ -41,7 +41,7 @@ namespace PointOfSale.DataService.ViewModels
         public List<SaleOrderDetails> OrderDetails { get; set; } = new List<SaleOrderDetails>();
 
     }
-    public class SaleForDetailsVM
+    public class SaleOrderForDetailsVM
     {
         public int Id { get; set; }
         public string OrderNumber { get; set; }
@@ -51,5 +51,46 @@ namespace PointOfSale.DataService.ViewModels
         public string Description { get; set; }
         public List<SaleOrderDetails> OrderDetails { get; set; } = new List<SaleOrderDetails>();
 
+    }
+    public class SaleOrderDetailForCreateVM
+    {
+        //[Required]
+        public int SaleOrdersId { get; set; }
+        public int ItemId { get; set; }
+        public int Quantity { get; set; }
+        public double UnitRate { get; set; }
+        public double Amount { get; set; }
+        public int UomId { get; set; }
+    }
+    public class SaleOrderDetailForUpdateVM
+    {
+        public int Id { get; set; }
+        public int SaleOrdersId { get; set; }
+        public int ItemId { get; set; }
+        public int Quantity { get; set; }
+        public double UnitRate { get; set; }
+        public double Amount { get; set; }
+        public int UomId { get; set; }
+    }
+    public class SaleOrderDetailForListVM
+    {
+        public int Id { get; set; }
+        public int SaleOrdersId { get; set; }
+        public int ItemId { get; set; }
+        public int Quantity { get; set; }
+        public double UnitRate { get; set; }
+        public double Amount { get; set; }
+        public int UomId { get; set; }
+
+    }
+    public class SaleOrderDetailForDetailsVM
+    {
+        public int Id { get; set; }
+        public int SaleOrdersId { get; set; }
+        public int ItemId { get; set; }
+        public int Quantity { get; set; }
+        public double UnitRate { get; set; }
+        public double Amount { get; set; }
+        public int UomId { get; set; }
     }
 }

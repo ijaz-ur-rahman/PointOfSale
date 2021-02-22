@@ -50,6 +50,7 @@
                 <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
             </div>
         </form>
+        @*<button id="clickme">click me for testing</button>*@
 
     </div>
 </div>
@@ -60,6 +61,7 @@
 <script>
 
     $(function () {
+
         $("#form").validate({
             rules: {
                 Label: "required",
@@ -101,34 +103,20 @@
 
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
-            $("#loader").removeClass("fadeOut").addClass("fadeIn");
 
             var formData = new FormData($('#form')[0]);
-            $.ajax({
-                url: '@urlPostString',
-                data: formData,
-                type: "POST",
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
-                    if (response.success) {
-                        ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/Categories/Index";
-                    }
-                    else {
-                        ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
-                        //ClearAll();
-                        //window.location.reload();
-                    }
-                },
-                error: function (ex) {
-                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
-                    ohSnap(ex.message, { 'color': 'red', 'duration': '10000' });
-                    //ClearAll();
-                    //window.location.reload();
-                }
-            });
+             HttpPOST("@urlPostString", formData, function (response) {
+                 if (response.success) {
+                     ohSnap(response.message, { 'color': 'green' });
+                     window.location.href = "#/Categories/Index";
+                 }
+                 else {
+                     ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
+                     //ClearAll();
+                     //window.location.reload();
+                 }
+             });
+
         });
     }
 

@@ -47,18 +47,18 @@ namespace PointOfSale.DataService.Services
 
         }
 
-        public async Task<ServiceResponse<IEnumerable<PurchaseOrderFoerListVM>>> GetAll()
+        public async Task<ServiceResponse<IEnumerable<PurchaseOrderForListVM>>> GetAll()
         {
-            ServiceResponse<IEnumerable<PurchaseOrderFoerListVM>> serviceResponse = new ServiceResponse<IEnumerable<PurchaseOrderFoerListVM>>();
-            var objforlist=await _context.PurchaseOrders.Select(p=>new PurchaseOrderFoerListVM
+            ServiceResponse<IEnumerable<PurchaseOrderForListVM>> serviceResponse = new ServiceResponse<IEnumerable<PurchaseOrderForListVM>>();
+            var objforlist = await _context.PurchaseOrders.Select(p => new PurchaseOrderForListVM
             {
-                Id=p.Id,
-                OrderNumber=p.OrderNumber,
-                OrderDate=Convert.ToDateTime(p.OrderDate),
-                SupplierId=Convert.ToInt32(p.SupplierId),
-                TotalAmount=Convert.ToDouble(p.TotalAmount),
-                Status=p.Status,
-                Description=p.Description,
+                Id = p.Id,
+                OrderNumber = p.OrderNumber,
+                OrderDate = Convert.ToDateTime(p.OrderDate),
+                SupplierId = Convert.ToInt32(p.SupplierId),
+                TotalAmount = Convert.ToDouble(p.TotalAmount),
+                Status = p.Status,
+                Description = p.Description,
 
             }).ToListAsync();
             serviceResponse.Success = true;
@@ -88,7 +88,7 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> Update(int id, PurchaseOrderForUpdateVM model)
         {
             var objforupdate = _mapper.Map<PurchaseOrders>(model);
-            _context.PurchaseOrders.Update(objforupdate);
+            _context.PurchaseOrders.Remove(objforupdate);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Updated;

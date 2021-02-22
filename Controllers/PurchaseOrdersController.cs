@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PointOfSale.DataService.Helpers;
 using PointOfSale.DataService.IServices;
 using PointOfSale.DataService.ViewModels;
@@ -14,7 +15,7 @@ namespace PointOfSale.Controllers
         private readonly IPurchaseOrderService _purchaseOrderService;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
-        public PurchaseOrdersController(IPurchaseOrderService purchaseOrderService,ILookupService lookupService)
+        public PurchaseOrdersController(IPurchaseOrderService purchaseOrderService, ILookupService lookupService)
         {
             _purchaseOrderService = purchaseOrderService;
             _lookupService = lookupService;
@@ -29,6 +30,8 @@ namespace PointOfSale.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Status = "Create";
+            _response = await _lookupService.PurchaseOrderDrp("");
+            ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View();
         }
         [HttpPost]
@@ -51,19 +54,21 @@ namespace PointOfSale.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult>Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             ViewBag.Status = "Update";
             var responce = await _purchaseOrderService.GetById(id);
+            _response = await _lookupService.PurchaseOrderDrp("");
+            ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View("Create", responce.Data);
 
         }
         [HttpPost]
-        public async Task<IActionResult>Update(int id,PurchaseOrderForUpdateVM viewModel)
+        public async Task<IActionResult> Update(int id, PurchaseOrderForUpdateVM viewModel)
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }

@@ -33,7 +33,7 @@ namespace PointOfSale
         {
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
-            services.AddDbContext<POS_DBContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionString").GetSection("DBConnection").Value));
+            services.AddDbContext<POS_DBContext>(options => options.UseSqlServer(Configuration.GetSection("ConnectionString:DBConnection").Value));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
             //User
@@ -54,10 +54,14 @@ namespace PointOfSale
             services.AddScoped<IReceivableService, ReceivableService>();
             //PurchaseOder
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
+            //sale order
+            services.AddScoped<ISaleOrderService, SaleOrderService>();
 
 
+            //lookup
             services.AddScoped<ILookupService, LookupService>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             // Auto Mapper Configurations
             services.AddAutoMapper(c => c.AddProfile<AutoMapperProfiles>(), typeof(Startup));
 

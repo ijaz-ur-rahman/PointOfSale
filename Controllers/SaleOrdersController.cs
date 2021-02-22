@@ -10,12 +10,12 @@ using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.Controllers
 {
-    public class SalesController : Controller
+    public class SaleOrdersController : Controller
     {
-        private readonly ISaleService _categoryService;
+        private readonly ISaleOrderService _categoryService;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
-        public SalesController(ISaleService categoryService, ILookupService lookupService)
+        public SaleOrdersController(ISaleOrderService categoryService, ILookupService lookupService)
         {
             _categoryService = categoryService;
             _lookupService = lookupService;
@@ -36,7 +36,7 @@ namespace PointOfSale.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(SaleForCreateVM viewModel)
+        public async Task<ActionResult> Create(SaleOrderForCreateVM viewModel)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace PointOfSale.Controllers
             return View("Create", response.Data);
         }
         [HttpPost]
-        public async Task<ActionResult> Update(int id, SaleForUpdateVM viewModel)
+        public async Task<ActionResult> Update(int id, SaleOrderForUpdateVM viewModel)
         {
             try
             {
