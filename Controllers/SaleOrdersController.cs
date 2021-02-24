@@ -10,13 +10,12 @@ using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.Controllers
 {
-    //[Route("[controller]")]
-    public class CategoriesController : Controller
+    public class SaleOrdersController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ISaleOrderService _categoryService;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
-        public CategoriesController(ICategoryService categoryService, ILookupService lookupService)
+        public SaleOrdersController(ISaleOrderService categoryService, ILookupService lookupService)
         {
             _categoryService = categoryService;
             _lookupService = lookupService;
@@ -32,12 +31,12 @@ namespace PointOfSale.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Status = "Create";
-            _response = await _lookupService.CategoriesDrp("");
+            _response = await _lookupService.SaleOrderDrp("");
             ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(CategoryForCreateVM viewModel)
+        public async Task<ActionResult> Create(SaleOrderForCreateVM viewModel)
         {
             try
             {
@@ -60,12 +59,12 @@ namespace PointOfSale.Controllers
         {
             ViewBag.Status = "Update";
             var response = await _categoryService.GetById(id);
-            _response = await _lookupService.CategoriesDrp(response.Data.ParentCategoryId);
+            _response = await _lookupService.SaleOrderDrp(response.Data.OrderNumber);
             ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View("Create", response.Data);
         }
         [HttpPost]
-        public async Task<ActionResult> Update(int id, CategoryForUpdateVM viewModel)
+        public async Task<ActionResult> Update(int id, SaleOrderForUpdateVM viewModel)
         {
             try
             {

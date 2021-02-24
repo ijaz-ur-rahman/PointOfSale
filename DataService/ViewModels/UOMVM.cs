@@ -10,29 +10,29 @@ namespace PointOfSale.DataService.ViewModels
     }
     public class UOMForCreateVM
     {
-        public string Unit { get; set; }
-        public string Weight { get; set; }
-        public string SiUnit { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Class { get; set; }
     }
     public class UOMForListVM
     {
         public int Id { get; set; }
-        public string Unit { get; set; }
-        public string Weight { get; set; }
-        public string SiUnit { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Class { get; set; }
     }
     public class UOMForUpdateVM
     {
         public int Id { get; set; }
-        public string Unit { get; set; }
-        public string Weight { get; set; }
-        public string SiUnit { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Class { get; set; }
     }
     public class UOMForDetailVM
     {
         public int Id { get; set; }
-        public string Unit { get; set; }
-        public string Weight { get; set; }
-        public string SiUnit { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public string Class { get; set; }
     }
 }

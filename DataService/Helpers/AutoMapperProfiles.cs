@@ -33,6 +33,11 @@ namespace PointOfSale.DataService.Helpers
             CreateMap<Suppliers, SupplierForListVM>().ReverseMap();
             CreateMap<Suppliers, SupplierForUpdateVM>().ReverseMap();
             CreateMap<Suppliers, SupplierForDetailsVM>().ReverseMap();
+            //UOM
+            CreateMap<UnitOfMeasurement, UOMForCreateVM>().ReverseMap();
+            CreateMap<UnitOfMeasurement, UOMForListVM>().ReverseMap();
+            CreateMap<UnitOfMeasurement, UOMForUpdateVM>().ReverseMap();
+            CreateMap<UnitOfMeasurement, UOMForDetailVM>().ReverseMap();
         }
     }
 }

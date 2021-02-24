@@ -37,11 +37,9 @@
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" type="text" class="form-control" placeholder="Description"></textarea>
             </div>
-            <div class="input-group">
-                <div class="custom-file">
-                    <input asp-for="Image" type="file" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
-                    <label class="custom-file-label" for="inputGroupFile">Choose file</label>
-                </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input type="file" class="form-control" />
             </div>
             @*<div class="form-group">
                     <label asp-for="Image" class="control-label"></label>
@@ -52,6 +50,7 @@
                 <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
             </div>
         </form>
+        @*<button id="clickme">click me for testing</button>*@
 
     </div>
 </div>
@@ -62,6 +61,7 @@
 <script>
 
     $(function () {
+
         $("#form").validate({
             rules: {
                 Label: "required",
@@ -103,34 +103,20 @@
 
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
-            $("#loader").removeClass("fadeOut").addClass("fadeIn");
 
             var formData = new FormData($('#form')[0]);
-            $.ajax({
-                url: '@urlPostString',
-                data: formData,
-                type: "POST",
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
-                    if (response.success) {
-                        ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/Categories/Index";
-                    }
-                    else {
-                        ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
-                        //ClearAll();
-                        //window.location.reload();
-                    }
-                },
-                error: function (ex) {
-                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
-                    ohSnap(ex.message, { 'color': 'red', 'duration': '10000' });
-                    //ClearAll();
-                    //window.location.reload();
-                }
-            });
+             HttpPOST("@urlPostString", formData, function (response) {
+                 if (response.success) {
+                     ohSnap(response.message, { 'color': 'green' });
+                     window.location.href = "#/Categories/Index";
+                 }
+                 else {
+                     ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
+                     //ClearAll();
+                     //window.location.reload();
+                 }
+             });
+
         });
     }
 

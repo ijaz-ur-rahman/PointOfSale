@@ -1,43 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PointOfSale.DataService.Helpers;
 using PointOfSale.DataService.IServices;
 using PointOfSale.DataService.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PointOfSale.Controllers
 {
-    //[Route("[controller]")]
-    public class CategoriesController : Controller
+    public class UOMController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IUOMService _uomservice;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
-        public CategoriesController(ICategoryService categoryService, ILookupService lookupService)
+        public UOMController(IUOMService uomservice, ILookupService lookupservice)
         {
-            _categoryService = categoryService;
-            _lookupService = lookupService;
+            _uomservice = uomservice;
+            _lookupService = lookupservice;
             _response = new ServiceResponse<object>();
         }
-        [HttpGet] //, Route("Index")
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var response = await _categoryService.GetAll();
+            var response = await _uomservice.GetAll();
             return View(response.Data);
         }
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             ViewBag.Status = "Create";
-            _response = await _lookupService.CategoriesDrp("");
-            ViewBag.CategoriesDrp = (SelectList)_response.Data;
+            _response = await _lookupService.UOMDrp("");
+            ViewBag.UOMDrp = (SelectList)_response.Data;
             return View();
         }
-        [HttpPost]
-        public async Task<ActionResult> Create(CategoryForCreateVM viewModel)
+        public async Task<ActionResult> Create(UOMForCreateVM viewModel)
         {
             try
             {
@@ -45,7 +42,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _categoryService.Create(viewModel);
+                _response = await _uomservice.Create(viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -55,17 +52,15 @@ namespace PointOfSale.Controllers
                 return BadRequest(_response);
             }
         }
-        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             ViewBag.Status = "Update";
-            var response = await _categoryService.GetById(id);
-            _response = await _lookupService.CategoriesDrp(response.Data.ParentCategoryId);
-            ViewBag.CategoriesDrp = (SelectList)_response.Data;
+            var response = await _uomservice.GetById(id);
+            _response = await _lookupService.UOMDrp(response.Data.Id);
+            ViewBag.UOMDrp = (SelectList)_response.Data;
             return View("Create", response.Data);
         }
-        [HttpPost]
-        public async Task<ActionResult> Update(int id, CategoryForUpdateVM viewModel)
+        public async Task<ActionResult> Update(int id, UOMForUpdateVM viewModel)
         {
             try
             {
@@ -73,7 +68,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _categoryService.Update(id, viewModel);
+                _response = await _uomservice.Update(id, viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -88,7 +83,7 @@ namespace PointOfSale.Controllers
         {
             try
             {
-                _response = await _categoryService.Delete(id);
+                _response = await _uomservice.Delete(id);
                 return Ok(_response);
             }
             catch (Exception ex)

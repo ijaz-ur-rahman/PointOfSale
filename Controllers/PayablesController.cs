@@ -1,43 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using PointOfSale.DataService.Helpers;
 using PointOfSale.DataService.IServices;
 using PointOfSale.DataService.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PointOfSale.Controllers
 {
-    //[Route("[controller]")]
-    public class CategoriesController : Controller
+    public class PayablesController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IPayableService _payable;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
-        public CategoriesController(ICategoryService categoryService, ILookupService lookupService)
+        public PayablesController(IPayableService payableService, ILookupService lookupService)
         {
-            _categoryService = categoryService;
+            _payable = payableService;
             _lookupService = lookupService;
             _response = new ServiceResponse<object>();
         }
-        [HttpGet] //, Route("Index")
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            var response = await _categoryService.GetAll();
+            var response = await _payable.GetAll();
             return View(response.Data);
         }
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             ViewBag.Status = "Create";
-            _response = await _lookupService.CategoriesDrp("");
-            ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(CategoryForCreateVM viewModel)
+        public async Task<IActionResult> Create(PayableForCreateVM Vmodel)
         {
             try
             {
@@ -45,7 +40,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _categoryService.Create(viewModel);
+                _response = await _payable.Create(Vmodel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -59,13 +54,11 @@ namespace PointOfSale.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             ViewBag.Status = "Update";
-            var response = await _categoryService.GetById(id);
-            _response = await _lookupService.CategoriesDrp(response.Data.ParentCategoryId);
-            ViewBag.CategoriesDrp = (SelectList)_response.Data;
+            var response = await _payable.GetById(id);
             return View("Create", response.Data);
         }
         [HttpPost]
-        public async Task<ActionResult> Update(int id, CategoryForUpdateVM viewModel)
+        public async Task<ActionResult> Update(int id, PayableForUpdateVM viewModel)
         {
             try
             {
@@ -73,7 +66,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _categoryService.Update(id, viewModel);
+                _response = await _payable.Update(id, viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -88,7 +81,7 @@ namespace PointOfSale.Controllers
         {
             try
             {
-                _response = await _categoryService.Delete(id);
+                _response = await _payable.Delete(id);
                 return Ok(_response);
             }
             catch (Exception ex)

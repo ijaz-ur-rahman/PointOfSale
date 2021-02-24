@@ -1,0 +1,174 @@
+﻿@model SaleOrderForDetailsVM
+
+@{
+
+    Layout = null;
+    // We use same page for add and edit.
+    string urlPostString = "/SaleOrders/Create";
+    if (ViewBag.Status == "Update")
+    {
+        urlPostString = "/SaleOrders/Update";
+    }
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputState">Items</label>
+                    <select id="inputState" class="form-control">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputRate">Rate</label>
+                    <input type="password" class="form-control" id="Rate" placeholder="Rate">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputQuantity">Quantity</label>
+                    <input type="text" class="form-control" id="Text">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputDiscount">Discount</label>
+                    <input type="text" class="form-control" id="inputDiscount">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="inputTotal">Total</label>
+                    <input type="text" class="form-control" id="inputTotal">
+                </div>
+                <div class="col-md-1 offset-md-1 row align-items-center ml-0">
+                    <button type="button" class="btn btn-primary">Add</button>
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-1 offset-md-1 form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cash" checked>
+                    <label class="form-check-label" for="exampleRadios1">
+                        Cash
+                    </label>
+                </div>
+                <div class="form-group col-md-2 form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="credit">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Credit
+                    </label>
+                </div>
+                <div class="form-group col-md-3">
+                    <select id="inputState" class="form-control">
+                        <option selected>Select Customer</option>
+                        <option>...</option>
+                    </select>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Items</th>
+                        <th scope="col">Rate</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Discount</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="form-row">
+                <div class="form-group col-md-2 align-content-lg-end">
+                    <label for="inputTotalQuantity">Total Quantity</label>
+                    <input type="text" class="form-control" id="inputTotalQuantity">
+                </div>
+                <div class="form-group col-md-2 align-content-lg-end">
+                    <label for="inputGrandTotal">Grand Total</label>
+                    <input type="text" class="form-control" id="inputGrandTotal">
+                </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="#/SaleOrders/Index">Back to List</a>
+</div>
+
+<script>
+
+    $(function () {
+        $("#form").validate({
+            rules: {
+                Label: "required",
+                Code: "required",
+            },
+            messages: {
+                Label: "Please enter your first name",
+                Code: "Please enter your last name"
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                error.addClass("invalid-feedback");
+
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parent("label"));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-invalid").removeClass("is-valid");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                //debugger;
+                $(element).parents(".form-group").children(".form-control").addClass("is-valid").removeClass("is-invalid");
+            }
+        });
+    });
+    $("#form").on("submit", function (e) {
+        if ($("#form").valid()) {
+            routingApp.runRoute('post', '#@urlPostString');
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+    // add dynamic create or update link
+
+    if (IfLinkNotExist("POST", "#@urlPostString")) {
+        routingApp.post("#@urlPostString", function (context) {
+            $("#loader").removeClass("fadeOut").addClass("fadeIn");
+
+            var formData = new FormData($('#form')[0]);
+            $.ajax({
+                url: '@urlPostString',
+                data: formData,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                    if (response.success) {
+                        ohSnap(response.message, { 'color': 'green' });
+                        window.location.href = "#/SaleOrders/Index";
+                    }
+                    else {
+                        ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
+                        //ClearAll();
+                        //window.location.reload();
+                    }
+                },
+                error: function (ex) {
+                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                    ohSnap(ex.message, { 'color': 'red', 'duration': '10000' });
+                    //ClearAll();
+                    //window.location.reload();
+                }
+            });
+        });
+    }
+
+</script>

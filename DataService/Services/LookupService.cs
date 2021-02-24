@@ -39,7 +39,47 @@ namespace PointOfSale.DataService.Services
         public async Task<ServiceResponse<object>> UOMDrp(object SelectedValue)
         {
             var list = await _context.UnitOfMeasurement.ToListAsync();
-            SelectList items = new SelectList(list, nameof(UnitOfMeasurement.Id), nameof(UnitOfMeasurement.Unit), SelectedValue);
+            SelectList items = new SelectList(list, nameof(UnitOfMeasurement.Id), nameof(UnitOfMeasurement.Name), SelectedValue);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = items;
+            return _serviceResponse;
+        }
+        public async Task<ServiceResponse<object>> PurchaseOrderDrp(object SelectedValue)
+        {
+            var list = await _context.PurchaseOrders.ToListAsync();
+            SelectList items = new SelectList(list, nameof(PurchaseOrders.Id), nameof(PurchaseOrders.OrderNumber), SelectedValue);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = items;
+            return _serviceResponse;
+        }
+        public async Task<ServiceResponse<object>> SupplierDrp(object SelectedValue)
+        {
+            var list = await _context.Suppliers.ToListAsync();
+            SelectList items = new SelectList(list, nameof(Suppliers.Id), nameof(Suppliers.Name), SelectedValue);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = items;
+            return _serviceResponse;
+        }
+        public async Task<ServiceResponse<object>> SaleOrderDrp(object SelectedValue)
+        {
+            var list = await _context.SaleOrders.ToListAsync();
+            SelectList items = new SelectList(list, nameof(SaleOrders.Id), nameof(SaleOrders.OrderNumber), SelectedValue);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = items;
+            return _serviceResponse;
+        }
+        public async Task<ServiceResponse<object>> ItemsDrp(object SelectedValue)
+        {
+            var list = await _context.Items.ToListAsync();
+            SelectList items = new SelectList(list, nameof(Items.Id), nameof(Items.Label), SelectedValue);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = items;
+            return _serviceResponse;
+        }
+        public async Task<ServiceResponse<object>> CustomerDrp(object SelectedValue)
+        {
+            var list = await _context.Customers.ToListAsync();
+            SelectList items = new SelectList(list, nameof(Customers.Id), nameof(Customers.Name), SelectedValue);
             _serviceResponse.Success = true;
             _serviceResponse.Data = items;
             return _serviceResponse;

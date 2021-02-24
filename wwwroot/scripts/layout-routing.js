@@ -140,6 +140,148 @@ var routingApp = $.sammy("#Placeholder", function () {
             $("#loader").removeClass("fadeIn").addClass("fadeOut");
         });
     });
+    this.get("#/UOM/Index", function (context) {
+        title.html("Unit Of Measurement");
+        heading.html("Unit Of Measurement List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/UOM/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/UOM/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Unit Of Measurement");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/UOM/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/UOM/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/UOM/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Payables/Index", function (context) {
+        title.html("Payables");
+        heading.html("Payable List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/Payables/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Payables/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Payables");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/Payables/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Payables/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/Payables/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+
+    this.get("#/Receivables/Index", function (context) {
+        title.html("Receivable");
+        heading.html("Receivable List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/Receivables/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Receivables/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Receivable");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/Receivables/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/Receivables/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/Receivables/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+
+    this.get("#/PurchaseOrders/Index", function (context) {
+        title.html("Purchase Orders");
+        heading.html("Purchase Order List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/PurchaseOrders/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/PurchaseOrders/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Purchase Order");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/PurchaseOrders/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/PurchaseOrders/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/PurchaseOrders/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/SaleOrders/Index", function (context) {
+        title.html("Sale Orders");
+        heading.html("Sale Order List");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/SaleOrders/Index", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/SaleOrders/Create", function (context) {
+        title.html("Create");
+        heading.html("Create Sale Order");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.get("/SaleOrders/Create", function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
+    this.get("#/SaleOrders/Edit/:id", function (context) {
+        title.html("Edit");
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        debugger;
+        let id = this.params['id'];
+        $.get("/SaleOrders/Edit/" + id, function (data) {
+            context.$element().html(data);
+            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+        });
+    });
    
 
     this.get("#/Users/Index", function (context) {

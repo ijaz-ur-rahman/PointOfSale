@@ -1,0 +1,104 @@
+﻿@model IEnumerable<PurchaseOrderForListVM>
+
+@{
+    Layout = null;
+}
+<p>
+    <a href="#/PurchaseOrders/Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a href="#/PurchaseOrders/Edit/@item.Id">Edit</a> |
+                <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    $(function () {
+        $('#dataTable').DataTable();
+
+    });
+
+    function Delete(id) {
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.confirm({
+            title: 'Alert!',
+            content: 'Are you sure you want to delete this record!',
+            buttons: {
+                confirm: function () {
+                    $.ajax({
+                        url: '/PurchaseOrders/Delete/' + id,
+                        type: "DELETE",
+                        success: function (response) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            if (response.success) {
+                                ohSnap(response.message, { 'color': 'green' })
+                                window.location.href = "#/PurchaseOrders/Index";
+                            }
+                            else {
+                                ohSnap(response.message, { 'color': 'red' })
+                                //window.location.reload();
+                            }
+                        },
+                        error: function (ex) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            ohSnap(ex.message, { 'color': 'red' });
+                            //window.location.reload();
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            }
+        });
+
+    }
+
+</script>

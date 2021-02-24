@@ -1,60 +1,44 @@
-﻿@model ItemForDetailsVM
+﻿@model PurchaseOrderForDetailVM
 
 @{
 
     Layout = null;
     // We use same page for add and edit.
-    string urlPostString = "/Items/Create";
+    string urlPostString = "/PurchaseOrders/Create";
     if (ViewBag.Status == "Update")
     {
-        urlPostString = "/Items/Update";
+        urlPostString = "/PurchaseOrders/Update";
     }
 }
-
 <div class="row">
     <div class="col-md-4">
         <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
             <input asp-for="Id" type="hidden" />
             <div class="form-group">
-                <label asp-for="Label" class="control-label"></label>
-                <input asp-for="Label" class="form-control" />
-                <span asp-validation-for="Label" class="text-danger"></span>
+                <label asp-for="OrderNumber" class="control-label"></label>
+                <input asp-for="OrderNumber" class="form-control" />
+                <span asp-validation-for="OrderNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Category</label>
-                <select asp-items="ViewBag.CategoriesDrp" class="form-control">
-                    <option value="0">Select Category</option>
+                <label class="control-label">Supplier Name</label>
+                <select asp-items="ViewBag.SupplierDrp" class="form-control">
+                    <option value="0">Select Supplier Name</option>
                 </select>
             </div>
             <div class="form-group">
-                <label class="control-label">Unit Of Measurement</label>
-                <select asp-items="ViewBag.UOMDrp" class="form-control">
-                    <option value="0">Select Category</option>
-                </select>
+                <label asp-for="TotalAmount" class="control-label"></label>
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SalePrice" class="control-label"></label>
-                <input asp-for="SalePrice" class="form-control" />
-                <span asp-validation-for="SalePrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PurchasePrice" class="control-label"></label>
-                <input asp-for="PurchasePrice" class="form-control" />
-                <span asp-validation-for="PurchasePrice" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PricePerUnit" class="control-label"></label>
-                <input asp-for="PricePerUnit" class="form-control" />
-                <span asp-validation-for="PricePerUnit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input type="file" class="form-control" />
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -69,20 +53,12 @@
 </div>
 
 <div>
-    <a href="#/Items/Index">Back to List</a>
+    <a href="#/PurchaseOrders/Index">Back to List</a>
 </div>
 <script>
     //alert("kdsjf");
     $(function () {
-        //$('#red').on('click', function () { );
-        $("#clickme").click(function () {
-            ohSnap('Oh Snap! You can\'t access this page!', { 'color': 'red', 'duration': '15000' })
-
-            $.alert({
-                title: 'Alert!',
-                content: 'Simple alert!',
-            });
-        });
+      
         $("#form").validate({
         rules: {
             Label: "required",
@@ -137,7 +113,7 @@
                     $("#loader").removeClass("fadeIn").addClass("fadeOut");
                     if (response.success) {
                         ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/Items/Index";
+                        window.location.href = "#/PurchaseOrders/Index";
                     }
                     else {
                         ohSnap(response.message, { 'color': 'red', 'duration': '10000' })

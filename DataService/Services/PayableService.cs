@@ -12,24 +12,25 @@ using System.Threading.Tasks;
 
 namespace PointOfSale.DataService.Services
 {
-    public class UOMService : IUOMService
+    public class PayableService : IPayableService
     {
         private readonly POS_DBContext _context;
         private readonly IMapper _mapper;
         private ServiceResponse<object> _serviceResponse;
-        public UOMService(IMapper mapper)
+        public  PayableService(IMapper mapper)
         {
             _context = new POS_DBContext();
             _mapper = mapper;
             _serviceResponse = new ServiceResponse<object>();
         }
-        public async Task<ServiceResponse<object>> Create(UOMForCreateVM model)
-        {
-            var createobj = _mapper.Map<UnitOfMeasurement>(model);
-            createobj.CreatedAt = DateTime.Now;
-            createobj.CreatedBy = 1;
 
-            await _context.UnitOfMeasurement.AddAsync(createobj);
+        public async Task<ServiceResponse<object>> Create(PayableForCreateVM model)
+        {
+            var objToCreate = _mapper.Map<Payables>(model);
+            objToCreate.CreatedAt = DateTime.Now;
+            objToCreate.CreatedBy = 1;
+
+            await _context.Payables.AddAsync(objToCreate);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Added;
@@ -38,53 +39,51 @@ namespace PointOfSale.DataService.Services
 
         public async Task<ServiceResponse<object>> Delete(int id)
         {
-            var deleteobj = await _context.UnitOfMeasurement.FindAsync(id);
-            _context.UnitOfMeasurement.Remove(deleteobj);
+            var objToDelete = await _context.Payables.FindAsync(id);
+            _context.Payables.Update(objToDelete);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
             _serviceResponse.Message = ResponseMessage.Deleted;
             return _serviceResponse;
         }
 
-        public async Task<ServiceResponse<IEnumerable<UOMForListVM>>> GetAll()
+        public async Task<ServiceResponse<IEnumerable<PayableForListVM>>> GetAll()
         {
-            ServiceResponse<IEnumerable<UOMForListVM>> serviceResponse = new ServiceResponse<IEnumerable<UOMForListVM>>();
-            var returnlist = await _context.UnitOfMeasurement.Select(u => new UOMForListVM
+            ServiceResponse<IEnumerable<PayableForListVM>> serviceResponse = new ServiceResponse<IEnumerable<PayableForListVM>>();
+            var returnlist = await _context.Payables.Select(p => new PayableForListVM
             {
-                Id = u.Id,
-                Code = u.Code,
-                Name = u.Name,
-                Class = u.Class
-
+                Id=p.Id,
+                PurchaseOrderId=p.PurchaseOrderId,
+                SupplierId=p.SupplierId,
+                Amount =p.Amount,
             }).ToListAsync();
             serviceResponse.Success = true;
             serviceResponse.Data = returnlist;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<UOMForDetailVM>> GetById(int id)
+        public async Task<ServiceResponse<PayableForDetailsVM>> GetById(int id)
         {
-
-            ServiceResponse<UOMForDetailVM> serviceResponse = new ServiceResponse<UOMForDetailVM>();
-            var updateobj = await _context.UnitOfMeasurement.Select(u => new UOMForDetailVM
+            ServiceResponse<PayableForDetailsVM> serviceResponse = new ServiceResponse<PayableForDetailsVM>();
+            var detailobj = await _context.Payables.Select(p => new PayableForDetailsVM
             {
-                Id = u.Id,
-                Code = u.Code,
-                Name = u.Name,
-                Class = u.Class,
+                Id = p.Id,
+                PurchaseOrderId = p.PurchaseOrderId,
+                SupplierId = p.SupplierId,
+                Amount = p.Amount,
             }).FirstOrDefaultAsync();
             serviceResponse.Success = true;
-            serviceResponse.Data = updateobj;
+            serviceResponse.Data = detailobj;
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<object>> Update(int id, UOMForUpdateVM model)
+        public async Task<ServiceResponse<object>> Update(int id, PayableForUpdateVM model)
         {
-            var updateobj = _mapper.Map<UnitOfMeasurement>(model);
-            _context.UnitOfMeasurement.Update(updateobj);
+            var updateobj = _mapper.Map<Payables>(model);
+            _context.Payables.Update(updateobj);
             await _context.SaveChangesAsync();
             _serviceResponse.Success = true;
-            _serviceResponse.Message = ResponseMessage.Added;
+            _serviceResponse.Message = ResponseMessage.Updated;
             return _serviceResponse;
         }
     }

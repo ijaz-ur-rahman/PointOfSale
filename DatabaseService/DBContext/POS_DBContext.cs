@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using PointOfSale.DatabaseService;
-using PointOfSale.DataService.ViewModels;
 
 namespace PointOfSale.DatabaseService.DBContext
 {
@@ -35,8 +36,13 @@ namespace PointOfSale.DatabaseService.DBContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=POS_DB;Trusted_Connection=True;");
+                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.                
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.Development.json")
+                .Build();
+                var connectionString = configuration.GetSection("ConnectionString:DBConnection").Value;
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 
@@ -398,18 +404,23 @@ namespace PointOfSale.DatabaseService.DBContext
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.Class)
+                    .HasColumnName("class")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Code)
+                    .HasColumnName("code")
+                    .HasMaxLength(50);
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnName("created_at")
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.CreatedBy).HasColumnName("created_by");
 
-                entity.Property(e => e.SiUnit)
-                    .HasColumnName("si_unit")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.Unit)
-                    .HasColumnName("unit")
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.UpdatedAt)
@@ -417,10 +428,6 @@ namespace PointOfSale.DatabaseService.DBContext
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
-
-                entity.Property(e => e.Weight)
-                    .HasColumnName("weight")
-                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Users>(entity =>
@@ -456,9 +463,5 @@ namespace PointOfSale.DatabaseService.DBContext
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<PointOfSale.DataService.ViewModels.SupplierForListVM> SupplierForListVM { get; set; }
-
-        public DbSet<PointOfSale.DataService.ViewModels.SupplierForUpdateVM> SupplierForUpdateVM { get; set; }
     }
 }

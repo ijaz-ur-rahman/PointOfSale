@@ -64,15 +64,16 @@
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Sale Order</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="sidebar-link" href="#/Sales/Index">Sale Orders</a></li>
-                        <li><a class="sidebar-link" href="#/Sales/Create">Create New Order</a></li>
+                        <li><a class="sidebar-link" href="#/SaleOrders/Index">Sale Orders</a></li>
+                        <li><a class="sidebar-link" href="#/SaleOrders/Create">Create New Order</a></li>
                     </ul>
                 </li>
+
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Purchase Order</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="sidebar-link" href="#/Purchase/Index">Purchase Orders</a></li>
-                        <li><a class="sidebar-link" href="#/Purchase/Create">Create New Order</a></li>
+                        <li><a class="sidebar-link" href="#/PurchaseOrders/Index">Purchase Orders</a></li>
+                        <li><a class="sidebar-link" href="#/PurchaseOrders/Create">Create New Order</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -82,7 +83,7 @@
                         <li><a class="sidebar-link" href="#/Customers/Create">Create New Customer</a></li>
                     </ul>
                 </li>
-                </li>
+
                 <li class="nav-item dropdown">
                     <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Manage Supplier</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
                     <ul class="dropdown-menu">
@@ -97,6 +98,28 @@
                         <li><a class="sidebar-link" href="#/Users/Create">Create New User</a></li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Unit Of Measurement</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="sidebar-link" href="#/UOM/Index">Unit Of Measurement List</a></li>
+                        <li><a class="sidebar-link" href="#/UOM/Create">Create New UOM</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Payable</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="sidebar-link" href="#/Payables/Index">Payable List</a></li>
+                        <li><a class="sidebar-link" href="#/Payables/Create">Create New Payable</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" href="javascript:void(0);"><span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span><span class="title">Receivable</span> <span class="arrow"><i class="ti-angle-right"></i></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="sidebar-link" href="#/Receivables/Index">Receivable List</a></li>
+                        <li><a class="sidebar-link" href="#/Receivables/Create">Create New Receivable</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
     </div>
@@ -237,11 +260,12 @@
     </div>
 
     <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
-        <span>Copyright © 2020 All rights reserved.</span>
+        <span>Copyright © @DateTime.Now.Year All rights reserved.</span>
 
     </footer>
 
     @*// js files*@
+    <script src="~/scripts/GlobalFunctions.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/sammy-0.7.4.js"></script>
     <script src="~/scripts/layout-routing.js"></script>

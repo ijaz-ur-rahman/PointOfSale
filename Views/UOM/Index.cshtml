@@ -1,0 +1,90 @@
+﻿@model IEnumerable<PointOfSale.DataService.ViewModels.UOMForListVM>
+
+@{
+    Layout = null;
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Class)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class)
+            </td>
+            <td>
+                <a href="#/UnitOfMeasurement/Edit/@item.Id">Edit</a> |
+                <a href="javascript:void(0);" onclick="Delete(@item.Id)">Delete</a>
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    $(function () {
+        $('#dataTable').DataTable();
+
+    });
+
+    function Delete(id) {
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");
+        $.confirm({
+            title: 'Alert!',
+            content: 'Are you sure you want to delete this record!',
+            buttons: {
+                confirm: function () {
+                    $.ajax({
+                        url: '/UOM/Delete/' + id,
+                        type: "DELETE",
+                        success: function (response) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            if (response.success) {
+                                ohSnap(response.message, { 'color': 'green' })
+                                window.location.href = "#/UOM/Index";
+                            }
+                            else {
+                                ohSnap(response.message, { 'color': 'red' })
+                                //window.location.reload();
+                            }
+                        },
+                        error: function (ex) {
+                            $("#loader").removeClass("fadeIn").addClass("fadeOut");
+                            ohSnap(ex.message, { 'color': 'red' });
+                            //window.location.reload();
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            }
+        });
+
+    }
+
+</script>
