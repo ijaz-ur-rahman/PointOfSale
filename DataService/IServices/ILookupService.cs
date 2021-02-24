@@ -15,5 +15,6 @@ namespace PointOfSale.DataService.IServices
         Task<ServiceResponse<object>> CustomerDrp(object SelectedValue);
         Task<ServiceResponse<object>> SupplierDrp(object SelectedValue);
         Task<ServiceResponse<object>> PurchaseOrderDrp(object SelectedValue);
+        Task<ServiceResponse<object>> ItemsDrp(object SelectedValue);
     }
 }

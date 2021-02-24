@@ -31,8 +31,11 @@ namespace PointOfSale.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Status = "Create";
-            _response = await _lookupService.SaleOrderDrp("");
-            ViewBag.CategoriesDrp = (SelectList)_response.Data;
+            //_response = await _lookupService.SaleOrderDrp("");
+            _response = await _lookupService.ItemsDrp("");
+            _response = await _lookupService.CustomerDrp("");
+            ViewBag.ItemDrp = (SelectList)_response.Data;
+            ViewBag.CustomerDrp = (SelectList)_response.Data;
             return View();
         }
         [HttpPost]
@@ -96,6 +99,12 @@ namespace PointOfSale.Controllers
                 _response.Message = ex.Message ?? ex.InnerException.ToString();
                 return BadRequest(_response);
             }
+        }
+        [HttpGet]
+        public async Task<ActionResult> GetItemDetail(int id)
+        {
+            var response = await _lookupService.ItemsDrp(id);
+            return View(response);
         }
     }
 }
