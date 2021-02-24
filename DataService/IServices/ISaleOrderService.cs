@@ -14,5 +14,6 @@ namespace PointOfSale.DataService.IServices
         Task<ServiceResponse<SaleOrderForDetailsVM>> GetById(int id);
         Task<ServiceResponse<object>> Delete(int id);
         Task<ServiceResponse<object>> Update(int id, SaleOrderForUpdateVM model);
+        Task<ServiceResponse<object>> GetItemDetails(int id);
     }
 }

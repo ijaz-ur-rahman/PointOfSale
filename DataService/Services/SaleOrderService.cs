@@ -92,6 +92,15 @@ namespace PointOfSale.DataService.Services
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<object>> GetItemDetails(int id)
+        {
+            var detailsObj = await _context.Items.Where(m => m.Id == id).FirstOrDefaultAsync();
+            var toReturn = _mapper.Map<ItemForDetailsVM>(detailsObj);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = toReturn;
+            return _serviceResponse;
+        }
+
         public async Task<ServiceResponse<object>> Update(int id, SaleOrderForUpdateVM model)
         {
             var objToUpdate = _mapper.Map<SaleOrders>(model);

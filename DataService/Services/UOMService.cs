@@ -25,15 +25,24 @@ namespace PointOfSale.DataService.Services
         }
         public async Task<ServiceResponse<object>> Create(UOMForCreateVM model)
         {
-            var createobj = _mapper.Map<UnitOfMeasurement>(model);
-            createobj.CreatedAt = DateTime.Now;
-            createobj.CreatedBy = 1;
+            try
+            {
+                var createobj = _mapper.Map<UnitOfMeasurement>(model);
+                createobj.CreatedAt = DateTime.Now;
+                createobj.CreatedBy = 1;
+                createobj.UpdatedAt = DateTime.Now;
+                createobj.UpdatedBy = 1;
 
-            await _context.UnitOfMeasurement.AddAsync(createobj);
-            await _context.SaveChangesAsync();
-            _serviceResponse.Success = true;
-            _serviceResponse.Message = ResponseMessage.Added;
-            return _serviceResponse;
+                await _context.UnitOfMeasurement.AddAsync(createobj);
+                await _context.SaveChangesAsync();
+                _serviceResponse.Success = true;
+                _serviceResponse.Message = ResponseMessage.Added;
+                return _serviceResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<ServiceResponse<object>> Delete(int id)

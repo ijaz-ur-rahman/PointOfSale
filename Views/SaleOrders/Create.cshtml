@@ -11,85 +11,81 @@
     }
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label for="inputState">Items</label>
-                    <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>...</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputRate">Rate</label>
-                    <input type="password" class="form-control" id="Rate" placeholder="Rate">
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputQuantity">Quantity</label>
-                    <input type="text" class="form-control" id="Text">
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputDiscount">Discount</label>
-                    <input type="text" class="form-control" id="inputDiscount">
-                </div>
-                <div class="form-group col-md-1">
-                    <label for="inputTotal">Total</label>
-                    <input type="text" class="form-control" id="inputTotal">
-                </div>
-                <div class="col-md-1 offset-md-1 row align-items-center ml-0">
-                    <button type="button" class="btn btn-primary">Add</button>
-                </div>
+<div class="col-md-12">
+    <form id="form">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="inputState">Search Item</label>
+                <select asp-items="ViewBag.ItemDrp" id="Item" name="Item" class="form-control">
+                    <option value="0">Choose...</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputRate">Rate</label>
+                <input type="text" class="form-control" id="Rate" name="Rate" disabled>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputQuantity">Quantity</label>
+                <input type="text" class="form-control" id="Quantity" name="Quantity">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputDiscount">Discount</label>
+                <input type="text" class="form-control" id="Discount" name="Discount">
+            </div>
+            <div class="form-group col-md-1">
+                <label for="inputTotal">Total</label>
+                <input type="text" class="form-control" id="Total" name="Total" disabled>
+            </div>
+            <div class="col-md-1 offset-md-1 row align-items-center ml-0">
+                <button type="button" class="btn btn-primary" id="AddNewItem">Add</button>
+            </div>
 
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-1 offset-md-1 form-check">
+                <input class="form-check-input" type="radio" onclick="statusChange('cash')" asp-for="Status" name="status" id="cash" value="Cash" checked>
+                <label class="form-check-label pl-0" for="exampleRadios1">
+                    Cash
+                </label>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-1 offset-md-1 form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="cash" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                        Cash
-                    </label>
-                </div>
-                <div class="form-group col-md-2 form-check">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="credit">
-                    <label class="form-check-label" for="exampleRadios2">
-                        Credit
-                    </label>
-                </div>
-                <div class="form-group col-md-3">
-                    <select id="inputState" class="form-control">
-                        <option selected>Select Customer</option>
-                        <option>...</option>
-                    </select>
-                </div>
+            <div class="form-group col-md-1 form-check">
+                <input class="form-check-input" type="radio" onclick="statusChange('credit')" asp-for="Status" name="status" id="credit" value="Credit">
+                <label class="form-check-label pl-0" for="exampleRadios2">
+                    Credit
+                </label>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Items</th>
-                        <th scope="col">Rate</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Discount</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-            <div class="form-row">
-                <div class="form-group col-md-2">
-                    <label for="inputTotalQuantity">Total Quantity</label>
-                    <input type="text" class="form-control" id="inputTotalQuantity">
-                </div>
-                <div class="form-group col-md-2 ">
-                    <label for="inputGrandTotal">Grand Total</label>
-                    <input type="text" class="form-control" id="inputGrandTotal">
-                </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+            <div class="form-group col-md-3" style="display:none;" id="customerDrp">
+                <select id="Customer" name="Customer" asp-items="ViewBag.CustomerDrp" class="form-control">
+                    <option value="0">Select Customer</option>
+                </select>
+            </div>
+        </div>
+        <table class="table table-bordered" id="Table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Total</th>
+                </tr>
+            </thead>
+            <tbody id="TableBody">
+            </tbody>
+        </table>
+        <div class="form-row d-flex justify-content-end">
+            <div class="form-group col-md-2">
+                <label for="inputTotalQuantity">Total Quantity</label>
+                <input type="text" class="form-control" id="TotalQuantity" disabled>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputGrandTotal">Grand Total</label>
+                <input type="text" class="form-control" id="GrandTotal" disabled>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+    </form>
 </div>
 
 <div>
@@ -97,16 +93,91 @@
 </div>
 
 <script>
-
+    function statusChange(status) {
+        debugger
+        if (status == "cash")
+            $("#customerDrp").hide();
+        else
+            $("#customerDrp").show();
+    }
     $(function () {
+        $("#Rate").val(0);
+        $("#Quantity").val(0);
+        $("#Discount").val(0);
+        $("#Total").val(0.0);
+        $("#TotalQuantity").val(0);
+        $("#GrandTotal").val(0);
+        var itemsArray = [];
+
+        $("#Item").change(function () {
+            let itemId = $("#Item").val();
+            HttpGET('/SaleOrders/GetItemDetails/' + itemId, function (response) {
+                $("#Rate").val(response.salePrice);
+                //console.log(response);
+            });
+        });
+        $("#Rate").change(function () {
+            let rate = $("#Rate").val();
+            let quantity = $("#Quantity").val();
+            let discount = $("#Discount").val();
+            let total = (parseFloat(rate) * parseFloat(quantity)) - discount;
+            $("#Total").val(total);
+        });
+        $("#Quantity").change(function () {
+            let quantity = $("#Quantity").val();
+            let rate = $("#Rate").val();
+            let discount = $("#Discount").val();
+            let total = (parseFloat(rate) * parseFloat(quantity)) - discount;
+            $("#Total").val(total);
+        });
+        $("#Discount").change(function () {
+            let quantity = $("#Quantity").val();
+            let rate = $("#Rate").val();
+            let discount = $("#Discount").val();
+            let total = (parseFloat(rate) * parseFloat(quantity)) - discount;
+            $("#Total").val(total);
+        });
+        $("#AddNewItem").click(function () {
+            let item = $("#Item").val();
+            let rate = $("#Rate").val();
+            let quantity = $("#Quantity").val();
+            let discount = $("#Discount").val();
+            let total = $("#Total").val();
+            let obj = {
+                itemId: item,
+                unitRate: rate,
+                quantity: parseInt(quantity),
+                amount: parseFloat(total),
+            };
+            itemsArray.push(obj);
+            var itemName = $("#Item option:selected").html();
+
+            let tr = `<tr>
+                        <td>${itemsArray.length}</td>
+                        <td>${itemName}</td>
+                        <td>${rate}</td>
+                        <td>${quantity}</td>
+                        <td>${discount}</td>
+                        <td>${total}</td>
+                      </tr>`;
+            $("#TableBody").append(tr);
+            let totalQuantity = parseInt($("#TotalQuantity").val()) + obj.quantity;
+            $("#TotalQuantity").val(totalQuantity)
+            let grandTotal = parseFloat($("#GrandTotal").val()) + obj.total;
+            $("#GrandTotal").val(grandTotal)
+            //$("#Table").show();
+        });
+
         $("#form").validate({
             rules: {
-                Label: "required",
-                Code: "required",
+                Item: "required",
+                Rate: "required",
+                Quantity: "required",
             },
             messages: {
-                Label: "Please enter your first name",
-                Code: "Please enter your last name"
+                Item: "Please select an item",
+                Rate: "Please enter item rate",
+                Quantity: "Please enter item quantity"
             },
             errorElement: "span",
             errorPlacement: function (error, element) {

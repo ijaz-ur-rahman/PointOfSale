@@ -12,30 +12,36 @@ namespace PointOfSale.Controllers
 {
     public class SaleOrdersController : Controller
     {
-        private readonly ISaleOrderService _categoryService;
+        private readonly ISaleOrderService _baseService;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
-        public SaleOrdersController(ISaleOrderService categoryService, ILookupService lookupService)
+        public SaleOrdersController(ISaleOrderService baseService, ILookupService lookupService)
         {
-            _categoryService = categoryService;
+            _baseService = baseService;
             _lookupService = lookupService;
             _response = new ServiceResponse<object>();
         }
         [HttpGet] //, Route("Index")
         public async Task<ActionResult> Index()
         {
-            var response = await _categoryService.GetAll();
+            var response = await _baseService.GetAll();
             return View(response.Data);
+        }
+        [HttpGet]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var response = await _baseService.GetById(id);
+            return View(response);
         }
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             ViewBag.Status = "Create";
             //_response = await _lookupService.SaleOrderDrp("");
-            _response = await _lookupService.ItemsDrp("");
-            _response = await _lookupService.CustomerDrp("");
-            ViewBag.ItemDrp = (SelectList)_response.Data;
-            ViewBag.CustomerDrp = (SelectList)_response.Data;
+            var ItemResponse = await _lookupService.ItemsDrp("");
+            ViewBag.ItemDrp = (SelectList)ItemResponse.Data;
+            var CustomerResponse = await _lookupService.CustomerDrp("");
+            ViewBag.CustomerDrp = (SelectList)CustomerResponse.Data;
             return View();
         }
         [HttpPost]
@@ -47,7 +53,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _categoryService.Create(viewModel);
+                _response = await _baseService.Create(viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -61,7 +67,7 @@ namespace PointOfSale.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             ViewBag.Status = "Update";
-            var response = await _categoryService.GetById(id);
+            var response = await _baseService.GetById(id);
             _response = await _lookupService.SaleOrderDrp(response.Data.OrderNumber);
             ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View("Create", response.Data);
@@ -75,7 +81,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _categoryService.Update(id, viewModel);
+                _response = await _baseService.Update(id, viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -90,7 +96,7 @@ namespace PointOfSale.Controllers
         {
             try
             {
-                _response = await _categoryService.Delete(id);
+                _response = await _baseService.Delete(id);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -101,10 +107,10 @@ namespace PointOfSale.Controllers
             }
         }
         [HttpGet]
-        public async Task<ActionResult> GetItemDetail(int id)
+        public async Task<ActionResult> GetItemDetails(int id)
         {
-            var response = await _lookupService.ItemsDrp(id);
-            return View(response);
+            _response = await _baseService.GetItemDetails(id);
+            return Json(_response.Data);
         }
     }
 }
