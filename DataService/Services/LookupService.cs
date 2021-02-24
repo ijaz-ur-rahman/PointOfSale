@@ -68,6 +68,14 @@ namespace PointOfSale.DataService.Services
             _serviceResponse.Data = items;
             return _serviceResponse;
         }
+        public async Task<ServiceResponse<object>> ItemsDrp(object SelectedValue)
+        {
+            var list = await _context.Items.ToListAsync();
+            SelectList items = new SelectList(list, nameof(Items.Id), nameof(Items.Label), SelectedValue);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = items;
+            return _serviceResponse;
+        }
         public async Task<ServiceResponse<object>> CustomerDrp(object SelectedValue)
         {
             var list = await _context.Customers.ToListAsync();
