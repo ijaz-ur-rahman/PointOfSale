@@ -26,5 +26,5 @@ node_modules/
 /.vs
 /obj
 /bin
-/appsettings.Development.json
-/appsettings.json
+# /appsettings.Development.json
+# /appsettings.json
