@@ -27,8 +27,9 @@ namespace PointOfSale.DataService.Services
         {
             var objToCreate = _mapper.Map<SaleOrders>(model);
             objToCreate.OrderDate = DateTime.Now;
-            var lastOrder = await _context.SaleOrders.LastOrDefaultAsync();
-            objToCreate.OrderNumber = DateTime.Now.ToShortDateString() + (lastOrder.Id + 1);
+            var lastOrder = _context.SaleOrders.ToList().LastOrDefault();
+            var lastOrderId = lastOrder == null ? 0 : lastOrder.Id;
+            objToCreate.OrderNumber = $"{DateTime.Now.Year}{DateTime.Now.Month}{DateTime.Now.Day}{++lastOrderId}";
             objToCreate.CreatedAt = DateTime.Now;
             objToCreate.CreatedBy = 1;
 
@@ -37,8 +38,9 @@ namespace PointOfSale.DataService.Services
 
             foreach (var orderDetail in model.OrderDetails)
             {
-                orderDetail.SaleOrdersId = objToCreate.Id;
-                await _context.SaleOrderDetails.AddAsync(orderDetail);
+                var objToCreate2 = _mapper.Map<SaleOrderDetails>(orderDetail);
+                objToCreate2.SaleOrdersId = objToCreate.Id;
+                await _context.SaleOrderDetails.AddAsync(objToCreate2);
                 await _context.SaveChangesAsync();
             }
             _serviceResponse.Success = true;

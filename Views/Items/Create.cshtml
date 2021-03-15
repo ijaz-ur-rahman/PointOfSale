@@ -18,39 +18,39 @@
             <div class="form-group">
                 <label asp-for="Label" class="control-label"></label>
                 <input asp-for="Label" class="form-control" />
-                <span asp-validation-for="Label" class="text-danger"></span>
+                @*<span asp-validation-for="Label" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="Code" class="control-label"></label>
                 <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
+                @*<span asp-validation-for="Code" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label class="control-label">Category</label>
-                <select asp-items="ViewBag.CategoriesDrp" class="form-control">
+                <select asp-items="ViewBag.CategoriesDrp" asp-for="CategoryId" class="form-control">
                     <option value="0">Select Category</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="control-label">Unit Of Measurement</label>
-                <select asp-items="ViewBag.UOMDrp" class="form-control">
+                <select asp-items="ViewBag.UOMDrp" asp-for="UomId" class="form-control">
                     <option value="0">Select Category</option>
                 </select>
             </div>
             <div class="form-group">
-                <label asp-for="SalePrice" class="control-label"></label>
+                <label class="control-label">Sale Price</label>
                 <input asp-for="SalePrice" class="form-control" />
-                <span asp-validation-for="SalePrice" class="text-danger"></span>
+                @*<span asp-validation-for="SalePrice" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="PurchasePrice" class="control-label"></label>
+                <label class="control-label">Purchase Price</label>
                 <input asp-for="PurchasePrice" class="form-control" />
-                <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+                @*<span asp-validation-for="PurchasePrice" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="PricePerUnit" class="control-label"></label>
+                <label class="control-label">Unit Price</label>
                 <input asp-for="PricePerUnit" class="form-control" />
-                <span asp-validation-for="PricePerUnit" class="text-danger"></span>
+                @*<span asp-validation-for="PricePerUnit" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
@@ -58,8 +58,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                @*<span asp-validation-for="Description" class="text-danger"></span>*@
             </div>
             <div class="form-group">
                 <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />

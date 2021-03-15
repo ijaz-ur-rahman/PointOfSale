@@ -22,13 +22,12 @@ namespace PointOfSale.DataService.Helpers
             CreateMap<Items, ItemForListVM>().ReverseMap();
             CreateMap<Items, ItemForUpdateVM>().ReverseMap();
             CreateMap<Items, ItemForDetailsVM>().ReverseMap();
-
-            //Customers
-            CreateMap<Customers,CustomerForCreateVM>().ReverseMap();
+            //Customer
+            CreateMap<Customers, CustomerForCreateVM>().ReverseMap();
             CreateMap<Customers, CustomerForListVM>().ReverseMap();
             CreateMap<Customers, CustomerForUpdateVM>().ReverseMap();
             CreateMap<Customers, CustomerForDetailsVM>().ReverseMap();
-            //Suppliers
+            //Supplier
             CreateMap<Suppliers, SupplierForCreateVM>().ReverseMap();
             CreateMap<Suppliers, SupplierForListVM>().ReverseMap();
             CreateMap<Suppliers, SupplierForUpdateVM>().ReverseMap();
@@ -38,6 +37,14 @@ namespace PointOfSale.DataService.Helpers
             CreateMap<UnitOfMeasurement, UOMForListVM>().ReverseMap();
             CreateMap<UnitOfMeasurement, UOMForUpdateVM>().ReverseMap();
             CreateMap<UnitOfMeasurement, UOMForDetailVM>().ReverseMap();
+            //Sale Order
+            CreateMap<SaleOrders, SaleOrderForCreateVM>().ReverseMap();
+            CreateMap<SaleOrders, SaleOrderForListVM>().ReverseMap();
+            CreateMap<SaleOrders, SaleOrderForUpdateVM>().ReverseMap();
+            //Sale Order Detail
+            CreateMap<SaleOrderDetails, SaleOrderDetailForCreateVM>().ReverseMap();
+            CreateMap<SaleOrderDetails, SaleOrderDetailForListVM>().ReverseMap();
+            CreateMap<SaleOrderDetails, SaleOrderDetailForUpdateVM>().ReverseMap();
         }
     }
 }

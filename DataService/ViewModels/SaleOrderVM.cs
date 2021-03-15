@@ -14,12 +14,12 @@ namespace PointOfSale.DataService.ViewModels
     public class SaleOrderForCreateVM
     {
         //[Required]
-        public string OrderNumber { get; set; }
-        public DateTime OrderDate { get; set; }
+        //public string OrderNumber { get; set; }
+        //public DateTime OrderDate { get; set; }
         public string Status { get; set; }
-        public double? TotalAmount { get; set; }
-        public string Description { get; set; }
-        public List<SaleOrderDetails> OrderDetails { get; set; } = new List<SaleOrderDetails>();
+        public string TotalAmount { get; set; }
+        //public string Description { get; set; }
+        public List<SaleOrderDetailForCreateVM> OrderDetails { get; set; } = new List<SaleOrderDetailForCreateVM>();
     }
     public class SaleOrderForUpdateVM
     {

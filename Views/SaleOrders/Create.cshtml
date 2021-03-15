@@ -16,7 +16,7 @@
         <div class="form-row">
             <div class="form-group col-md-3">
                 <label for="inputState">Search Item</label>
-                <select asp-items="ViewBag.ItemDrp" id="Item" name="Item" class="form-control">
+                <select asp-items="ViewBag.ItemDrp" id="Item" name="Item" class="form-control form-chosen-select">
                     <option value="0">Choose...</option>
                 </select>
             </div>
@@ -39,75 +39,71 @@
             <div class="col-md-1 offset-md-1 row align-items-center ml-0">
                 <button type="button" class="btn btn-primary" id="AddNewItem">Add</button>
             </div>
-
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-1 offset-md-1 form-check">
-                <input class="form-check-input" type="radio" onclick="statusChange('cash')" asp-for="Status" name="status" id="cash" value="Cash" checked>
-                <label class="form-check-label pl-0" for="exampleRadios1">
-                    Cash
-                </label>
-            </div>
-            <div class="form-group col-md-1 form-check">
-                <input class="form-check-input" type="radio" onclick="statusChange('credit')" asp-for="Status" name="status" id="credit" value="Credit">
-                <label class="form-check-label pl-0" for="exampleRadios2">
-                    Credit
-                </label>
-            </div>
-            <div class="form-group col-md-3" style="display:none;" id="customerDrp">
-                <select id="Customer" name="Customer" asp-items="ViewBag.CustomerDrp" class="form-control">
-                    <option value="0">Select Customer</option>
-                </select>
-            </div>
-        </div>
-        <table class="table table-bordered" id="Table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Item Name</th>
-                    <th scope="col">Rate</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Discount</th>
-                    <th scope="col">Total</th>
-                </tr>
-            </thead>
-            <tbody id="TableBody">
-            </tbody>
-        </table>
-        <div class="form-row d-flex justify-content-end">
-            <div class="form-group col-md-2">
-                <label for="inputTotalQuantity">Total Quantity</label>
-                <input type="text" class="form-control" id="TotalQuantity" disabled>
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputGrandTotal">Grand Total</label>
-                <input type="text" class="form-control" id="GrandTotal" disabled>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
     </form>
+    <div class="form-row">
+        <div class="form-group col-md-1 offset-md-1 form-check">
+            <input class="form-check-input" type="radio" onclick="statusChange('cash')" asp-for="Status" name="Status" id="Status" value="Cash" checked>
+            <label class="form-check-label pl-0" for="exampleRadios1">
+                Cash
+            </label>
+        </div>
+        <div class="form-group col-md-1 form-check">
+            <input class="form-check-input" type="radio" onclick="statusChange('credit')" asp-for="Status" name="Status" id="Status" value="Credit">
+            <label class="form-check-label pl-0" for="exampleRadios2">
+                Credit
+            </label>
+        </div>
+        <div class="form-group col-md-3" style="display:none;" id="customerDrp">
+            <select id="Customer" name="Customer" asp-items="ViewBag.CustomerDrp" class="form-control">
+                <option value="0">Select Customer</option>
+            </select>
+        </div>
+    </div>
+    <table class="table table-bordered" id="Table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody id="TableBody">
+        </tbody>
+    </table>
+    <div class="form-row d-flex justify-content-end">
+        <div class="form-group col-md-2">
+            <label for="inputTotalQuantity">Total Quantity</label>
+            <input type="text" class="form-control" id="TotalQuantity" disabled>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputGrandTotal">Grand Total</label>
+            <input type="text" class="form-control" id="GrandTotal" disabled>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" id="submit">Submit</button>
+    </div>
 </div>
 
-<div>
-    <a href="#/SaleOrders/Index">Back to List</a>
-</div>
+@*<div>
+        <a href="#/SaleOrders/Index">Back to List</a>
+    </div>*@
 
 <script>
-    function statusChange(status) {
-        debugger
-        if (status == "cash")
-            $("#customerDrp").hide();
-        else
-            $("#customerDrp").show();
-    }
+    var itemsArray = [];
+
     $(function () {
+        $(".form-chosen-select").chosen();
         $("#Rate").val(0);
         $("#Quantity").val(0);
         $("#Discount").val(0);
         $("#Total").val(0.0);
         $("#TotalQuantity").val(0);
         $("#GrandTotal").val(0);
-        var itemsArray = [];
 
         $("#Item").change(function () {
             let itemId = $("#Item").val();
@@ -138,34 +134,26 @@
             $("#Total").val(total);
         });
         $("#AddNewItem").click(function () {
-            let item = $("#Item").val();
-            let rate = $("#Rate").val();
-            let quantity = $("#Quantity").val();
-            let discount = $("#Discount").val();
-            let total = $("#Total").val();
-            let obj = {
-                itemId: item,
-                unitRate: rate,
-                quantity: parseInt(quantity),
-                amount: parseFloat(total),
-            };
-            itemsArray.push(obj);
-            var itemName = $("#Item option:selected").html();
+            if ($("#form").valid()) {
+                let item = $("#Item").val();
+                let rate = $("#Rate").val();
+                let quantity = $("#Quantity").val();
+                let discount = $("#Discount").val();
+                let total = $("#Total").val();
+                var itemName = $("#Item option:selected").html();
+                let obj = {
+                    id: itemsArray.length + 1,
+                    itemId: item,
+                    itemName: itemName,
+                    unitRate: rate,
+                    discount: discount,
+                    quantity: parseInt(quantity),
+                    amount: parseFloat(total),
+                };
+                itemsArray.push(obj);
+                UpdateTable(itemsArray);
 
-            let tr = `<tr>
-                        <td>${itemsArray.length}</td>
-                        <td>${itemName}</td>
-                        <td>${rate}</td>
-                        <td>${quantity}</td>
-                        <td>${discount}</td>
-                        <td>${total}</td>
-                      </tr>`;
-            $("#TableBody").append(tr);
-            let totalQuantity = parseInt($("#TotalQuantity").val()) + obj.quantity;
-            $("#TotalQuantity").val(totalQuantity)
-            let grandTotal = parseFloat($("#GrandTotal").val()) + obj.total;
-            $("#GrandTotal").val(grandTotal)
-            //$("#Table").show();
+            }
         });
 
         $("#form").validate({
@@ -199,8 +187,8 @@
             }
         });
     });
-    $("#form").on("submit", function (e) {
-        if ($("#form").valid()) {
+    $("#submit").on("click", function (e) {
+        if (itemsArray.length > 0) {
             routingApp.runRoute('post', '#@urlPostString');
             e.preventDefault();
             e.stopPropagation();
@@ -212,14 +200,21 @@
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
             $("#loader").removeClass("fadeOut").addClass("fadeIn");
-
-            var formData = new FormData($('#form')[0]);
+            let SubmitData = {
+                "TotalAmount": $("#GrandTotal").val(),
+                "Status": $("#Status").val(),
+                "OrderDetails": itemsArray
+            };
+            var formData = new FormData();
+            formData.append("TotalAmount", $("#GrandTotal").val());
+            formData.append("Status", $("#Status").val());
+            formData.append("OrderDetails", itemsArray);
             $.ajax({
                 url: '@urlPostString',
-                data: formData,
+                data: SubmitData,
                 type: "POST",
-                contentType: false,
-                processData: false,
+                //contentType: false,
+                //processData: false,
                 success: function (response) {
                     $("#loader").removeClass("fadeIn").addClass("fadeOut");
                     if (response.success) {

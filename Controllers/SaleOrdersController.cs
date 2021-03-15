@@ -45,7 +45,7 @@ namespace PointOfSale.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create(SaleOrderForCreateVM viewModel)
+        public async Task<ActionResult> Create(SaleOrderForCreateVM model)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _baseService.Create(viewModel);
+                _response = await _baseService.Create(model);
                 return Ok(_response);
             }
             catch (Exception ex)

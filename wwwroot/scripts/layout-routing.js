@@ -75,8 +75,7 @@ var routingApp = $.sammy("#Placeholder", function () {
     });
     this.get("#/Items/Edit/:id", function (context) {
         title.html("Edit");
-        $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
+        $("#loader").removeClass("fadeOut").addClass("fadeIn");        
         let id = this.params['id'];
         $.get("/Items/Edit/" + id, function (data) {
             context.$element().html(data);
@@ -105,7 +104,6 @@ var routingApp = $.sammy("#Placeholder", function () {
     this.get("#/Customers/Edit/:id", function (context) {
         title.html("Edit");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
         let id = this.params['id'];
         $.get("/Customers/Edit/" + id, function (data) {
             context.$element().html(data);
@@ -133,7 +131,6 @@ var routingApp = $.sammy("#Placeholder", function () {
     this.get("#/Suppliers/Edit/:id", function (context) {
         title.html("Edit");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
         let id = this.params['id'];
         $.get("/Suppliers/Edit/" + id, function (data) {
             context.$element().html(data);
@@ -161,7 +158,6 @@ var routingApp = $.sammy("#Placeholder", function () {
     this.get("#/UOM/Edit/:id", function (context) {
         title.html("Edit");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
         let id = this.params['id'];
         $.get("/UOM/Edit/" + id, function (data) {
             context.$element().html(data);
@@ -189,7 +185,6 @@ var routingApp = $.sammy("#Placeholder", function () {
     this.get("#/Payables/Edit/:id", function (context) {
         title.html("Edit");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
         let id = this.params['id'];
         $.get("/Payables/Edit/" + id, function (data) {
             context.$element().html(data);
@@ -218,7 +213,6 @@ var routingApp = $.sammy("#Placeholder", function () {
     this.get("#/Receivables/Edit/:id", function (context) {
         title.html("Edit");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
         let id = this.params['id'];
         $.get("/Receivables/Edit/" + id, function (data) {
             context.$element().html(data);
@@ -247,7 +241,6 @@ var routingApp = $.sammy("#Placeholder", function () {
     this.get("#/PurchaseOrders/Edit/:id", function (context) {
         title.html("Edit");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
         let id = this.params['id'];
         $.get("/PurchaseOrders/Edit/" + id, function (data) {
             context.$element().html(data);
@@ -275,7 +268,6 @@ var routingApp = $.sammy("#Placeholder", function () {
     this.get("#/SaleOrders/Edit/:id", function (context) {
         title.html("Edit");
         $("#loader").removeClass("fadeOut").addClass("fadeIn");
-        debugger;
         let id = this.params['id'];
         $.get("/SaleOrders/Edit/" + id, function (data) {
             context.$element().html(data);
