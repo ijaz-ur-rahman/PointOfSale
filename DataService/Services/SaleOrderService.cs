@@ -29,7 +29,7 @@ namespace PointOfSale.DataService.Services
             objToCreate.OrderDate = DateTime.Now;
             var lastOrder = _context.SaleOrders.ToList().LastOrDefault();
             var lastOrderId = lastOrder == null ? 0 : lastOrder.Id;
-            objToCreate.OrderNumber = $"{DateTime.Now.Year}{DateTime.Now.Month}{DateTime.Now.Day}{++lastOrderId}";
+            objToCreate.OrderNumber = $"{DateTime.Now.Year}{DateTime.Now.Month}{DateTime.Now.Day}{++lastOrderId:0000}";
             objToCreate.CreatedAt = DateTime.Now;
             objToCreate.CreatedBy = 1;
 
@@ -94,15 +94,7 @@ namespace PointOfSale.DataService.Services
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<object>> GetItemDetails(int id)
-        {
-            var detailsObj = await _context.Items.Where(m => m.Id == id).FirstOrDefaultAsync();
-            var toReturn = _mapper.Map<ItemForDetailsVM>(detailsObj);
-            _serviceResponse.Success = true;
-            _serviceResponse.Data = toReturn;
-            return _serviceResponse;
-        }
-
+        
         public async Task<ServiceResponse<object>> Update(int id, SaleOrderForUpdateVM model)
         {
             var objToUpdate = _mapper.Map<SaleOrders>(model);
@@ -114,6 +106,13 @@ namespace PointOfSale.DataService.Services
             _serviceResponse.Message = ResponseMessage.Updated;
             return _serviceResponse;
         }
-
+        public async Task<ServiceResponse<object>> GetItemDetails(int id)
+        {
+            var detailsObj = await _context.Items.Where(m => m.Id == id).FirstOrDefaultAsync();
+            var toReturn = _mapper.Map<ItemForDetailsVM>(detailsObj);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = toReturn;
+            return _serviceResponse;
+        }
     }
 }

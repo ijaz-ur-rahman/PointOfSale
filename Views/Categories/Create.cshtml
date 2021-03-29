@@ -17,7 +17,7 @@
             <input asp-for="Id" type="hidden" />
 
             <div class="form-group">
-                <label asp-for="Label" class="control-label"></label>
+                <label class="control-label">Name</label>
                 <input asp-for="Label" type="text" class="form-control" placeholder="Label" />
                 @*<span asp-validation-for="Label" class="text-danger"></span>*@
             </div>
@@ -68,8 +68,8 @@
                 Code: "required",
             },
             messages: {
-                Label: "Please enter your first name",
-                Code: "Please enter your last name"
+                Label: "Please enter category name",
+                Code: "Please enter category code"
             },
             errorElement: "span",
             errorPlacement: function (error, element) {

@@ -10,45 +10,83 @@
         urlPostString = "/PurchaseOrders/Update";
     }
 }
-<div class="row">
-    <div class="col-md-4">
-        <form id="form" needs-validation novalidate="novalidate" name="form" enctype="multipart/form-data" method="post" asp-action="#@urlPostString">
+<div class="col-md-12">
+    <form id="form">
+        <div class="form-row">
             <input asp-for="Id" type="hidden" />
-            <div class="form-group">
-                <label asp-for="OrderNumber" class="control-label"></label>
-                <input asp-for="OrderNumber" class="form-control" />
-                <span asp-validation-for="OrderNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderDate" class="control-label"></label>
-                <input asp-for="OrderDate" class="form-control" />
-                <span asp-validation-for="OrderDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Supplier Name</label>
-                <select asp-items="ViewBag.SupplierDrp" class="form-control">
-                    <option value="0">Select Supplier Name</option>
+
+            <div class="form-group col-md-4">
+                <label for="inputState">Search Item</label>
+                <select asp-items="ViewBag.ItemDrp" id="Item" name="Item" class="form-control form-chosen-select">
+                    <option value="0">Choose...</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label asp-for="TotalAmount" class="control-label"></label>
-                <input asp-for="TotalAmount" class="form-control" />
-                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            <div class="form-group col-md-2">
+                <label for="inputRate">Rate</label>
+                <input type="text" class="form-control" id="Rate" name="Rate" disabled>
             </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
+            <div class="form-group col-md-2">
+                <label for="inputQuantity">Quantity</label>
+                <input type="text" class="form-control" id="Quantity" name="Quantity">
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="form-group col-md-2">
+                <label for="inputDiscount">Discount</label>
+                <input type="text" class="form-control" id="Discount" name="Discount">
             </div>
-            <div class="form-group">
-                <input type="submit" value="@ViewBag.Status" class="btn btn-primary" />
+            <div class="form-group col-md-1">
+                <label for="inputTotal">Total</label>
+                <input type="text" class="form-control" id="Total" name="Total" disabled>
             </div>
-        </form>
+            <div class="col-md-1 row align-items-center ml-0">
+                <button type="button" class="btn btn-primary" id="AddNewItem">Add</button>
+            </div>
+        </div>
+    </form>
+    <div class="form-row">
+        <div class="form-group col-md-1 offset-md-1 form-check">
+            <input class="form-check-input" type="radio" onclick="statusChange('cash')" asp-for="Status" name="Status" id="Status" value="Cash" checked>
+            <label class="form-check-label pl-0" for="exampleRadios1">
+                Cash
+            </label>
+        </div>
+        <div class="form-group col-md-1 form-check">
+            <input class="form-check-input" type="radio" onclick="statusChange('credit')" asp-for="Status" name="Status" id="Status" value="Credit">
+            <label class="form-check-label pl-0" for="exampleRadios2">
+                Credit
+            </label>
+        </div>
+        <div class="form-group col-md-3" style="display:none;" id="customerDrp">
+            <select id="Customer" name="Customer" asp-items="ViewBag.CustomerDrp" class="form-control">
+                <option value="0">Select Customer</option>
+            </select>
+        </div>
+    </div>
+    <table class="table table-bordered" id="Table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Item Name</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody id="TableBody">
+        </tbody>
+    </table>
+    <div class="form-row d-flex justify-content-end">
+        <div class="form-group col-md-2">
+            <label for="inputTotalQuantity">Total Quantity</label>
+            <input type="text" class="form-control" id="TotalQuantity" disabled>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputGrandTotal">Grand Total</label>
+            <input type="text" class="form-control" id="GrandTotal" disabled>
+        </div>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary" id="submit">Submit</button>
     </div>
 </div>
 
@@ -56,28 +94,89 @@
     <a href="#/PurchaseOrders/Index">Back to List</a>
 </div>
 <script>
-    //alert("kdsjf");
-    $(function () {
-      
-        $("#form").validate({
-        rules: {
-            Label: "required",
-            Code: "required",
-        },
-        messages: {
-            Label: "Please enter your first name",
-            Code: "Please enter your last name"
-        },
-        errorElement: "span",
-        errorPlacement: function (error, element) {
-            error.addClass("invalid-feedback");
+    var itemsArray = [];
 
-            if (element.prop("type") === "checkbox") {
-                error.insertAfter(element.parent("label"));
-            } else {
-                error.insertAfter(element);
+    $(function () {
+        $(".form-chosen-select").chosen();
+        $("#Rate").val(0);
+        $("#Quantity").val(0);
+        $("#Discount").val(0);
+        $("#Total").val(0.0);
+        $("#TotalQuantity").val(0);
+        $("#GrandTotal").val(0);
+
+        $("#Item").change(function () {
+            let itemId = $("#Item").val();
+            HttpGET('/SaleOrders/GetItemDetails/' + itemId, function (response) {
+                $("#Rate").val(response.salePrice);
+                //console.log(response);
+            });
+        });
+        $("#Rate").change(function () {
+            let rate = $("#Rate").val();
+            let quantity = $("#Quantity").val();
+            let discount = $("#Discount").val();
+            let total = (parseFloat(rate) * parseFloat(quantity)) - discount;
+            $("#Total").val(total);
+        });
+        $("#Quantity").change(function () {
+            let quantity = $("#Quantity").val();
+            let rate = $("#Rate").val();
+            let discount = $("#Discount").val();
+            let total = (parseFloat(rate) * parseFloat(quantity)) - discount;
+            $("#Total").val(total);
+        });
+        $("#Discount").change(function () {
+            let quantity = $("#Quantity").val();
+            let rate = $("#Rate").val();
+            let discount = $("#Discount").val();
+            let total = (parseFloat(rate) * parseFloat(quantity)) - discount;
+            $("#Total").val(total);
+        });
+        $("#AddNewItem").click(function () {
+            if ($("#form").valid()) {
+                let item = $("#Item").val();
+                let rate = $("#Rate").val();
+                let quantity = $("#Quantity").val();
+                let discount = $("#Discount").val();
+                let total = $("#Total").val();
+                var itemName = $("#Item option:selected").html();
+                let obj = {
+                    id: itemsArray.length + 1,
+                    itemId: item,
+                    itemName: itemName,
+                    unitRate: rate,
+                    discount: discount,
+                    quantity: parseInt(quantity),
+                    amount: parseFloat(total),
+                };
+                itemsArray.push(obj);
+                UpdateTable(itemsArray);
+
             }
-        },
+        });
+
+        $("#form").validate({
+            rules: {
+                Item: "required",
+                Rate: "required",
+                Quantity: "required",
+            },
+            messages: {
+                Item: "Please select an item",
+                Rate: "Please enter item rate",
+                Quantity: "Please enter item quantity"
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                error.addClass("invalid-feedback");
+
+                if (element.prop("type") === "checkbox") {
+                    error.insertAfter(element.parent("label"));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
             highlight: function (element, errorClass, validClass) {
                 //debugger;
                 $(element).parents(".form-group").children(".form-control").addClass("is-invalid").removeClass("is-valid");
@@ -88,8 +187,8 @@
             }
         });
     });
-    $("#form").on("submit", function (e) {
-        if ($("#form").valid()) {
+    $("#submit").on("click", function (e) {
+        if (itemsArray.length > 0) {
             routingApp.runRoute('post', '#@urlPostString');
             e.preventDefault();
             e.stopPropagation();
@@ -101,19 +200,26 @@
     if (IfLinkNotExist("POST", "#@urlPostString")) {
         routingApp.post("#@urlPostString", function (context) {
             $("#loader").removeClass("fadeOut").addClass("fadeIn");
-
-            var formData = new FormData($('#form')[0]);
+            let SubmitData = {
+                "TotalAmount": $("#GrandTotal").val(),
+                "Status": $("#Status").val(),
+                "OrderDetails": itemsArray
+            };
+            var formData = new FormData();
+            formData.append("TotalAmount", $("#GrandTotal").val());
+            formData.append("Status", $("#Status").val());
+            formData.append("OrderDetails", itemsArray);
             $.ajax({
                 url: '@urlPostString',
-                data: formData,
+                data: SubmitData,
                 type: "POST",
-                contentType: false,
-                processData: false,
+                //contentType: false,
+                //processData: false,
                 success: function (response) {
                     $("#loader").removeClass("fadeIn").addClass("fadeOut");
                     if (response.success) {
                         ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/PurchaseOrders/Index";
+                        window.location.href = "#/SaleOrders/Index";
                     }
                     else {
                         ohSnap(response.message, { 'color': 'red', 'duration': '10000' })

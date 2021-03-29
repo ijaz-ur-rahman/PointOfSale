@@ -12,18 +12,18 @@ namespace PointOfSale.Controllers
 {
     public class PurchaseOrdersController : Controller
     {
-        private readonly IPurchaseOrderService _purchaseOrderService;
+        private readonly IPurchaseOrderService _baseService;
         private readonly ILookupService _lookupService;
         private ServiceResponse<object> _response;
         public PurchaseOrdersController(IPurchaseOrderService purchaseOrderService, ILookupService lookupService)
         {
-            _purchaseOrderService = purchaseOrderService;
+            _baseService = purchaseOrderService;
             _lookupService = lookupService;
             _response = new ServiceResponse<object>();
         }
         public async Task<IActionResult> Index()
         {
-            var responce = await _purchaseOrderService.GetAll();
+            var responce = await _baseService.GetAll();
             return View(responce.Data);
         }
         [HttpGet]
@@ -43,7 +43,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _purchaseOrderService.Create(Vmodel);
+                _response = await _baseService.Create(Vmodel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace PointOfSale.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             ViewBag.Status = "Update";
-            var responce = await _purchaseOrderService.GetById(id);
+            var responce = await _baseService.GetById(id);
             _response = await _lookupService.PurchaseOrderDrp("");
             ViewBag.CategoriesDrp = (SelectList)_response.Data;
             return View("Create", responce.Data);
@@ -72,7 +72,7 @@ namespace PointOfSale.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _response = await _purchaseOrderService.Update(id, viewModel);
+                _response = await _baseService.Update(id, viewModel);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -88,7 +88,7 @@ namespace PointOfSale.Controllers
         {
             try
             {
-                _response = await _purchaseOrderService.Delete(id);
+                _response = await _baseService.Delete(id);
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -97,6 +97,12 @@ namespace PointOfSale.Controllers
                 _response.Message = ex.Message ?? ex.InnerException.ToString();
                 return BadRequest(_response);
             }
+        }
+        [HttpGet]
+        public async Task<ActionResult> GetItemDetails(int id)
+        {
+            _response = await _baseService.GetItemDetails(id);
+            return Json(_response.Data);
         }
     }
 }

@@ -94,5 +94,13 @@ namespace PointOfSale.DataService.Services
             _serviceResponse.Message = ResponseMessage.Updated;
             return _serviceResponse;
         }
+        public async Task<ServiceResponse<object>> GetItemDetails(int id)
+        {
+            var detailsObj = await _context.Items.Where(m => m.Id == id).FirstOrDefaultAsync();
+            var toReturn = _mapper.Map<ItemForDetailsVM>(detailsObj);
+            _serviceResponse.Success = true;
+            _serviceResponse.Data = toReturn;
+            return _serviceResponse;
+        }
     }
 }

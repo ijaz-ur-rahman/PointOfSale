@@ -54,12 +54,12 @@
         });
         $("#form").validate({
         rules: {
-            Label: "required",
-            Code: "required",
+            Name: "required",
+            Phone: "required",
         },
         messages: {
-            Label: "Please enter your first name",
-            Code: "Please enter your last name"
+            Name: "Please enter customer name",
+            Phone: "Please enter customer code"
         },
         errorElement: "span",
         errorPlacement: function (error, element) {

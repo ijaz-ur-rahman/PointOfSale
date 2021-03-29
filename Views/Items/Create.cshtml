@@ -87,10 +87,20 @@
         rules: {
             Label: "required",
             Code: "required",
+            CategoryId: "required",
+            UomId: "required",
+            SalePrice: "required",
+            PurchasePrice: "required",
+            PricePerUnit: "required",
         },
         messages: {
-            Label: "Please enter your first name",
-            Code: "Please enter your last name"
+            Label: "Please enter item label",
+            Code: "Please enter item Code",
+            CategoryId: "Please select a category",
+            UomId: "Please select a unit of measurement",
+            SalePrice: "Please enter item sale price",
+            PurchasePrice: "Please enter item purchase price",
+            PricePerUnit: "Please enter item price per unit",
         },
         errorElement: "span",
         errorPlacement: function (error, element) {
@@ -127,31 +137,18 @@
             $("#loader").removeClass("fadeOut").addClass("fadeIn");
 
             var formData = new FormData($('#form')[0]);
-            $.ajax({
-                url: '@urlPostString',
-                data: formData,
-                type: "POST",
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
-                    if (response.success) {
-                        ohSnap(response.message, { 'color': 'green' });
-                        window.location.href = "#/Items/Index";
-                    }
-                    else {
-                        ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
-                        //ClearAll();
-                        //window.location.reload();
-                    }
-                },
-                error: function (ex) {
-                    $("#loader").removeClass("fadeIn").addClass("fadeOut");
-                    ohSnap(ex.message, { 'color': 'red', 'duration': '10000' });
+            HttpPOST('@urlPostString', formData, function (response) {
+                if (response.success) {
+                    ohSnap(response.message, { 'color': 'green' });
+                    window.location.href = "#/Categories/Index";
+                }
+                else {
+                    ohSnap(response.message, { 'color': 'red', 'duration': '10000' })
                     //ClearAll();
                     //window.location.reload();
                 }
             });
+           
         });
     }
 

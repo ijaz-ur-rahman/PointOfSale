@@ -14,7 +14,9 @@
 <div class="col-md-12">
     <form id="form">
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <input asp-for="Id" type="hidden" />
+
+            <div class="form-group col-md-4">
                 <label for="inputState">Search Item</label>
                 <select asp-items="ViewBag.ItemDrp" id="Item" name="Item" class="form-control form-chosen-select">
                     <option value="0">Choose...</option>
@@ -36,7 +38,7 @@
                 <label for="inputTotal">Total</label>
                 <input type="text" class="form-control" id="Total" name="Total" disabled>
             </div>
-            <div class="col-md-1 offset-md-1 row align-items-center ml-0">
+            <div class="col-md-1 row align-items-center ml-0">
                 <button type="button" class="btn btn-primary" id="AddNewItem">Add</button>
             </div>
         </div>
